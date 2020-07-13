@@ -1,7 +1,11 @@
 # AdventureGame
 ## 1. Üzleti igények
 ### Szöveges leírás
-A projekt célja egy játék elkészítése. Regisztrációt követően egy saját karaktert kapunk. A karakterünk pénzt fordíthat fegyverek vagy új technikák vásárlására, ezektől erősebb lesz, és nagyobb eséllyel jár sikerrel, ha párbajozik vagy kalandban vesz részt, illetve nagyobb jutalmat kap küldetések teljesítésekor. Lehetőségünk van más játékosokat vagy NPC-ket párbajra hívni. Kalandozások során ritka fegyverekre vagy technikákra tehetünk szert, de nagyobb a rizikó is. Ha elfogy az összes életerőpontunk, megadott hosszúságú pihenőre vonul a karakter, ez alatt semmiféle akciót nem végezhet. A párbajok, küldetések és kalandok teljesítése megadott mennyiségű időt igényel, amíg ez nem telik le, mást nem csinálhatunk.
+A projekt célja egy játék elkészítése. RRegisztrációt követően egy saját karaktert kapunk, amit belépés után elérhetünk. A karakterünket jellemzi az életerereje, a manája és a rangja. Ha az életerő bármely okból elfogy, megadott hosszúságú pihenőre vonul a karakter, ez alatt semmiféle akciót nem végezhet. A mana technikák használatára fordul, ha elfogy, nem tudjuk ezeket használni. Pihenéssel az életerő és a mana is növelhető.
+
+A játékos pénzt fordíthat fegyverek vagy új technikák vásárlására, ezektől erősebb lesz, és nagyobb eséllyel jár sikerrel, ha párbajozik vagy kalandban vesz részt, illetve nagyobb jutalmat kap küldetések teljesítésekor.
+
+Lehetőségünk van más játékosokat vagy NPC-ket párbajra hívni. Kalandozások során ritka fegyverekre vagy technikákra tehetünk szert, de nagyobb a rizikó is. A párbajok, küldetések, kalandok teljesítése, illetve a pihenés megadott mennyiségű időt igényel, amíg ez nem telik le, mást nem csinálhatunk.
 
 ### Követelmény lista
 
@@ -19,7 +23,7 @@ A projekt célja egy játék elkészítése. Regisztrációt követően egy saj�
 ## 2. Terv
 ### Use-case diagram
 
-TODO
+![uml](images/usecase.png)
 
 ### Class diagram
 
