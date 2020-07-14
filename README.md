@@ -31,15 +31,16 @@ Az eszközöknek két fajtája van, vannak a használható és nem-használható
 ## 2. Terv
 ### Use-case diagram
 
-![image](./uml/usecase.png)
+![Use-case](./uml/usecase.png)
 
 ### Class diagram
 
-![image](./uml/class.png)
+![Class](./uml/class.png)
 
 ### Szekvencia diagram
 
-TODO
+#### Párbaj
+![Párbaj sequence](./uml/sequence_duel.png)
 
 ### ER diagram
 
