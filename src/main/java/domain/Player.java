@@ -1,5 +1,6 @@
 package domain;
 
+import java.util.Objects;
 import java.util.Queue;
 
 public class Player extends Character {
@@ -33,4 +34,13 @@ public class Player extends Character {
     protected static final int BASE_MANA = 100;
     protected static final int BASE_MONEY = 500;
     protected static final int MAX_NUMBER_OF_ACTIONS = 5;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Player player = (Player) o;
+        return this.ID == player.ID;
+    }
+
 }

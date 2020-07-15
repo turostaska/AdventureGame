@@ -49,6 +49,9 @@ public class CollectionTechniqueDao implements ITechniqueDao {
 
     @Override
     public void create(Technique technique) {
+        if (technique == null)
+            throw new IllegalArgumentException("Player can't be null.");
+
         if (!techniques.contains(technique))
             techniques.add(technique);
     }

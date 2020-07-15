@@ -60,6 +60,9 @@ public class CollectionUserDao implements IUserDao {
 
     @Override
     public void create(User user) {
+        if (user == null)
+            throw new IllegalArgumentException("Player can't be null.");
+
         if (!users.contains(user))
             users.add(user);
     }

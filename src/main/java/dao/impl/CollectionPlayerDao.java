@@ -36,7 +36,7 @@ public class CollectionPlayerDao implements IPlayerDao {
     @Override
     public void update(Player player) {
         for (int i = 0; i < players.size(); ++i) {
-            if (players.get(i).getID() == player.getID()) {
+            if (players.get(i).equals(player)) {
                 players.set(i, player);
                 return;
             }
@@ -50,6 +50,9 @@ public class CollectionPlayerDao implements IPlayerDao {
 
     @Override
     public void create(Player player) {
+        if (player == null)
+            throw new IllegalArgumentException("Player can't be null.");
+
         if (!players.contains(player))
             players.add(player);
     }

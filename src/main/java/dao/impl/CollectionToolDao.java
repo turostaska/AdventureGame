@@ -18,6 +18,9 @@ public class CollectionToolDao implements IToolDao {
 
     @Override
     public void create(Tool tool) {
+        if (tool == null)
+            throw new IllegalArgumentException("Player can't be null.");
+
         if (!tools.contains(tool))
             tools.add(tool);
     }
