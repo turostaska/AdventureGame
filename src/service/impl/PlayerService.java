@@ -15,7 +15,7 @@ public class PlayerService implements IPlayerService {
 
     @Override
     public void addOrUpdate(Player player) {
-        if (dao.getById(player.getID()).equals(Optional.empty()))
+        if (dao.getById(player.getID()).isEmpty())
             dao.create(player);
         else
             dao.update(player);

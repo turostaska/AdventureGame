@@ -15,7 +15,7 @@ public class TechniqueService implements ITechniqueService {
 
     @Override
     public void addOrUpdate(Technique technique) {
-        if (dao.getById(technique.getID()).equals(Optional.empty()))
+        if (dao.getById(technique.getID()).isEmpty())
             dao.create(technique);
         else
             dao.update(technique);

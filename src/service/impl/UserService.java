@@ -15,7 +15,7 @@ public class UserService implements IUserService {
 
     @Override
     public void addOrUpdate(User user) {
-        if (dao.getById(user.getID()).equals(Optional.empty()))
+        if (dao.getById(user.getID()).isEmpty())
             dao.create(user);
         else
             dao.update(user);
