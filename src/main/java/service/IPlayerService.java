@@ -3,6 +3,9 @@ package service;
 import domain.Player;
 import java.util.Optional;
 
+/**
+ * Provides access to the data regardless of the data structure being used. Contains business logic.
+ */
 public interface IPlayerService {
     /**
      * Creates a player if a record with the same ID doesn't exist, otherwise it overwrites it with the one given

@@ -5,6 +5,10 @@ import domain.Tool;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Provides access to basic data structure operations. Contains behaviour specific to the data structure in order to
+ * provide a unified interface to the service layer.
+ */
 public interface IToolDao {
     /**
      * Returns a list of all tools in the database

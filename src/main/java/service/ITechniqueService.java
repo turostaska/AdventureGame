@@ -3,6 +3,9 @@ package service;
 import domain.Technique;
 import java.util.Optional;
 
+/**
+ * Provides access to the data regardless of the data structure being used. Contains business logic.
+ */
 public interface ITechniqueService {
     /**
      * Creates a technique if a record with the same ID doesn't exist, otherwise it overwrites it with the one given

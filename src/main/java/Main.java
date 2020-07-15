@@ -10,11 +10,13 @@ public class Main {
         dao.printList();
 
         Player laci = new Player("laci");
+        Player joci = new Player("joci");
 
         playerService.addOrUpdate(laci);
         playerService.addOrUpdate(new Player("feri"));
         playerService.addOrUpdate(new Player("józsi"));
         playerService.delete(laci);
+        playerService.delete(joci);
         System.out.println(playerService.getByName("feri").get().getName());
 
         dao.printList();
