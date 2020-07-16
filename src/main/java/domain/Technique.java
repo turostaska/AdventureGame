@@ -12,5 +12,14 @@ public class Technique extends Buyable {
         return costToCast;
     }
 
+    @Override
+    public void useInDuel(Character usedBy, Character usedAgainst) {
+        if (usedBy.getCurrentMana() < this.getCostToCast())
+            return;
+
+        super.useInDuel(usedBy, usedAgainst);
+        //todo: use mana
+    }
+
 
 }

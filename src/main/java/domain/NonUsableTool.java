@@ -5,8 +5,8 @@ public class NonUsableTool extends Tool {
         super(name, damage, heal, costToBuy, maxQuantity);
     }
 
-    @Override
-    public void useTool() {
-        //TODO
-    }
+//    @Override
+//    public void useInDuel(Character usedBy, Character usedAgainst) {
+//        super.useTool(usedBy, usedAgainst);
+//    }
 }

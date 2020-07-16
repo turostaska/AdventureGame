@@ -4,7 +4,7 @@ public abstract class Buyable {
     protected String name;
     protected int ID;
     protected int damage;
-    protected int heal;
+    protected int healingAmount;
     protected int costToBuy;
 
     public String getName() {
@@ -19,8 +19,8 @@ public abstract class Buyable {
         return damage;
     }
 
-    public int getHeal() {
-        return heal;
+    public int getHealingAmount() {
+        return healingAmount;
     }
 
     public int getCostToBuy() {
@@ -30,7 +30,12 @@ public abstract class Buyable {
     public Buyable(String name, int damage, int heal, int costToBuy) {
         this.name = name;
         this.damage = damage;
-        this.heal = heal;
+        this.healingAmount = heal;
         this.costToBuy = costToBuy;
+    }
+
+    public void useInDuel(Character usedBy, Character usedAgainst) {
+        usedBy.heal(this.healingAmount);
+        usedAgainst.takeDamage(this.damage);
     }
 }

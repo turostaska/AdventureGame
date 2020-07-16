@@ -70,4 +70,23 @@ public abstract class Character {
     public ArrayList<Technique> getKnownTechniques() {
         return knownTechniques;
     }
+
+    public void takeDamage(int damage) {
+        this.currentHP = Math.max(0, currentHP - damage);
+    }
+
+    public void heal(int amount) {
+        this.currentHP = Math.max(maxHP, currentHP + amount);
+    }
+
+    public boolean isAlive() {
+        return currentHP > 0;
+    }
+
+    public void useUpUsableTool(UsableTool tool) {
+        tools.merge(tool, 1, (a, b) -> a - b);
+
+        if (tools.get(tool) == 0)
+            tools.remove(tool);
+    }
 }

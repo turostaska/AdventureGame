@@ -6,7 +6,8 @@ public class UsableTool extends Tool {
     }
 
     @Override
-    public void useTool() {
-        //TODO
+    public void useInDuel(Character usedBy, Character usedAgainst) {
+        super.useInDuel(usedBy, usedAgainst);
+        usedBy.useUpUsableTool(this);
     }
 }

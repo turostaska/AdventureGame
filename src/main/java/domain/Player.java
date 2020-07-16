@@ -66,4 +66,16 @@ public class Player extends Character {
         knownTechniques.add(technique);
         return true;
     }
+
+    @Override
+    public void takeDamage(int damage) {
+        super.takeDamage(damage);
+
+        if (!isAlive())
+            forceToHaveARest();
+    }
+
+    private void forceToHaveARest() {
+        //TODO
+    }
 }
