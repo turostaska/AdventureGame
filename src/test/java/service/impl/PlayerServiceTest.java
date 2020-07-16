@@ -1,47 +1,51 @@
 package service.impl;
 
 import dao.IPlayerDao;
-import dao.impl.CollectionPlayerDao;
+import domain.NonUsableTool;
 import domain.Player;
-import org.junit.Test;
+import domain.Technique;
+import domain.User;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.mockito.InjectMocks;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 public class PlayerServiceTest {
     private IPlayerDao dao;
-    private PlayerService service;
+    private User user;
     private Player player;
+
+    @InjectMocks
+    private PlayerService service;
 
     @BeforeEach
     public void setUp() {
-        dao = new CollectionPlayerDao();
+        dao = mock(IPlayerDao.class);
         service = new PlayerService(dao);
-        player = new Player("Laci");
+        user = new User("Laci", "Kutya123", "asd@fgh.hu");
+        player = new Player(user);
         service.addOrUpdate(player);
     }
 
     @Test
-    public void addPlayer() {
-        assertEquals(player, service.getByName("Laci").get());
+    public void buyToolWithEnoughMoney() {
+        NonUsableTool tool = new NonUsableTool("kard", 10, 0, 400, 2);
+        service.tryToBuyTool(player, tool);
+
+        assertEquals(100, player.getMoney());
+        assertEquals(player.getTools().get(tool), (Integer) 1);
     }
 
     @Test
-    public void addNullPlayerFails() {
-        assertThrows(IllegalArgumentException.class, () -> dao.create(null));
-    }
+    public void tryToLearnTechniqueWithoutEnoughMoney() {
+        Technique technique = new Technique("tűzgolyó", 100, 0, 2000, 40);
+        service.tryToLearnTechnique(player, technique);
 
-    @Test
-    public void updatePlayer() {
-        player.addMoney(1000);
-        service.addOrUpdate(player);
-        assertEquals(1500, dao.getById(1).get().getMoney());
-    }
-
-    @Test
-    public void deletePlayer() {
-        player.addMoney(500);
-        service.delete(player);
+        assertEquals(500, player.getMoney());
+        assertEquals(player.getKnownTechniques().size(), 0);
     }
 
 

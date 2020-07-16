@@ -2,6 +2,7 @@ package service.impl;
 
 import dao.IUserDao;
 import domain.User;
+import org.apache.commons.validator.routines.EmailValidator;
 import service.IUserService;
 
 import java.util.Optional;
@@ -42,14 +43,14 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public boolean tryToLogIn(String username, String password) {
+    public Optional<User> tryToLogIn(String username, String password) {
         Optional<User> user = getByName(username);
         if (user.isEmpty())
-            return false;
+            return Optional.empty();
         if (passwordsMatch(user.get(), password))
-            return true;
+            return user;
 
-        return false;
+        return Optional.empty();
     }
 
     private boolean passwordsMatch(User user, String givenPassword) {
@@ -74,26 +75,42 @@ public class UserService implements IUserService {
     }
 
     private void register(String name, String password, String email) {
-
+        dao.create(new User(name, password, email));
     }
 
     private boolean usernameIsTaken(String username) {
-        return true;
+        return dao.getByName(username).isPresent();
     }
 
     private boolean emailIsTaken(String email) {
-        return true;
+        return dao.getByEmail(email).isPresent();
     }
+
+    private static final int MIN_USERNAME_LENGTH = 4;
+    private static final int MAX_USERNAME_LENGTH = 16;
 
     private boolean usernameIsValid(String username) {
-        return true;
+        String letter    = "(?=.*[a-zA-Z])";
+        String noWhiteSpace = "(?=\\S+$)";
+        String length    = ".{" + MIN_USERNAME_LENGTH + "," + MAX_USERNAME_LENGTH + "}";
+
+        return username.matches( "^" + letter + noWhiteSpace + length + "$" );
     }
 
+    private static final int MIN_PASSWORD_LENGTH = 8;
+    private static final int MAX_PASSWORD_LENGTH = 32;
+
     private boolean passwordIsValid(String password) {
-        return true;
+        String uppercase = "(?=.*[A-Z])";
+        String lowercase = "(?=.*[a-z])";
+        String numeric   = "(?=.*[0-9])";
+        String noWhiteSpace = "(?=\\S+$)";
+        String length    = ".{" + MIN_PASSWORD_LENGTH + "," + MAX_PASSWORD_LENGTH + "}";
+
+        return password.matches( "^" + uppercase + lowercase + numeric + noWhiteSpace + length + "$" );
     }
 
     private boolean emailIsValid(String email) {
-        return email.matches("/\\S+@\\S+\\.\\S+/");
+        return EmailValidator.getInstance().isValid(email);
     }
 }

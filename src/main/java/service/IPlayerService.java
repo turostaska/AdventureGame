@@ -1,6 +1,10 @@
 package service;
 
+import domain.Buyable;
 import domain.Player;
+import domain.Technique;
+import domain.Tool;
+
 import java.util.Optional;
 
 /**
@@ -32,4 +36,19 @@ public interface IPlayerService {
      * @return The player with the given name if it exists, otherwise an empty object
      */
     Optional<Player> getByName(String name);
+
+    /**
+     * Makes the player buy the desired tool if he is able to afford it
+     * @param player The player that should buy the item
+     * @param tool   The tool to be bought
+     */
+    void tryToBuyTool(Player player, Tool tool);
+
+
+    /**
+     * Makes the player learn the technique if he is able to afford it
+     * @param player      The player that should learn the technique
+     * @param technique   The tool to be learnt
+     */
+    void tryToLearnTechnique(Player player, Technique technique);
 }

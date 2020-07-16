@@ -2,6 +2,8 @@ package service.impl;
 
 import dao.IPlayerDao;
 import domain.Player;
+import domain.Technique;
+import domain.Tool;
 import service.IPlayerService;
 
 import java.util.Optional;
@@ -35,4 +37,17 @@ public class PlayerService implements IPlayerService {
     public Optional<Player> getByName(String name) {
         return dao.getByName(name);
     }
+
+    @Override
+    public void tryToBuyTool(Player player, Tool item) {
+        if (player.tryToBuyTool(item))
+            addOrUpdate(player);
+    }
+
+    @Override
+    public void tryToLearnTechnique(Player player, Technique technique) {
+        if (player.tryToLearnTechnique(technique))
+            addOrUpdate(player);
+    }
+
 }

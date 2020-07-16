@@ -13,6 +13,13 @@ public class User {
         this.email = email;
     }
 
+    public void createPlayer() {
+        if (player != null)
+            return;
+
+        this.player = new Player(this);
+    }
+
     public String getUserName() {
         return userName;
     }

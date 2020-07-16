@@ -1,6 +1,6 @@
 package domain;
 
-import java.util.Objects;
+import java.util.ArrayDeque;
 import java.util.Queue;
 
 public class Player extends Character {
@@ -8,9 +8,9 @@ public class Player extends Character {
     private Queue<ScheduledAction> actionQueue;
 
     private User user;
-    // for testing purposes
-    public Player(String name) {
-        this.name = name;
+
+    public Player(User user) {
+        this.name = user.getUserName();
         this.ID = currentID++;
         this.strength = 0;
         this.maxHP = BASE_HP;
@@ -18,6 +18,8 @@ public class Player extends Character {
         this.maxMana = BASE_MANA;
         this.currentMana = maxMana;
         this.money = BASE_MONEY;
+        this.actionQueue = new ArrayDeque<>();
+        this.user = user;
     }
 
     public int getMoney() {
@@ -43,4 +45,25 @@ public class Player extends Character {
         return this.ID == player.ID;
     }
 
+    public boolean tryToBuyTool(Tool tool) {
+        if (money < tool.getCostToBuy())
+            return false;
+
+        money -= tool.getCostToBuy();
+        obtainTool(tool);
+        return true;
+    }
+
+    private void obtainTool(Tool tool) {
+        tools.merge(tool, 1, (a, b) -> a + b);
+    }
+
+    public boolean tryToLearnTechnique(Technique technique) {
+        if (money < technique.getCostToBuy() || knownTechniques.contains(technique))
+            return false;
+
+        money -= technique.getCostToBuy();
+        knownTechniques.add(technique);
+        return true;
+    }
 }

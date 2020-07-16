@@ -67,5 +67,7 @@ public abstract class Character {
         this.strength = strength;
     }
 
-
+    public ArrayList<Technique> getKnownTechniques() {
+        return knownTechniques;
+    }
 }
