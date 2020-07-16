@@ -39,4 +39,26 @@ public interface IUserService {
      * @return The user with the given e-mail address if it exists, otherwise an empty object
      */
     Optional<User> getByEmail(String email);
+
+    /**
+     * Tries to login with the given username and password
+     * @param username The username given in the login prompt
+     * @param password The password given in the login prompt
+     * @return True if the authentication was successful, false otherwise
+     */
+    boolean tryToLogIn(String username, String password);
+
+    /**
+     * Possible outcomes of an attempt to register a new user
+     */
+    enum RegistrationResult { SUCCESS, INVALID_EMAIL, INVALID_PASSWORD, INVALID_USERNAME, USERNAME_TAKEN, EMAIL_TAKEN };
+
+    /**
+     * Tries to register a new user
+     * @param name      The username given in the login prompt
+     * @param password  The password given in the login prompt
+     * @param email     The e-mail address given in the login prompt
+     * @return A code containing the result of the registration attempt
+     */
+    RegistrationResult tryToRegister(String name, String password, String email);
 }
