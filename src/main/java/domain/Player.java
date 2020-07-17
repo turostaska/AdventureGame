@@ -70,21 +70,12 @@ public class Player extends Character {
     }
 
     @Override
-    public void takeDamage(int damage) {
-        super.takeDamage(damage);
-
-        if (!isAlive())
-            forceToHaveARest();
-    }
-
-    @Override
     public void update(ICharacterService service) {
         service.addOrUpdate(this);
     }
 
-    private void forceToHaveARest() {
+    public void clearActionQueue() {
         actionQueue.clear();
-        // todo: ezt nem itt kéne
     }
 
 }

@@ -73,19 +73,19 @@ public abstract class Character {
     }
 
     public void takeDamage(int damage) {
-        this.currentHP = Math.max(0, currentHP - damage);
+        this.currentHP = Util.clamp(currentHP - damage, 0, maxHP);
     }
 
     public void heal(int amount) {
-        this.currentHP = Math.min(maxHP, currentHP + amount);
+        takeDamage(-amount);
     }
 
     public void loseMana(int amount) {
-        this.currentMana -= amount;
+        this.currentMana = Util.clamp(currentMana - amount, 0, maxMana);
     }
 
     public void restoreMana(int amount) {
-        this.currentMana = Math.min(maxMana, currentMana + amount);
+        loseMana(-amount);
     }
 
     public boolean isAlive() {

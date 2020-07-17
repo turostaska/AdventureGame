@@ -105,4 +105,27 @@ public class CharacterService implements ICharacterService {
         usedAgainst.update(this);
     }
 
+    @Override
+    public void takeDamage(NPC who, int amount) {
+        who.takeDamage(amount);
+    }
+
+    @Override
+    public void takeDamage(Player who, int amount) {
+        who.takeDamage(amount);
+
+        if (!who.isAlive())
+            forceToHaveARest(who);
+    }
+
+    private void forceToHaveARest(Player who) {
+        who.clearActionQueue();
+        //TODO: hozzáadni a pihenő actiont
+    }
+
+    @Override
+    public void heal(Character who, int amount) {
+        who.heal(amount);
+    }
+
 }

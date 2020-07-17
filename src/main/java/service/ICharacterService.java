@@ -77,11 +77,44 @@ public interface ICharacterService {
     Optional<NPC> getNPCByName(String name);
 
     /**
-     * Returns the NPC with the desired name if it exists, otherwise returns an empty object
-     * @param name The desired NPC's name
-     * @return The NPC with the given name if it exists, otherwise an empty object
+     * The tool is used by its user in a duel against the other character, but only if the user possesses that tool.
+     * If the tool is usable, it will disappear from the user's inventory.
+     * @param tool The tool to be used
+     * @param usedBy The attacker that uses the tool
+     * @param usedAgainst The defender against whom the attacker uses the tool
      */
     void useInDuel(Tool tool, Character usedBy, Character usedAgainst);
 
+    /**
+     * The technique is used by its user in a duel against the other character, but only if the user knows that
+     * technique and he has enough mana.
+     * @param technique The technique to be used
+     * @param usedBy The character using the technique
+     * @param usedAgainst The character against whom the technique is used
+     */
     void useInDuel(Technique technique, Character usedBy, Character usedAgainst);
+
+    /**
+     * The specified NPC takes damage equal to the amount given. If his hit points fall below zero, it is set to 0
+     * and if he's a player, he is sent to have a rest.
+     * @param who The NPC taking damage
+     * @param amount The amount of damage to take
+     */
+    void takeDamage(NPC who, int amount);
+
+    /**
+     * The specified player takes damage equal to the amount given. If his hit points fall below zero, it is set to 0
+     * and if he's a player, he is sent to have a rest.
+     * @param who The player taking damage
+     * @param amount The amount of damage to take
+     */
+    void takeDamage(Player who, int amount);
+
+    /**
+     * The specified character restores hit points equal to the amount given. If it raises above the maximum value, it
+     * is set to the cap.
+     * @param who The character getting healed
+     * @param amount The amount of hit points to heal
+     */
+    void heal(Character who, int amount);
 }
