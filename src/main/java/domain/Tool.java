@@ -7,4 +7,6 @@ public abstract class Tool extends Buyable {
         super(name, damage, heal, costToBuy);
         this.maxQuantity = maxQuantity;
     }
+
+    public abstract void useUp(Character usedBy);
 }

@@ -1,5 +1,6 @@
 package dao;
 
+import domain.Action;
 import domain.Tool;
 
 import java.util.List;
@@ -10,11 +11,20 @@ import java.util.Optional;
  * provide a unified interface to the service layer.
  */
 public interface IToolDao {
+    enum Type { USABLE, NONUSABLE };
+
     /**
      * Returns a list of all tools in the database
      * @return The list of all tools
      */
     List<Tool> getAll();
+
+    /**
+     * Returns a list of all tools that have the specified type
+     * @param type The desired type of tools
+     * @return The list of tools of type
+     */
+    <T extends Tool> List<T> getByType(Type type);
 
     /**
      * Returns the tool with the desired ID if it exists, otherwise returns an empty object

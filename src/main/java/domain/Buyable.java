@@ -34,8 +34,4 @@ public abstract class Buyable {
         this.costToBuy = costToBuy;
     }
 
-    public void useInDuel(Character usedBy, Character usedAgainst) {
-        usedBy.heal(this.healingAmount);
-        usedAgainst.takeDamage(this.damage);
-    }
 }

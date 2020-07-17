@@ -1,4 +1,4 @@
-package dao.impl;
+package dao.impl.list;
 
 import dao.IPlayerDao;
 import domain.Player;
@@ -57,11 +57,4 @@ public class CollectionPlayerDao implements IPlayerDao {
             players.add(player);
     }
 
-    //for testing purposes
-    public void printList() {
-        for (int i = 0; i < players.size(); ++i) {
-            System.out.println(i + ". element: " + players.get(i).getID() + "\t" + players.get(i).getName());
-        }
-        System.out.println("------------------------");
-    }
 }

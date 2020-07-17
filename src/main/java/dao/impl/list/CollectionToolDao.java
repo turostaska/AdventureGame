@@ -1,8 +1,10 @@
-package dao.impl;
+package dao.impl.list;
 
 import dao.IToolDao;
+import domain.NonUsableTool;
 import domain.Player;
 import domain.Tool;
+import domain.UsableTool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,28 @@ public class CollectionToolDao implements IToolDao {
     @Override
     public List<Tool> getAll() {
         return tools;
+    }
+
+    @Override
+    public <T extends Tool> List<T> getByType(Type type) {
+        ArrayList<T> toolsOfType = new ArrayList<>();
+        Class<Tool> className;
+        switch (type) {
+            case USABLE:
+                for (Tool tool : tools)
+                    if (tool instanceof UsableTool)
+                        toolsOfType.add((T) tool);
+                 break;
+            case NONUSABLE:
+                for (Tool tool : tools)
+                    if (tool instanceof NonUsableTool)
+                        toolsOfType.add((T) tool);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + type);
+        }
+
+        return toolsOfType;
     }
 
     @Override

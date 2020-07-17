@@ -1,5 +1,7 @@
 package domain;
 
+import service.ICharacterService;
+
 import java.util.ArrayDeque;
 import java.util.Queue;
 
@@ -32,10 +34,10 @@ public class Player extends Character {
 
     private static int currentID = 1;
 
-    protected static final int BASE_HP = 100;
-    protected static final int BASE_MANA = 100;
-    protected static final int BASE_MONEY = 500;
-    protected static final int MAX_NUMBER_OF_ACTIONS = 5;
+    public static final int BASE_HP = 100;
+    public static final int BASE_MANA = 100;
+    public static final int BASE_MONEY = 500;
+    public static final int MAX_NUMBER_OF_ACTIONS = 5;
 
     @Override
     public boolean equals(Object o) {
@@ -75,7 +77,14 @@ public class Player extends Character {
             forceToHaveARest();
     }
 
-    private void forceToHaveARest() {
-        //TODO
+    @Override
+    public void update(ICharacterService service) {
+        service.addOrUpdate(this);
     }
+
+    private void forceToHaveARest() {
+        actionQueue.clear();
+        // todo: ezt nem itt kéne
+    }
+
 }

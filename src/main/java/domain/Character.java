@@ -1,5 +1,7 @@
 package domain;
 
+import service.ICharacterService;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -11,6 +13,8 @@ public abstract class Character {
     protected int currentMana;
     protected int maxMana;
     protected ArrayList<Technique> knownTechniques = new ArrayList<>();
+    protected HashMap<Tool, Integer> tools = new HashMap<>();
+    protected int strength;
 
     public int getCurrentMana() {
         return currentMana;
@@ -27,9 +31,6 @@ public abstract class Character {
     public void setMaxMana(int maxMana) {
         this.maxMana = maxMana;
     }
-
-    protected HashMap<Tool, Integer> tools = new HashMap<>();
-    protected int strength;
 
     public String getName() {
         return name;
@@ -76,7 +77,15 @@ public abstract class Character {
     }
 
     public void heal(int amount) {
-        this.currentHP = Math.max(maxHP, currentHP + amount);
+        this.currentHP = Math.min(maxHP, currentHP + amount);
+    }
+
+    public void loseMana(int amount) {
+        this.currentMana -= amount;
+    }
+
+    public void restoreMana(int amount) {
+        this.currentMana = Math.min(maxMana, currentMana + amount);
     }
 
     public boolean isAlive() {
@@ -88,5 +97,15 @@ public abstract class Character {
 
         if (tools.get(tool) == 0)
             tools.remove(tool);
+    }
+
+    public abstract void update(ICharacterService service);
+
+    public boolean knowsTechnique(Technique technique) {
+        return knownTechniques.contains(technique);
+    }
+
+    public boolean possessesTool(Tool tool) {
+        return tools.containsKey(tool);
     }
 }

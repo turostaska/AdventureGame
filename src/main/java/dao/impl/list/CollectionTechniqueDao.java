@@ -1,4 +1,4 @@
-package dao.impl;
+package dao.impl.list;
 
 import dao.ITechniqueDao;
 import domain.Player;

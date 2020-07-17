@@ -18,13 +18,12 @@ public interface IActionDao {
      */
     List<Action> getAll();
 
-
     /**
      * Returns a list of all actions that have the specified type
      * @param type The desired type of actions
      * @return The list of actions of type
      */
-    List<Action> getByType(ActionType type);
+    <T extends Action> List<T> getByType(ActionType type);
 
     /**
      * Returns the action with the desired ID if it exists, otherwise returns an empty object
