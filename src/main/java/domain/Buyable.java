@@ -34,4 +34,8 @@ public abstract class Buyable {
         this.costToBuy = costToBuy;
     }
 
+    public int getStrengthIncrease() {
+        return costToBuy / 100;
+    }
+
 }

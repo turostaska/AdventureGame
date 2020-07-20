@@ -117,4 +117,19 @@ public interface ICharacterService {
      * @param amount The amount of hit points to heal
      */
     void heal(Character who, int amount);
+
+    /**
+     * Makes the specified player execute the given action, either by succeeding or by failing the task.
+     * @param who The player executing the task
+     * @param action The task to be executed
+     */
+    void executeAction(Player who, Action action);
+
+    /**
+     * Tries to add the specified action to the player's action queue if there is a free slot and other action specific
+     * criteria are met
+     * @param player The player that should take on the action
+     * @param action The action to be taken on by the player
+     */
+    void tryToAddActionToQueue(Player player, Action action);
 }

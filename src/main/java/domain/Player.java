@@ -3,6 +3,8 @@ package domain;
 import service.ICharacterService;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Queue;
 
 public class Player extends Character {
@@ -21,6 +23,24 @@ public class Player extends Character {
         this.currentMana = maxMana;
         this.money = BASE_MONEY;
         this.actionQueue = new ArrayDeque<>();
+        this.user = user;
+    }
+
+    public Player(String name,
+                  int ID,
+                  int currentHP,
+                  int maxHP,
+                  int currentMana,
+                  int maxMana,
+                  ArrayList<Technique> knownTechniques,
+                  HashMap<Tool, Integer> tools,
+                  int strength,
+                  int money,
+                  Queue<ScheduledAction> actionQueue,
+                  User user) {
+        super(name, ID, currentHP, maxHP, currentMana, maxMana, knownTechniques, tools, strength);
+        this.money = money;
+        this.actionQueue = actionQueue;
         this.user = user;
     }
 
@@ -56,8 +76,16 @@ public class Player extends Character {
         return true;
     }
 
-    private void obtainTool(Tool tool) {
+    protected void obtainTool(Tool tool) {
         tools.merge(tool, 1, (a, b) -> a + b);
+
+        if (tools.get(tool) <= tool.getMaxQuantity())
+            this.strength += tool.getStrengthIncrease();
+    }
+
+    protected void learnTechnique(Technique technique) {
+        knownTechniques.add(technique);
+        this.strength += technique.getStrengthIncrease();
     }
 
     public boolean tryToLearnTechnique(Technique technique) {
@@ -65,7 +93,7 @@ public class Player extends Character {
             return false;
 
         money -= technique.getCostToBuy();
-        knownTechniques.add(technique);
+        learnTechnique(technique);
         return true;
     }
 
@@ -76,6 +104,18 @@ public class Player extends Character {
 
     public void clearActionQueue() {
         actionQueue.clear();
+    }
+
+    public boolean tryToAddActionToQueue(Action action) {
+        if (actionQueue.size() < MAX_NUMBER_OF_ACTIONS && action.ableToTakeOnAction(this)) {
+            addToActionQueue(action);
+            return true;
+        }
+        return false;
+    }
+
+    private void addToActionQueue(Action action) {
+        //todo
     }
 
 }

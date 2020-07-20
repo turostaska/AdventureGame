@@ -12,4 +12,10 @@ public class DuelAction extends Action {
     public void takeEffect(Player player) {
         //TODO
     }
+
+    @Override
+    public boolean carryOutAndGetIfSuccessful(Player who) {
+        //todo
+        return false;
+    }
 }

@@ -2,10 +2,7 @@ package service.impl;
 
 import dao.INPCDao;
 import dao.IPlayerDao;
-import domain.NPC;
-import domain.Player;
-import domain.Technique;
-import domain.Tool;
+import domain.*;
 import domain.Character;
 import service.ICharacterService;
 
@@ -116,6 +113,8 @@ public class CharacterService implements ICharacterService {
 
         if (!who.isAlive())
             forceToHaveARest(who);
+
+        who.update(this);
     }
 
     private void forceToHaveARest(Player who) {
@@ -127,5 +126,24 @@ public class CharacterService implements ICharacterService {
     public void heal(Character who, int amount) {
         who.heal(amount);
     }
+
+    private void kill(Player who) {
+        takeDamage(who, who.getMaxHP());
+    }
+
+    @Override
+    public void executeAction(Player who, Action action) {
+        if (action.carryOutAndGetIfSuccessful(who))
+            action.takeEffect(who);
+
+        who.update(this);
+    }
+
+    @Override
+    public void tryToAddActionToQueue(Player player, Action action) {
+        if (player.tryToAddActionToQueue(action))
+            player.update(this);
+    }
+
 
 }

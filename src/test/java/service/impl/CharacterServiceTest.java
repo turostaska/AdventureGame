@@ -116,4 +116,28 @@ public class CharacterServiceTest {
         assertEquals(player.getTools().size(), 0);
     }
 
+    @Test
+    public void buyingAToolMakesItsUserStronger() {
+        UsableTool tool = new UsableTool("dobócsillag", 5, 0, 400, 20);
+
+        assertEquals(player.getStrength(), 0);
+
+        service.tryToBuyTool(player, tool);
+
+        assertEquals(player.getStrength(), tool.getStrengthIncrease());
+    }
+
+    @Test
+    public void usingUpAToolMakesItsUserWeaker() {
+        UsableTool tool = new UsableTool("dobócsillag", 5, 0, 400, 20);
+        User otherUser = new User("Feri", "Cica123", "qwe@fgh.hu");
+        Player opponent = new Player(otherUser);
+        service.tryToBuyTool(player, tool);
+
+        service.useInDuel(tool, player, opponent);
+
+        assertEquals(player.getStrength(), 0);
+    }
+
+
 }

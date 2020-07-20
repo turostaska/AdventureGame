@@ -9,4 +9,8 @@ public abstract class Tool extends Buyable {
     }
 
     public abstract void useUp(Character usedBy);
+
+    public int getMaxQuantity() {
+        return maxQuantity;
+    }
 }

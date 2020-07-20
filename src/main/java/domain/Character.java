@@ -16,6 +16,21 @@ public abstract class Character {
     protected HashMap<Tool, Integer> tools = new HashMap<>();
     protected int strength;
 
+    protected Character(String name, int ID, int currentHP, int maxHP, int currentMana, int maxMana, ArrayList<Technique> knownTechniques, HashMap<Tool, Integer> tools, int strength) {
+        this.name = name;
+        this.ID = ID;
+        this.currentHP = currentHP;
+        this.maxHP = maxHP;
+        this.currentMana = currentMana;
+        this.maxMana = maxMana;
+        this.knownTechniques = knownTechniques;
+        this.tools = tools;
+        this.strength = strength;
+    }
+
+    protected Character() {
+    }
+
     public int getCurrentMana() {
         return currentMana;
     }
@@ -94,6 +109,8 @@ public abstract class Character {
 
     public void useUpUsableTool(UsableTool tool) {
         tools.merge(tool, 1, (a, b) -> a - b);
+
+        this.strength -= tool.getStrengthIncrease();
 
         if (tools.get(tool) == 0)
             tools.remove(tool);

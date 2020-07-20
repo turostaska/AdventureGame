@@ -22,6 +22,11 @@ public abstract class Action {
         return ID;
     }
 
+    public boolean ableToTakeOnAction(Player player) {
+        return true;
+    }
+
     public abstract void takeEffect(Player player);
 
+    public abstract boolean carryOutAndGetIfSuccessful(Player who);
 }
