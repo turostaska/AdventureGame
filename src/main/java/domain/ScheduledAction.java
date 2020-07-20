@@ -8,14 +8,18 @@ public class ScheduledAction {
     private Action action;
     private Player player;
 
-    public ScheduledAction(int ID, Action action, Player player) {
+    public ScheduledAction(int ID, Action action, Player player, LocalDateTime timeOfFinishing) {
         this.ID = ID;
         this.action = action;
         this.player = player;
-        timeOfFinishing = LocalDateTime.now().plusSeconds(action.getTimeToFinishInSeconds());
+        this.timeOfFinishing = timeOfFinishing;
     }
 
     public void trigger() {
         action.takeEffect(player);
+    }
+
+    public LocalDateTime getTimeOfFinishing() {
+        return timeOfFinishing;
     }
 }

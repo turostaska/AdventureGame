@@ -139,5 +139,19 @@ public class CharacterServiceTest {
         assertEquals(player.getStrength(), 0);
     }
 
+    @Test
+    public void cannotHaveMoreActionsThanAllowed() {
+        RestAction action = new RestAction(0, 8*RestAction.HOURS, 50);
+
+        player.tryToAddActionToQueue(action);
+        player.tryToAddActionToQueue(action);
+        player.tryToAddActionToQueue(action);
+        player.tryToAddActionToQueue(action);
+        player.tryToAddActionToQueue(action);
+        player.tryToAddActionToQueue(action);
+
+        assertEquals(player.getMoney(), Player.MAX_NUMBER_OF_ACTIONS * action.getCost());
+    }
+
 
 }

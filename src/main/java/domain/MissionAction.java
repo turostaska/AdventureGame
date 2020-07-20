@@ -58,7 +58,11 @@ public class MissionAction extends Action {
 
     @Override
     public boolean carryOutAndGetIfSuccessful(Player who) {
-        //todo
+        int diceRoll = Util.getRandomInteger(difficulty / 2, difficulty);
+
+        if (who.getStrength() >= diceRoll)
+            return true;
+
         return false;
     }
 }

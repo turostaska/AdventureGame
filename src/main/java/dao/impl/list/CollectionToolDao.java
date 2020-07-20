@@ -35,7 +35,7 @@ public class CollectionToolDao implements IToolDao {
     @Override
     public <T extends Tool> List<T> getByType(Type type) {
         ArrayList<T> toolsOfType = new ArrayList<>();
-        Class<Tool> className;
+
         switch (type) {
             case USABLE:
                 for (Tool tool : tools)

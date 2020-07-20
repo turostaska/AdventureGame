@@ -2,14 +2,12 @@ package domain;
 
 import service.ICharacterService;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Queue;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class Player extends Character {
     private int money;
-    private Queue<ScheduledAction> actionQueue;
+    private Deque<ScheduledAction> actionQueue;
 
     private User user;
 
@@ -36,7 +34,7 @@ public class Player extends Character {
                   HashMap<Tool, Integer> tools,
                   int strength,
                   int money,
-                  Queue<ScheduledAction> actionQueue,
+                  Deque<ScheduledAction> actionQueue,
                   User user) {
         super(name, ID, currentHP, maxHP, currentMana, maxMana, knownTechniques, tools, strength);
         this.money = money;
@@ -115,7 +113,10 @@ public class Player extends Character {
     }
 
     private void addToActionQueue(Action action) {
-        //todo
+        var endOfLastAction = actionQueue.peekLast() == null ?
+                LocalDateTime.now() : actionQueue.peekLast().getTimeOfFinishing();
+        //todo: id generálás?
+        actionQueue.add(new ScheduledAction(((int) Math.random()), action, this, endOfLastAction.plusSeconds(action.getTimeToFinishInSeconds())));
     }
 
 }

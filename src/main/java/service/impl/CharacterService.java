@@ -4,13 +4,22 @@ import dao.INPCDao;
 import dao.IPlayerDao;
 import domain.*;
 import domain.Character;
+import org.springframework.beans.factory.annotation.Autowired;
+import service.IActionService;
 import service.ICharacterService;
 
 import java.util.Optional;
 
 public class CharacterService implements ICharacterService {
+
+    @Autowired
     private IPlayerDao playerDao;
+
+    @Autowired
     private INPCDao npcDao;
+
+    @Autowired
+    private IActionService actionService;
 
     public CharacterService(IPlayerDao playerDao, INPCDao npcDao) {
         this.playerDao = playerDao;
@@ -119,7 +128,7 @@ public class CharacterService implements ICharacterService {
 
     private void forceToHaveARest(Player who) {
         who.clearActionQueue();
-        //TODO: hozzáadni a pihenő actiont
+        who.tryToAddActionToQueue(actionService.getFreeRestAction());
     }
 
     @Override

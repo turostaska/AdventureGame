@@ -3,12 +3,14 @@ package domain;
 import java.util.List;
 
 public class AdventureAction extends Action {
-    public AdventureAction(int ID, long timeToFinishInSeconds, List<Technique> techniqueRewards, List<Tool> toolRewards) {
+    public AdventureAction(int ID, long timeToFinishInSeconds, List<Technique> techniqueRewards, List<Tool> toolRewards, int difficulty) {
         super(ID, timeToFinishInSeconds);
         this.techniqueRewards = techniqueRewards;
         this.toolRewards = toolRewards;
+        this.difficulty = difficulty;
     }
 
+    private int difficulty;
     private List<Technique> techniqueRewards;
     private List<Tool> toolRewards;
 
@@ -30,7 +32,11 @@ public class AdventureAction extends Action {
 
     @Override
     public boolean carryOutAndGetIfSuccessful(Player who) {
-        //todo
+        int diceRoll = Util.getRandomInteger((int)(difficulty * 0.75), difficulty);
+
+        if (who.getStrength() >= diceRoll)
+            return true;
+
         return false;
     }
 
