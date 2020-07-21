@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import service.IActionService;
 import service.ICharacterService;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class CharacterService implements ICharacterService {
@@ -128,7 +129,7 @@ public class CharacterService implements ICharacterService {
 
     private void forceToHaveARest(Player who) {
         who.clearActionQueue();
-        who.tryToAddActionToQueue(actionService.getFreeRestAction());
+        who.ableToTakeOnAction(actionService.getFreeRestAction());
     }
 
     @Override
@@ -147,12 +148,5 @@ public class CharacterService implements ICharacterService {
 
         who.update(this);
     }
-
-    @Override
-    public void tryToAddActionToQueue(Player player, Action action) {
-        if (player.tryToAddActionToQueue(action))
-            player.update(this);
-    }
-
 
 }

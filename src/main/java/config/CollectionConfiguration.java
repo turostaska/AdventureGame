@@ -40,6 +40,11 @@ public class CollectionConfiguration {
     }
 
     @Bean
+    public IScheduledActionDao scheduledActionDao() {
+        return new CollectionScheduledActionDao();
+    }
+
+    @Bean
     public IActionService actionService(IActionDao actionDao) {
         return new ActionService(actionDao);
     }
@@ -62,5 +67,10 @@ public class CollectionConfiguration {
     @Bean
     public IUserService userService(IUserDao userDao) {
         return new UserService(userDao);
+    }
+
+    @Bean
+    public IScheduledActionService scheduledActionService(IScheduledActionDao scheduledActionDao) {
+        return new ScheduledActionService(scheduledActionDao);
     }
 }

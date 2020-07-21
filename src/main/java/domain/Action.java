@@ -22,7 +22,7 @@ public abstract class Action {
         return ID;
     }
 
-    public boolean ableToTakeOnAction(Player player) {
+    public boolean playerAbleToTakeOnAction(Player player) {
         return true;
     }
 

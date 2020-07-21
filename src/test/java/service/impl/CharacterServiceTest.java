@@ -6,6 +6,7 @@ import domain.*;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
+import service.ICharacterService;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -15,7 +16,7 @@ public class CharacterServiceTest {
     private Player player;
 
     @InjectMocks
-    private CharacterService service;
+    private ICharacterService service;
 
     @BeforeEach
     public void setUp() {
@@ -139,19 +140,6 @@ public class CharacterServiceTest {
         assertEquals(player.getStrength(), 0);
     }
 
-    @Test
-    public void cannotHaveMoreActionsThanAllowed() {
-        RestAction action = new RestAction(0, 8*RestAction.HOURS, 50);
-
-        player.tryToAddActionToQueue(action);
-        player.tryToAddActionToQueue(action);
-        player.tryToAddActionToQueue(action);
-        player.tryToAddActionToQueue(action);
-        player.tryToAddActionToQueue(action);
-        player.tryToAddActionToQueue(action);
-
-        assertEquals(player.getMoney(), Player.MAX_NUMBER_OF_ACTIONS * action.getCost());
-    }
 
 
 }

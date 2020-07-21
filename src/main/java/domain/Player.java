@@ -104,19 +104,27 @@ public class Player extends Character {
         actionQueue.clear();
     }
 
-    public boolean tryToAddActionToQueue(Action action) {
-        if (actionQueue.size() < MAX_NUMBER_OF_ACTIONS && action.ableToTakeOnAction(this)) {
-            addToActionQueue(action);
-            return true;
+    public boolean ableToTakeOnAction(Action action) {
+        return actionQueue.size() < MAX_NUMBER_OF_ACTIONS && action.playerAbleToTakeOnAction(this);
+    }
+
+    public void addToActionQueue(ScheduledAction scheduledAction) {
+        actionQueue.add(scheduledAction);
+    }
+
+    public long getTimeToFinishAllTasksInSeconds() {
+        long totalTime = 0;
+        for (ScheduledAction a : actionQueue) {
+            totalTime += a.getTimeOfRunningInSeconds();
         }
-        return false;
+        return totalTime;
     }
 
-    private void addToActionQueue(Action action) {
-        var endOfLastAction = actionQueue.peekLast() == null ?
-                LocalDateTime.now() : actionQueue.peekLast().getTimeOfFinishing();
-        //todo: id generálás?
-        actionQueue.add(new ScheduledAction(((int) Math.random()), action, this, endOfLastAction.plusSeconds(action.getTimeToFinishInSeconds())));
+    public Deque<ScheduledAction> getActionQueue() {
+        return actionQueue;
     }
 
+    public void removeScheduledActionFromQueue(ScheduledAction scheduledAction) {
+        actionQueue.remove(scheduledAction);
+    }
 }

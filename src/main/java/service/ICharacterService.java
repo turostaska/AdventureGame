@@ -124,12 +124,4 @@ public interface ICharacterService {
      * @param action The task to be executed
      */
     void executeAction(Player who, Action action);
-
-    /**
-     * Tries to add the specified action to the player's action queue if there is a free slot and other action specific
-     * criteria are met
-     * @param player The player that should take on the action
-     * @param action The action to be taken on by the player
-     */
-    void tryToAddActionToQueue(Player player, Action action);
 }
