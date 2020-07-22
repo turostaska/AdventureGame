@@ -1,4 +1,4 @@
-package org.github.turostaska.service.impl.jpa;
+package org.github.turostaska.service.impl.repository;
 
 import org.github.turostaska.domain.User;
 import org.apache.commons.validator.routines.EmailValidator;
@@ -7,14 +7,12 @@ import org.github.turostaska.service.IUserService;
 
 import java.util.Optional;
 
-public class JpaUserService implements IUserService {
+public class RepositoryUserService implements IUserService {
     private IUserRepository repository;
 
-    public JpaUserService(IUserRepository repository) {
+    public RepositoryUserService(IUserRepository repository) {
         this.repository = repository;
     }
-
-
 
     @Override
     public void addOrUpdate(User user) {
@@ -27,7 +25,7 @@ public class JpaUserService implements IUserService {
     }
 
     @Override
-    public Optional<User> getById(int ID) {
+    public Optional<User> getById(Long ID) {
         return repository.findById(ID);
     }
 

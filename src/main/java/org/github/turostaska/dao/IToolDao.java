@@ -30,7 +30,7 @@ public interface IToolDao {
      * @param ID The desired tool's ID
      * @return The tool with the given ID if it exists, otherwise an empty object
      */
-    Optional<Tool> getById(int ID);
+    Optional<Tool> getById(Long ID);
 
     /**
      * Returns the tool with the desired name if it exists, otherwise returns an empty object

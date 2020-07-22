@@ -16,7 +16,7 @@ public class CollectionUserDao implements IUserDao {
     }
 
     @Override
-    public Optional<User> getById(int ID) {
+    public Optional<User> getById(Long ID) {
         for (User u : users) {
             if (u.getID() == ID)
                 return Optional.of(u);

@@ -1,12 +1,13 @@
 package org.github.turostaska.domain;
 
+import org.github.turostaska.Util;
 import org.github.turostaska.service.ICharacterService;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Entity
 public abstract class Character {
@@ -14,19 +15,25 @@ public abstract class Character {
 
     @Id
     @GeneratedValue
-    protected int ID;
+    protected Long ID;
 
     protected int currentHP;
     protected int maxHP;
     protected int currentMana;
     protected int maxMana;
-    protected ArrayList<Technique> knownTechniques = new ArrayList<>();
-    protected HashMap<Tool, Integer> tools = new HashMap<>();
+
+    @ManyToMany
+    protected List<Technique> knownTechniques = new ArrayList<>();
+
+    @ElementCollection
+    @CollectionTable(name="inventory")
+    @MapKeyColumn(name="tool")
+    protected Map<Tool, Integer> tools = new HashMap<>();
+
     protected int strength;
 
-    protected Character(String name, int ID, int currentHP, int maxHP, int currentMana, int maxMana, ArrayList<Technique> knownTechniques, HashMap<Tool, Integer> tools, int strength) {
+    protected Character(String name, int currentHP, int maxHP, int currentMana, int maxMana, ArrayList<Technique> knownTechniques, HashMap<Tool, Integer> tools, int strength) {
         this.name = name;
-        this.ID = ID;
         this.currentHP = currentHP;
         this.maxHP = maxHP;
         this.currentMana = currentMana;
@@ -59,7 +66,7 @@ public abstract class Character {
         return name;
     }
 
-    public int getID() {
+    public Long getID() {
         return ID;
     }
 
@@ -79,7 +86,7 @@ public abstract class Character {
         this.maxHP = maxHP;
     }
 
-    public HashMap<Tool, Integer> getTools() {
+    public Map<Tool, Integer> getTools() {
         return tools;
     }
 
@@ -91,7 +98,7 @@ public abstract class Character {
         this.strength = strength;
     }
 
-    public ArrayList<Technique> getKnownTechniques() {
+    public List<Technique> getKnownTechniques() {
         return knownTechniques;
     }
 
@@ -132,5 +139,9 @@ public abstract class Character {
 
     public boolean possessesTool(Tool tool) {
         return tools.containsKey(tool);
+    }
+
+    public void setID(Long ID) {
+        this.ID = ID;
     }
 }

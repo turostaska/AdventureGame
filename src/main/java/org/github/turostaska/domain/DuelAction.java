@@ -1,5 +1,7 @@
 package org.github.turostaska.domain;
 
+import org.github.turostaska.Util;
+
 public class DuelAction extends Action {
     private Player opponent;
     private boolean attackerWon;

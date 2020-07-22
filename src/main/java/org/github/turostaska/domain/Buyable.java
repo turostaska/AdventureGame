@@ -1,8 +1,17 @@
 package org.github.turostaska.domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
 public abstract class Buyable {
     protected String name;
-    protected int ID;
+
+    @Id
+    @GeneratedValue
+    protected Long ID;
+
     protected int damage;
     protected int healingAmount;
     protected int costToBuy;
@@ -11,7 +20,7 @@ public abstract class Buyable {
         return name;
     }
 
-    public int getID() {
+    public Long getID() {
         return ID;
     }
 

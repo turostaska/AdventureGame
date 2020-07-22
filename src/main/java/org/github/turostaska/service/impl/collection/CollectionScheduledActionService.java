@@ -4,7 +4,7 @@ import org.github.turostaska.dao.IScheduledActionDao;
 import org.github.turostaska.domain.Action;
 import org.github.turostaska.domain.Player;
 import org.github.turostaska.domain.ScheduledAction;
-import org.github.turostaska.domain.Util;
+import org.github.turostaska.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.github.turostaska.service.ICharacterService;
 import org.github.turostaska.service.IScheduledActionService;

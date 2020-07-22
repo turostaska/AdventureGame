@@ -1,52 +1,39 @@
-package org.github.turostaska.service.impl.collection;
+package org.github.turostaska.service.impl.repository;
 
-import org.github.turostaska.dao.INPCDao;
-import org.github.turostaska.dao.IPlayerDao;
 import org.github.turostaska.domain.*;
 import org.github.turostaska.domain.Character;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.github.turostaska.repository.INPCRepository;
+import org.github.turostaska.repository.IPlayerRepository;
 import org.github.turostaska.service.IActionService;
 import org.github.turostaska.service.ICharacterService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
-public class CollectionCharacterService implements ICharacterService {
+public class RepositoryCharacterService implements ICharacterService {
 
-    @Autowired
-    private IPlayerDao playerDao;
-
-    @Autowired
-    private INPCDao npcDao;
-
-    @Autowired
-    private IActionService actionService;
-
-    public CollectionCharacterService(IPlayerDao playerDao, INPCDao npcDao) {
-        this.playerDao = playerDao;
-        this.npcDao = npcDao;
-    }
+    @Autowired private IPlayerRepository playerRepository;
+    @Autowired private INPCRepository npcRepository;
+    @Autowired private IActionService actionService;
 
     @Override
     public void addOrUpdate(Player player) {
-        if (playerDao.getById(player.getID()).isEmpty())
-            playerDao.create(player);
-        else
-            playerDao.update(player);
+        playerRepository.save(player);
     }
 
     @Override
     public void delete(Player player) {
-        playerDao.delete(player);
+        playerRepository.delete(player);
     }
 
     @Override
     public Optional<Player> getPlayerById(Long ID) {
-        return playerDao.getById(ID);
+        return playerRepository.findById(ID);
     }
 
     @Override
     public Optional<Player> getPlayerByName(String name) {
-        return playerDao.getByName(name);
+        return playerRepository.findByName(name);
     }
 
     @Override
@@ -63,25 +50,22 @@ public class CollectionCharacterService implements ICharacterService {
 
     @Override
     public void addOrUpdate(NPC npc) {
-        if (npcDao.getById(npc.getID()).isEmpty())
-            npcDao.create(npc);
-        else
-            npcDao.update(npc);
+        npcRepository.save(npc);
     }
 
     @Override
     public void delete(NPC npc) {
-        npcDao.delete(npc);
+        npcRepository.delete(npc);
     }
 
     @Override
     public Optional<NPC> getNPCById(Long ID) {
-        return npcDao.getById(ID);
+        return npcRepository.findById(ID);
     }
 
     @Override
     public Optional<NPC> getNPCByName(String name) {
-        return npcDao.getByName(name);
+        return npcRepository.findByName(name);
     }
 
     @Override
@@ -134,10 +118,6 @@ public class CollectionCharacterService implements ICharacterService {
     @Override
     public void heal(Character who, int amount) {
         who.heal(amount);
-    }
-
-    private void kill(Player who) {
-        takeDamage(who, who.getMaxHP());
     }
 
     @Override

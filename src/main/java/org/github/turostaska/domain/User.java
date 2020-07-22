@@ -1,9 +1,6 @@
 package org.github.turostaska.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 
 @Entity
@@ -14,9 +11,10 @@ public class User {
 
     @Id
     @GeneratedValue
-    private int ID;
+    private Long ID;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
+    //@JoinColumn(name = "playerId", referencedColumnName = "ID")
     private Player player;
 
     public User(String userName, String password, String email) {
@@ -40,7 +38,7 @@ public class User {
         return email;
     }
 
-    public int getID() {
+    public Long getID() {
         return ID;
     }
 

@@ -1,5 +1,7 @@
 package org.github.turostaska.domain;
 
+import org.github.turostaska.Util;
+
 public class MissionAction extends Action {
     private int reward;
 

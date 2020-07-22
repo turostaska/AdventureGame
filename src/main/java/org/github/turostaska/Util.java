@@ -1,4 +1,4 @@
-package org.github.turostaska.domain;
+package org.github.turostaska;
 
 import java.util.concurrent.ThreadLocalRandom;
 

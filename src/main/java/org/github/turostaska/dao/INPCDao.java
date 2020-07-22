@@ -17,7 +17,7 @@ public interface INPCDao {
      * @param ID The desired NPC's ID
      * @return The NPC with the given ID if it exists, otherwise an empty object
      */
-    Optional<NPC> getById(int ID);
+    Optional<NPC> getById(Long ID);
 
     /**
      * Returns the NPC with the desired name if it exists, otherwise returns an empty object

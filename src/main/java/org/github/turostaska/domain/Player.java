@@ -2,9 +2,7 @@ package org.github.turostaska.domain;
 
 import org.github.turostaska.service.ICharacterService;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.*;
 
 @Entity
@@ -14,12 +12,11 @@ public class Player extends Character {
     @OneToMany
     private List<ScheduledAction> actionQueue;
 
-    @OneToOne
+    @OneToOne//(mappedBy = "player")
     private User user;
 
     public Player(User user) {
         this.name = user.getUserName();
-        this.ID = currentID++;
         this.strength = 0;
         this.maxHP = BASE_HP;
         this.currentHP = maxHP;
@@ -31,7 +28,6 @@ public class Player extends Character {
     }
 
     public Player(String name,
-                  int ID,
                   int currentHP,
                   int maxHP,
                   int currentMana,
@@ -42,7 +38,7 @@ public class Player extends Character {
                   int money,
                   List<ScheduledAction> actionQueue,
                   User user) {
-        super(name, ID, currentHP, maxHP, currentMana, maxMana, knownTechniques, tools, strength);
+        super(name, currentHP, maxHP, currentMana, maxMana, knownTechniques, tools, strength);
         this.money = money;
         this.actionQueue = actionQueue;
         this.user = user;
@@ -55,8 +51,6 @@ public class Player extends Character {
     public void addMoney(int sum) {
         this.money += sum;
     }
-
-    private static int currentID = 1;
 
     public static final int BASE_HP = 100;
     public static final int BASE_MANA = 100;

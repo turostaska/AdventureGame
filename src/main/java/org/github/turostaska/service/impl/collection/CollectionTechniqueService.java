@@ -27,7 +27,7 @@ public class CollectionTechniqueService implements ITechniqueService {
     }
 
     @Override
-    public Optional<Technique> getById(int ID) {
+    public Optional<Technique> getById(Long ID) {
         return dao.getById(ID);
     }
 

@@ -14,7 +14,7 @@ public class CollectionTechniqueDao implements ITechniqueDao {
     public List<Technique> getAll() { return techniques; }
 
     @Override
-    public Optional<Technique> getById(int ID) {
+    public Optional<Technique> getById(Long ID) {
         for (Technique t : techniques) {
             if (t.getID() == ID)
                 return Optional.of(t);

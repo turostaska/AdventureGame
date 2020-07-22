@@ -20,7 +20,7 @@ public interface ITechniqueDao {
      * @param ID The desired technique's ID
      * @return The technique with the given ID if it exists, otherwise an empty object
      */
-    Optional<Technique> getById(int ID);
+    Optional<Technique> getById(Long ID);
 
     /**
      * Returns the technique with the desired name if it exists, otherwise returns an empty object

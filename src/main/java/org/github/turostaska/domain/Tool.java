@@ -1,5 +1,8 @@
 package org.github.turostaska.domain;
 
+import javax.persistence.Entity;
+
+@Entity
 public abstract class Tool extends Buyable {
     private int maxQuantity;
 

@@ -21,7 +21,7 @@ public interface IPlayerDao {
      * @param ID The desired player's ID
      * @return The player with the given ID if it exists, otherwise an empty object
      */
-    Optional<Player> getById(int ID);
+    Optional<Player> getById(Long ID);
 
     /**
      * Returns the player with the desired name if it exists, otherwise returns an empty object

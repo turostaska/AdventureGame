@@ -20,7 +20,7 @@ public interface IUserDao {
      * @param ID The desired user's ID
      * @return The user with the given ID if it exists, otherwise an empty object
      */
-    Optional<User> getById(int ID);
+    Optional<User> getById(Long ID);
 
     /**
      * Returns the user with the desired name if it exists, otherwise returns an empty object

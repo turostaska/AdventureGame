@@ -1,5 +1,7 @@
 package org.github.turostaska.domain;
 
+import org.github.turostaska.Util;
+
 import java.util.List;
 
 public class AdventureAction extends Action {

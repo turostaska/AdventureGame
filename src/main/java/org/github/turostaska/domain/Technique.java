@@ -1,5 +1,8 @@
 package org.github.turostaska.domain;
 
+import javax.persistence.Entity;
+
+@Entity
 public class Technique extends Buyable {
     private int costToCast;
 

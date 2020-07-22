@@ -28,7 +28,7 @@ public class CollectionUserService implements IUserService {
     }
 
     @Override
-    public Optional<User> getById(int ID) {
+    public Optional<User> getById(Long ID) {
         return dao.getById(ID);
     }
 
