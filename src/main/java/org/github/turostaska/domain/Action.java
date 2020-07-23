@@ -1,32 +1,30 @@
 package org.github.turostaska.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@DiscriminatorColumn(name="type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Action {
     protected long timeToFinishInSeconds;
 
     @Id
     @GeneratedValue
-    protected int ID;
+    protected Long ID;
 
     public static final long SECONDS = 1;
     public static final long MINUTES = 60 * SECONDS;
     public static final long HOURS   = 60 * MINUTES;
     public static final long DAYS    = 24 * HOURS;
 
-    public Action(int ID, long timeToFinishInSeconds) {
+    public Action(long timeToFinishInSeconds) {
         this.timeToFinishInSeconds = timeToFinishInSeconds;
-        this.ID = ID;
     }
 
     public long getTimeToFinishInSeconds() {
         return timeToFinishInSeconds;
     }
 
-    public int getID() {
+    public Long getID() {
         return ID;
     }
 

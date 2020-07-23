@@ -2,9 +2,7 @@ package org.github.turostaska.config;
 
 import org.github.turostaska.dao.*;
 import org.github.turostaska.dao.impl.list.*;
-import org.github.turostaska.repository.IUserRepository;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.github.turostaska.service.*;
 import org.github.turostaska.service.impl.collection.*;
@@ -72,7 +70,7 @@ public class CollectionConfiguration {
     }
 
     @Bean
-    public IScheduledActionService scheduledActionService(IScheduledActionDao scheduledActionDao) {
-        return new CollectionScheduledActionService(scheduledActionDao);
+    public IScheduledTaskService scheduledActionService(IScheduledActionDao scheduledActionDao) {
+        return new CollectionScheduledTaskService(scheduledActionDao);
     }
 }

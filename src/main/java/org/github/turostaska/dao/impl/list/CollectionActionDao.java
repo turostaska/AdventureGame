@@ -48,9 +48,9 @@ public class CollectionActionDao implements IActionDao {
     }
 
     @Override
-    public Optional<Action> getById(int ID) {
+    public Optional<Action> getById(Long ID) {
         for (Action action : actions) {
-            if (action.getID() == ID)
+            if (action.getID().equals(ID))
                 return Optional.of(action);
         }
         return Optional.empty();
@@ -59,7 +59,7 @@ public class CollectionActionDao implements IActionDao {
     @Override
     public void update(Action action) {
         for (int i = 0; i < actions.size(); ++i) {
-            if (actions.get(i).getID() == action.getID()) {
+            if (actions.get(i).getID().equals(action.getID())) {
                 actions.set(i, action);
                 return;
             }

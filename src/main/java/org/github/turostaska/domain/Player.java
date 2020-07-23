@@ -10,7 +10,7 @@ public class Player extends Character {
     private int money;
 
     @OneToMany
-    private List<ScheduledAction> actionQueue;
+    private List<ScheduledTask> actionQueue;
 
     @OneToOne//(mappedBy = "player")
     private User user;
@@ -27,6 +27,8 @@ public class Player extends Character {
         this.user = user;
     }
 
+    public Player() {}
+
     public Player(String name,
                   int currentHP,
                   int maxHP,
@@ -36,7 +38,7 @@ public class Player extends Character {
                   HashMap<Tool, Integer> tools,
                   int strength,
                   int money,
-                  List<ScheduledAction> actionQueue,
+                  List<ScheduledTask> actionQueue,
                   User user) {
         super(name, currentHP, maxHP, currentMana, maxMana, knownTechniques, tools, strength);
         this.money = money;
@@ -108,23 +110,23 @@ public class Player extends Character {
         return actionQueue.size() < MAX_NUMBER_OF_ACTIONS && action.playerAbleToTakeOnAction(this);
     }
 
-    public void addToActionQueue(ScheduledAction scheduledAction) {
-        actionQueue.add(scheduledAction);
+    public void addToActionQueue(ScheduledTask scheduledTask) {
+        actionQueue.add(scheduledTask);
     }
 
     public long getTimeToFinishAllTasksInSeconds() {
         long totalTime = 0;
-        for (ScheduledAction a : actionQueue) {
+        for (ScheduledTask a : actionQueue) {
             totalTime += a.getTimeOfRunningInSeconds();
         }
         return totalTime;
     }
 
-    public List<ScheduledAction> getActionQueue() {
+    public List<ScheduledTask> getActionQueue() {
         return actionQueue;
     }
 
-    public void removeScheduledActionFromQueue(ScheduledAction scheduledAction) {
-        actionQueue.remove(scheduledAction);
+    public void removeScheduledActionFromQueue(ScheduledTask scheduledTask) {
+        actionQueue.remove(scheduledTask);
     }
 }

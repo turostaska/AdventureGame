@@ -3,16 +3,14 @@ package org.github.turostaska.domain;
 import org.github.turostaska.service.ICharacterService;
 import org.springframework.context.annotation.Bean;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-public class ScheduledAction {
+public class ScheduledTask {
     @Id
-    private int ID;
+    @GeneratedValue
+    private Long ID;
 
     private LocalDateTime estimatedTimeOfFinishing;
 
@@ -22,11 +20,11 @@ public class ScheduledAction {
     @OneToOne
     private Player player;
 
-    //todo: ezt nagyon nem ide, a run meghívásakor a SAService kérje meg a CharacterService-t hogy frissítse
-    //private ICharacterService characterService;
+    public Action getAction() {
+        return action;
+    }
 
-    public ScheduledAction(int ID, Action action, Player player, LocalDateTime estimatedTimeOfFinishing) {
-        this.ID = ID;
+    public ScheduledTask(Action action, Player player, LocalDateTime estimatedTimeOfFinishing) {
         this.action = action;
         this.player = player;
         this.estimatedTimeOfFinishing = estimatedTimeOfFinishing;
@@ -36,14 +34,13 @@ public class ScheduledAction {
         return estimatedTimeOfFinishing;
     }
 
-    public int getID() {
+    public Long getID() {
         return ID;
     }
 
     public void trigger() {
         action.takeEffect(player);
         player.removeScheduledActionFromQueue(this);
-        // player.update(characterService);
     }
 
     public Player getPlayer() {

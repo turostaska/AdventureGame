@@ -5,8 +5,8 @@ import org.github.turostaska.domain.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.github.turostaska.service.IScheduledActionService;
-import org.github.turostaska.service.impl.collection.CollectionScheduledActionService;
+import org.github.turostaska.service.IScheduledTaskService;
+import org.github.turostaska.service.impl.collection.CollectionScheduledTaskService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,23 +15,23 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 
-class ScheduledActionServiceTest {
+class ScheduledTaskServiceTest {
     private Player player;
 
     @InjectMocks
-    private IScheduledActionService service;
+    private IScheduledTaskService service;
 
     @BeforeEach
     public void setUp() {
         IScheduledActionDao dao = mock(IScheduledActionDao.class);
-        service = new CollectionScheduledActionService(dao);
+        service = new CollectionScheduledTaskService(dao);
         User user = new User("Laci", "Kutya123", "asd@fgh.hu");
         player = new Player(user);
     }
 
     @Test
     public void cannotHaveMoreActionsThanAllowed() {
-        RestAction action = new RestAction(0, 8*RestAction.HOURS, 50);
+        RestAction action = new RestAction(8*RestAction.HOURS, 50);
 
         service.tryToScheduleActionForPlayer(player, action);
         service.tryToScheduleActionForPlayer(player, action);
@@ -46,7 +46,7 @@ class ScheduledActionServiceTest {
 
     @Test
     public void haveASuccessfulMission() {
-        MissionAction mission = new MissionAction(1, 3*RestAction.SECONDS, 1000, 0);
+        MissionAction mission = new MissionAction(3*RestAction.SECONDS, 1000, 0);
 
         service.tryToScheduleActionForPlayer(player, mission);
         assertEquals(player.getActionQueue().size(), 1);
@@ -63,7 +63,7 @@ class ScheduledActionServiceTest {
 
     @Test
     public void cannotAffordExpensiveRest() {
-        RestAction action = new RestAction(0, 8*RestAction.HOURS, 600);
+        RestAction action = new RestAction(8*RestAction.HOURS, 600);
 
         service.tryToScheduleActionForPlayer(player, action);
 
@@ -73,7 +73,7 @@ class ScheduledActionServiceTest {
 
     @Test
     public void takingARestHasItsEffect() {
-        RestAction action = new RestAction(0, 3*RestAction.SECONDS, 0);
+        RestAction action = new RestAction(3*RestAction.SECONDS, 0);
 
         player.takeDamage(50);
         player.restoreMana(-50);
@@ -104,7 +104,7 @@ class ScheduledActionServiceTest {
         List<Technique> techniques = new ArrayList<>();
         techniques.add( new Technique("nagy tűzgolyó", 200, 0, 500, 90) );
 
-        AdventureAction adventureAction = new AdventureAction(0, 3*AdventureAction.SECONDS, techniques, tools, 0);
+        AdventureAction adventureAction = new AdventureAction(3*AdventureAction.SECONDS, techniques, tools, 0);
 
         service.tryToScheduleActionForPlayer(player, adventureAction);
 

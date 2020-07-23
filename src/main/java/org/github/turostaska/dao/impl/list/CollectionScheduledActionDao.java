@@ -1,61 +1,61 @@
 package org.github.turostaska.dao.impl.list;
 
 import org.github.turostaska.dao.IScheduledActionDao;
-import org.github.turostaska.domain.ScheduledAction;
+import org.github.turostaska.domain.ScheduledTask;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class CollectionScheduledActionDao implements IScheduledActionDao {
-    private List<ScheduledAction> list = new ArrayList<>();
+    private List<ScheduledTask> list = new ArrayList<>();
 
     @Override
-    public List<ScheduledAction> getAll() {
+    public List<ScheduledTask> getAll() {
         return list;
     }
 
     @Override
-    public Optional<ScheduledAction> getById(int ID) {
-        for (ScheduledAction scheduledAction : list) {
-            if (scheduledAction.getID() == ID)
-                return Optional.of(scheduledAction);
+    public Optional<ScheduledTask> getById(Long ID) {
+        for (ScheduledTask scheduledTask : list) {
+            if (scheduledTask.getID() == ID)
+                return Optional.of(scheduledTask);
         }
         return Optional.empty();
     }
 
     @Override
-    public List<ScheduledAction> getByPlayerName(String playerName) {
-        List<ScheduledAction> result = new ArrayList<>();
+    public List<ScheduledTask> getByPlayerName(String playerName) {
+        List<ScheduledTask> result = new ArrayList<>();
 
-        for (ScheduledAction scheduledAction : list)
-            if (scheduledAction.getPlayer().getName().equals(playerName))
-                result.add(scheduledAction);
+        for (ScheduledTask scheduledTask : list)
+            if (scheduledTask.getPlayer().getName().equals(playerName))
+                result.add(scheduledTask);
 
         return result;
     }
 
     @Override
-    public void update(ScheduledAction scheduledAction) {
+    public void update(ScheduledTask scheduledTask) {
         for (int i = 0; i < list.size(); ++i) {
-            if (list.get(i).getID() == scheduledAction.getID()) {
-                list.set(i, scheduledAction);
+            if (list.get(i).getID() == scheduledTask.getID()) {
+                list.set(i, scheduledTask);
                 return;
             }
         }
     }
 
     @Override
-    public void delete(ScheduledAction scheduledAction) {
-        list.remove(scheduledAction);
+    public void delete(ScheduledTask scheduledTask) {
+        list.remove(scheduledTask);
     }
 
     @Override
-    public void create(ScheduledAction scheduledAction) {
-        if (scheduledAction == null)
+    public void create(ScheduledTask scheduledTask) {
+        if (scheduledTask == null)
             throw new IllegalArgumentException("The scheduled action can't be null.");
 
-        if (!list.contains(scheduledAction))
-            list.add(scheduledAction);
+        if (!list.contains(scheduledTask))
+            list.add(scheduledTask);
     }
 }

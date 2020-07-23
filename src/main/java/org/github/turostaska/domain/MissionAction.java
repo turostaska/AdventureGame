@@ -2,11 +2,16 @@ package org.github.turostaska.domain;
 
 import org.github.turostaska.Util;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("MISSION")
 public class MissionAction extends Action {
     private int reward;
 
-    public MissionAction(int ID, long timeToFinishInSeconds, int reward, int difficulty) {
-        super(ID, timeToFinishInSeconds);
+    public MissionAction(long timeToFinishInSeconds, int reward, int difficulty) {
+        super(timeToFinishInSeconds);
         this.reward = reward;
         this.difficulty = difficulty;
 

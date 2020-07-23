@@ -2,18 +2,26 @@ package org.github.turostaska.domain;
 
 import org.github.turostaska.Util;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import java.util.List;
 
+@Entity
+@DiscriminatorValue("ADVENTURE")
 public class AdventureAction extends Action {
-    public AdventureAction(int ID, long timeToFinishInSeconds, List<Technique> techniqueRewards, List<Tool> toolRewards, int difficulty) {
-        super(ID, timeToFinishInSeconds);
+    public AdventureAction(long timeToFinishInSeconds, List<Technique> techniqueRewards, List<Tool> toolRewards, int difficulty) {
+        super(timeToFinishInSeconds);
         this.techniqueRewards = techniqueRewards;
         this.toolRewards = toolRewards;
         this.difficulty = difficulty;
     }
 
     private int difficulty;
+    @ManyToMany
     private List<Technique> techniqueRewards;
+
+    @ManyToMany
     private List<Tool> toolRewards;
 
     public List<Technique> getTechniqueRewards() {

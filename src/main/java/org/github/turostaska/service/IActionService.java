@@ -25,7 +25,7 @@ public interface IActionService {
      * @param ID The desired action's ID
      * @return The action with the given ID if it exists, otherwise an empty object
      */
-    Optional<Action> getById(int ID);
+    Optional<Action> getById(Long ID);
 
     /**
      * Returns a list of all actions that have the specified type

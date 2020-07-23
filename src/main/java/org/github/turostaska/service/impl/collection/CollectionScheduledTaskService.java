@@ -3,11 +3,10 @@ package org.github.turostaska.service.impl.collection;
 import org.github.turostaska.dao.IScheduledActionDao;
 import org.github.turostaska.domain.Action;
 import org.github.turostaska.domain.Player;
-import org.github.turostaska.domain.ScheduledAction;
-import org.github.turostaska.Util;
+import org.github.turostaska.domain.ScheduledTask;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.github.turostaska.service.ICharacterService;
-import org.github.turostaska.service.IScheduledActionService;
+import org.github.turostaska.service.IScheduledTaskService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,7 +15,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class CollectionScheduledActionService implements IScheduledActionService {
+public class CollectionScheduledTaskService implements IScheduledTaskService {
     private IScheduledActionDao dao;
 
     @Autowired
@@ -25,31 +24,31 @@ public class CollectionScheduledActionService implements IScheduledActionService
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
 
-    public CollectionScheduledActionService(IScheduledActionDao dao) {
+    public CollectionScheduledTaskService(IScheduledActionDao dao) {
         this.dao = dao;
     }
 
     @Override
-    public void addOrUpdate(ScheduledAction scheduledAction) {
-        if (dao.getById(scheduledAction.getID()).isEmpty())
-            dao.create(scheduledAction);
+    public void addOrUpdate(ScheduledTask scheduledTask) {
+        if (dao.getById(scheduledTask.getID()).isEmpty())
+            dao.create(scheduledTask);
         else
-            dao.update(scheduledAction);
+            dao.update(scheduledTask);
     }
 
     @Override
-    public void delete(ScheduledAction scheduledAction) {
-        dao.delete(scheduledAction);
+    public void delete(ScheduledTask scheduledTask) {
+        dao.delete(scheduledTask);
     }
 
     @Override
-    public Optional<ScheduledAction> getById(int ID) {
+    public Optional<ScheduledTask> getById(Long ID) {
         return dao.getById(ID);
     }
 
     @Override
-    public List<ScheduledAction> getByPlayerName(String playerName) {
-        return dao.getByPlayerName(playerName);
+    public List<ScheduledTask> getByPlayer(Player player) {
+        return dao.getByPlayerName(player.getName());
     }
 
     @Override
@@ -62,9 +61,8 @@ public class CollectionScheduledActionService implements IScheduledActionService
             long timeToFinishWithThisTaskInSecs =
                     timeToFinishWithOtherActionsInSecs + action.getTimeToFinishInSeconds();
 
-            //todo: id generálás?
-            var scheduledAction = new ScheduledAction(
-                                    Util.getRandomInteger(0,1000) , action, player,
+            var scheduledAction = new ScheduledTask(
+                                    action, player,
                                     LocalDateTime.now().plusSeconds(timeToFinishWithThisTaskInSecs)
                                   );
 

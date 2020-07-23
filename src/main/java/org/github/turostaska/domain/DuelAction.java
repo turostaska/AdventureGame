@@ -2,12 +2,24 @@ package org.github.turostaska.domain;
 
 import org.github.turostaska.Util;
 
-public class DuelAction extends Action {
-    private Player opponent;
-    private boolean attackerWon;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
-    public DuelAction(int ID, long timeToFinishInSeconds, Player opponent) {
-        super(ID, timeToFinishInSeconds);
+@Entity
+@DiscriminatorValue("DUEL")
+public class DuelAction extends Action {
+    @OneToOne
+    private Player opponent;
+    private Boolean attackerWon;
+
+    public Player getOpponent() {
+        return opponent;
+    }
+
+    public DuelAction(long timeToFinishInSeconds, Player opponent) {
+        super(timeToFinishInSeconds);
         this.opponent = opponent;
     }
 

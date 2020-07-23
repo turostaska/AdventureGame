@@ -1,8 +1,13 @@
 package org.github.turostaska.domain;
 
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
+@Entity
+@DiscriminatorValue("REST")
 public class RestAction extends Action {
-    public RestAction(int ID, long timeToFinishInSeconds, int cost) {
-        super(ID, timeToFinishInSeconds);
+    public RestAction(long timeToFinishInSeconds, int cost) {
+        super(timeToFinishInSeconds);
         this.cost = cost;
     }
 

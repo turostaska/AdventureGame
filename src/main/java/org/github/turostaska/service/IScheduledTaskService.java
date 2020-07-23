@@ -2,7 +2,7 @@ package org.github.turostaska.service;
 
 import org.github.turostaska.domain.Action;
 import org.github.turostaska.domain.Player;
-import org.github.turostaska.domain.ScheduledAction;
+import org.github.turostaska.domain.ScheduledTask;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,32 +10,32 @@ import java.util.Optional;
 /**
  * Provides access to the data regardless of the data structure being used. Contains business logic.
  */
-public interface IScheduledActionService {
+public interface IScheduledTaskService {
     /**
      * Creates a scheduled action if a record with the same ID doesn't exist, otherwise it overwrites it with the one given
-     * @param scheduledAction The scheduled action to be created or be overwritten with
+     * @param scheduledTask The scheduled action to be created or be overwritten with
      */
-    void addOrUpdate(ScheduledAction scheduledAction);
+    void addOrUpdate(ScheduledTask scheduledTask);
 
     /**
      * Deletes the scheduled action from the data structure if it exists
-     * @param scheduledAction The scheduled action to be deleted
+     * @param scheduledTask The scheduled action to be deleted
      */
-    void delete(ScheduledAction scheduledAction);
+    void delete(ScheduledTask scheduledTask);
 
     /**
      * Returns the scheduled action with the desired ID if it exists in the data structure, otherwise returns an empty object
      * @param ID The desired user's ID
      * @return The scheduled action with the given ID if it exists, otherwise an empty object
      */
-    Optional<ScheduledAction> getById(int ID);
+    Optional<ScheduledTask> getById(Long ID);
 
     /**
      * Returns a list of all actions scheduled by a specific player
-     * @param playerName The name of the player
+     * @param player The player
      * @return The list of all actions scheduled by the player
      */
-    List<ScheduledAction> getByPlayerName(String playerName);
+    List<ScheduledTask> getByPlayer(Player player);
 
     /**
      * Schedules the specified action for the player if he is eligible to do the task.

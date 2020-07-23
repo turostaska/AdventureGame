@@ -30,7 +30,7 @@ public class CollectionActionService implements IActionService {
     }
 
     @Override
-    public Optional<Action> getById(int ID) {
+    public Optional<Action> getById(Long ID) {
         return dao.getById(ID);
     }
 
