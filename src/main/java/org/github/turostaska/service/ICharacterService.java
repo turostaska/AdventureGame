@@ -118,10 +118,4 @@ public interface ICharacterService {
      */
     void heal(Character who, int amount);
 
-    /**
-     * Makes the specified player execute the given action, either by succeeding or by failing the task.
-     * @param who The player executing the task
-     * @param action The task to be executed
-     */
-    void executeAction(Player who, Action action);
 }

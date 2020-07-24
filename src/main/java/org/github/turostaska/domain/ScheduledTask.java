@@ -14,11 +14,11 @@ public class ScheduledTask {
 
     private LocalDateTime estimatedTimeOfFinishing;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private Action action;
 
     @OneToOne
-    private Player player;
+    protected Player player;
 
     public Action getAction() {
         return action;
@@ -30,6 +30,8 @@ public class ScheduledTask {
         this.estimatedTimeOfFinishing = estimatedTimeOfFinishing;
     }
 
+    public ScheduledTask() {}
+
     public LocalDateTime getEstimatedTimeOfFinishing() {
         return estimatedTimeOfFinishing;
     }
@@ -39,7 +41,9 @@ public class ScheduledTask {
     }
 
     public void trigger() {
-        action.takeEffect(player);
+        if (action.carryOutAndGetIfSuccessful(player))
+            action.takeEffect(player);
+
         player.removeScheduledActionFromQueue(this);
     }
 

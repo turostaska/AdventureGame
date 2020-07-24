@@ -20,6 +20,8 @@ public abstract class Action {
         this.timeToFinishInSeconds = timeToFinishInSeconds;
     }
 
+    public Action() {}
+
     public long getTimeToFinishInSeconds() {
         return timeToFinishInSeconds;
     }

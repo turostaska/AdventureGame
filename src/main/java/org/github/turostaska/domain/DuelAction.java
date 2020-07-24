@@ -18,10 +18,16 @@ public class DuelAction extends Action {
         return opponent;
     }
 
+    public Boolean getAttackerWon() {
+        return attackerWon;
+    }
+
     public DuelAction(long timeToFinishInSeconds, Player opponent) {
         super(timeToFinishInSeconds);
         this.opponent = opponent;
     }
+
+    public DuelAction() {}
 
     @Override
     public void takeEffect(Player player) {
@@ -39,7 +45,7 @@ public class DuelAction extends Action {
 
     @Override
     public boolean carryOutAndGetIfSuccessful(Player who) {
-        //todo: szofisztikáltabb harcrendszer?
+        //todo: szofisztikáltabb harcrendszer? legalább sebzés kéne bele tbh
         int diceRoll = Util.getRandomInteger(0, who.getStrength() + opponent.getStrength() + 1);
 
         attackerWon = diceRoll <= who.getStrength();

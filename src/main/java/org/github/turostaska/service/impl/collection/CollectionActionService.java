@@ -1,7 +1,10 @@
 package org.github.turostaska.service.impl.collection;
 
+import jdk.jshell.spi.ExecutionControl;
 import org.github.turostaska.dao.IActionDao;
 import org.github.turostaska.domain.Action;
+import org.github.turostaska.domain.AdventureAction;
+import org.github.turostaska.domain.MissionAction;
 import org.github.turostaska.domain.RestAction;
 import org.github.turostaska.service.IActionService;
 
@@ -35,13 +38,38 @@ public class CollectionActionService implements IActionService {
     }
 
     @Override
-    public <T extends Action> List<T> getByType(IActionDao.ActionType type) {
-        return dao.getByType(type);
+    public List<RestAction> getAllRestActions() {
+        try {
+            throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<AdventureAction> getAllAdventureActions() {
+        try {
+            throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<MissionAction> getAllMissionActions() {
+        try {
+            throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
     public RestAction getFreeRestAction() {
-        Stream<Action> restsStream = getByType(IActionDao.ActionType.REST).stream();
-        return (RestAction) restsStream.filter( a -> ((RestAction)a).getCost() == 0 ).findFirst().orElseThrow();
+        Stream<RestAction> restsStream = getAllRestActions().stream();
+        return restsStream.filter( a -> a.getCost() == 0 ).findFirst().orElseThrow();
     }
 }

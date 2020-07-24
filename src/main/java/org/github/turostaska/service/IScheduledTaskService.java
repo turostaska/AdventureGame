@@ -1,6 +1,7 @@
 package org.github.turostaska.service;
 
 import org.github.turostaska.domain.Action;
+import org.github.turostaska.domain.DuelAction;
 import org.github.turostaska.domain.Player;
 import org.github.turostaska.domain.ScheduledTask;
 
@@ -43,4 +44,5 @@ public interface IScheduledTaskService {
      * @param action The action to be scheduled
      */
     void tryToScheduleActionForPlayer(Player player, Action action);
+
 }

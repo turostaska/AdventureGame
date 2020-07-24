@@ -1,8 +1,11 @@
 package org.github.turostaska.repository;
 
 import org.github.turostaska.domain.*;
+import org.github.turostaska.service.ICharacterService;
 import org.github.turostaska.service.IScheduledTaskService;
 import org.github.turostaska.service.ITechniqueService;
+import org.github.turostaska.service.impl.repository.RepositoryCharacterService;
+import org.github.turostaska.service.impl.repository.RepositoryScheduledTaskService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -111,24 +115,37 @@ class RepositoryTest {
         assertEquals(player.get().getName(), "fáci");
     }
 
+    @Autowired private ICharacterService characterService;
+    @Autowired private IScheduledTaskService taskService;
+
     @Test
-    public void savingATaskShouldNotOverwriteAction() {
+    public void duelExecutesAndGetsDeletedAfterward() {
         User faci =   new User("fáci", "AmyGlassires99", "faci@lmente.hu");
         faci.createPlayer();
         User rolcsi = new User("rolcsi", "DamanciaTV7", "rolcsi@cringemail.hu");
         rolcsi.createPlayer();
         userRepository.save(faci);
         userRepository.save(rolcsi);
-        DuelAction duel = new DuelAction(10*Action.MINUTES, null);
 
-        actionRepository.save(duel);
+        DuelAction duel = new DuelAction(3*Action.SECONDS, rolcsi.getPlayer());
 
-        ScheduledTask scheduledTask = new ScheduledTask(duel, faci.getPlayer(), LocalDateTime.now().plusSeconds(duel.getTimeToFinishInSeconds()));
-        taskRepository.save(scheduledTask);
+        taskService.tryToScheduleActionForPlayer(faci.getPlayer(), duel);
 
-        assertEquals(actionRepository.findAllDuelActions().get(0).getOpponent(), null);
+        assertEquals(actionRepository.findAllDuelActions().get(0).getOpponent(), rolcsi.getPlayer());
         assertEquals(((DuelAction)(taskRepository.findAll().get(0).getAction())).getOpponent() , rolcsi.getPlayer());
         assertEquals(actionRepository.findAllDuelActions().size(), 1);
+        assertEquals(taskRepository.findAll().size(), 1);
+
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        assertTrue(playerRepository.findByName("rolcsi").get().getMoney() != Player.BASE_MONEY);
+        assertEquals(taskRepository.findAll().size(), 0);
+        assertEquals(actionRepository.findAllDuelActions().size(), 0);
+        assertEquals(actionRepository.findAll().size(), 0);
 
     }
 }

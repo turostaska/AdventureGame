@@ -1,9 +1,7 @@
 package org.github.turostaska.service.impl.collection;
 
 import org.github.turostaska.dao.IScheduledActionDao;
-import org.github.turostaska.domain.Action;
-import org.github.turostaska.domain.Player;
-import org.github.turostaska.domain.ScheduledTask;
+import org.github.turostaska.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.github.turostaska.service.ICharacterService;
 import org.github.turostaska.service.IScheduledTaskService;
@@ -53,26 +51,23 @@ public class CollectionScheduledTaskService implements IScheduledTaskService {
 
     @Override
     public void tryToScheduleActionForPlayer(Player player, Action action) {
-        if (player.getActionQueue().contains(action))
-            return;
-
         if (player.ableToTakeOnAction(action)) {
             long timeToFinishWithOtherActionsInSecs = player.getTimeToFinishAllTasksInSeconds();
             long timeToFinishWithThisTaskInSecs =
                     timeToFinishWithOtherActionsInSecs + action.getTimeToFinishInSeconds();
 
-            var scheduledAction = new ScheduledTask(
+            var scheduledTask = new ScheduledTask(
                                     action, player,
                                     LocalDateTime.now().plusSeconds(timeToFinishWithThisTaskInSecs)
                                   );
 
-            player.addToActionQueue(scheduledAction);
-            //todo: ez így működik?
+            player.addToActionQueue(scheduledTask);
+
             scheduler.schedule( () ->  {
-                    scheduledAction.trigger();
+                    scheduledTask.trigger();
                     characterService.addOrUpdate(player);
                 }, timeToFinishWithThisTaskInSecs, TimeUnit.SECONDS);
-            addOrUpdate(scheduledAction);
+            addOrUpdate(scheduledTask);
         }
     }
 }

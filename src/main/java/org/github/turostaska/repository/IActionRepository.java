@@ -14,7 +14,6 @@ public interface IActionRepository extends JpaRepository<Action, Long> {
     @Query("select a from Action a where TYPE(a) = MissionAction")
     List<MissionAction> findAllMissionActions();
 
-    //todo: idk ezt hogy kéne? prolly nem így, a legjobb az lenne ha a ScheduledTask saját actiont tárolna a saját táblájában
     @Query("select a from Action a where TYPE(a) = DuelAction")
     List<DuelAction> findAllDuelActions();
 

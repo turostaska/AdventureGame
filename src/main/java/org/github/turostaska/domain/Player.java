@@ -3,13 +3,14 @@ package org.github.turostaska.domain;
 import org.github.turostaska.service.ICharacterService;
 
 import javax.persistence.*;
+import javax.swing.text.html.Option;
 import java.util.*;
 
 @Entity
 public class Player extends Character {
     private int money;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ScheduledTask> actionQueue;
 
     @OneToOne//(mappedBy = "player")
@@ -128,5 +129,14 @@ public class Player extends Character {
 
     public void removeScheduledActionFromQueue(ScheduledTask scheduledTask) {
         actionQueue.remove(scheduledTask);
+    }
+
+    public Optional<ScheduledTask> popScheduledActionFromQueue() {
+        if (!actionQueue.isEmpty()) {
+            var first = Optional.of(actionQueue.get(0));
+            actionQueue.remove(0);
+            return first;
+        }
+        return Optional.empty();
     }
 }

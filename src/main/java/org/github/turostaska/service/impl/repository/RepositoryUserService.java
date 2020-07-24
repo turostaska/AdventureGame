@@ -32,8 +32,6 @@ public class RepositoryUserService implements IUserService {
     @Override
     public Optional<User> getByName(String name) {
         return repository.findByUserName(name);
-        //todo: idk ez jó-e így
-        //return org.github.turostaska.repository.findByUserName(name) == null ? Optional.empty() : Optional.of(org.github.turostaska.repository.findByUserName(name));
     }
 
     @Override

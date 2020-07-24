@@ -2,13 +2,16 @@ package org.github.turostaska.config;
 
 import org.github.turostaska.dao.*;
 import org.github.turostaska.dao.impl.list.*;
+import org.github.turostaska.service.impl.repository.RepositoryCharacterService;
+import org.github.turostaska.service.impl.repository.RepositoryScheduledTaskService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.github.turostaska.service.*;
 import org.github.turostaska.service.impl.collection.*;
+import org.springframework.context.annotation.Primary;
 
-@Configuration
-public class CollectionConfiguration {
+@org.springframework.context.annotation.Configuration
+public class ConfigurationClass {
     @Bean
     public IActionDao actionDao() {
         return new CollectionActionDao();
@@ -50,7 +53,7 @@ public class CollectionConfiguration {
     }
 
     @Bean
-    public ICharacterService characterService(INPCDao npcDao, IPlayerDao playerDao, IActionService actionService) {
+    public ICharacterService inMemoryCharacterService(INPCDao npcDao, IPlayerDao playerDao, IActionService actionService) {
         return new CollectionCharacterService(playerDao, npcDao);
     }
 
@@ -70,7 +73,19 @@ public class CollectionConfiguration {
     }
 
     @Bean
-    public IScheduledTaskService scheduledActionService(IScheduledActionDao scheduledActionDao) {
+    public IScheduledTaskService inMemoryScheduledActionService(IScheduledActionDao scheduledActionDao) {
         return new CollectionScheduledTaskService(scheduledActionDao);
+    }
+
+    @Bean
+    @Primary
+    public IScheduledTaskService scheduledTaskService() {
+        return new RepositoryScheduledTaskService();
+    }
+
+    @Bean
+    @Primary
+    public ICharacterService characterService() {
+        return new RepositoryCharacterService();
     }
 }

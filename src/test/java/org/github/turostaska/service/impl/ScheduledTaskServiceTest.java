@@ -118,4 +118,25 @@ class ScheduledTaskServiceTest {
         assertEquals(player.getKnownTechniques().size(), techniques.size());
     }
 
+    @Test
+    public void duelHasItsEffect() {
+        User otherUser = new User("Feri", "Cica123", "qwe@fgh.hu");
+        otherUser.createPlayer();
+        Player otherPlayer = otherUser.getPlayer();
+        DuelAction duel = new DuelAction(3*RestAction.SECONDS, otherPlayer);
+
+        service.tryToScheduleActionForPlayer(player, duel);
+
+        assertEquals(player.getActionQueue().size(), 1);
+
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        assertNotNull(duel.getAttackerWon());
+        assertTrue( player.getMoney() != Player.BASE_MONEY );
+    }
+
 }

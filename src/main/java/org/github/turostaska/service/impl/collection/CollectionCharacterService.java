@@ -140,12 +140,4 @@ public class CollectionCharacterService implements ICharacterService {
         takeDamage(who, who.getMaxHP());
     }
 
-    @Override
-    public void executeAction(Player who, Action action) {
-        if (action.carryOutAndGetIfSuccessful(who))
-            action.takeEffect(who);
-
-        who.update(this);
-    }
-
 }
