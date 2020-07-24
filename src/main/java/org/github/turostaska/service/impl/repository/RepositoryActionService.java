@@ -47,7 +47,7 @@ public class RepositoryActionService implements IActionService {
 
     @Override
     public RestAction getFreeRestAction() {
-        //todo: ezt talán felül kéne vizsgálni? jobb lenne egy általánosabb mód erre
+        //todo: erre szerintem nem lesz külön szükség
         Stream<RestAction> restsStream = getAllRestActions().stream();
         return restsStream.filter( a -> a.getCost() == 0 ).findFirst().orElseThrow();
     }

@@ -18,7 +18,7 @@ public class CollectionUserDao implements IUserDao {
     @Override
     public Optional<User> getById(Long ID) {
         for (User u : users) {
-            if (u.getID() == ID)
+            if (u.getId() == ID)
                 return Optional.of(u);
         }
         return Optional.empty();
@@ -45,7 +45,7 @@ public class CollectionUserDao implements IUserDao {
     @Override
     public void update(User user) {
         for (int i = 0; i < users.size(); ++i) {
-            if (users.get(i).getID() == user.getID()) {
+            if (users.get(i).getId() == user.getId()) {
                 users.set(i, user);
                 return;
             }

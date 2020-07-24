@@ -47,8 +47,7 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
     public void tryToScheduleActionForPlayer(Player player, Action action) {
         if (player.ableToTakeOnAction(action)) {
             long timeToFinishWithOtherActionsInSecs = player.getTimeToFinishAllTasksInSeconds();
-            long timeToFinishWithThisTaskInSecs =
-                    timeToFinishWithOtherActionsInSecs + action.getTimeToFinishInSeconds();
+            long timeToFinishWithThisTaskInSecs = timeToFinishWithOtherActionsInSecs + action.getTimeToFinishInSeconds();
 
             var scheduledTask = new ScheduledTask( action, player, LocalDateTime.now().plusSeconds(timeToFinishWithThisTaskInSecs));
 
@@ -56,12 +55,10 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
 
             scheduler.schedule( () ->  {
                 scheduledTask.trigger();
-                //player.removeScheduledActionFromQueue(scheduledTask);
-                Optional<ScheduledTask> first = player.popScheduledActionFromQueue();
+                player.popScheduledActionFromQueue();
                 characterService.addOrUpdate(player);
-                first.ifPresent(this::delete);
             }, timeToFinishWithThisTaskInSecs, TimeUnit.SECONDS);
-            //addOrUpdate(scheduledTask);
+
             characterService.addOrUpdate(player);
         }
     }

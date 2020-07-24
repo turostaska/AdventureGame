@@ -1,6 +1,8 @@
 package org.github.turostaska.service;
 
 import org.github.turostaska.domain.User;
+
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -61,4 +63,8 @@ public interface IUserService {
      * @return A code containing the result of the registration attempt
      */
     RegistrationResult tryToRegister(String name, String password, String email);
+
+    List<User> getAll();
+
+    void createPlayerForUser(User user);
 }

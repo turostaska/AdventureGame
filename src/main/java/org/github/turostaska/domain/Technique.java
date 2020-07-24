@@ -11,6 +11,8 @@ public class Technique extends Buyable {
         this.costToCast = costToCast;
     }
 
+    public Technique() { }
+
     public int getCostToCast() {
         return costToCast;
     }

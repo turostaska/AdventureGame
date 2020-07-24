@@ -8,6 +8,7 @@ import org.github.turostaska.service.IActionService;
 import org.github.turostaska.service.ICharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 
 public class RepositoryCharacterService implements ICharacterService {
@@ -118,6 +119,16 @@ public class RepositoryCharacterService implements ICharacterService {
     @Override
     public void heal(Character who, int amount) {
         who.heal(amount);
+    }
+
+    @Override
+    public List<Player> getAllPlayers() {
+        return playerRepository.findAll();
+    }
+
+    @Override
+    public List<NPC> getAllNPCs() {
+        return npcRepository.findAll();
     }
 
 }

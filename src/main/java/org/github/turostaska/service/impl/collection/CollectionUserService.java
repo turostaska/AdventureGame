@@ -1,10 +1,12 @@
 package org.github.turostaska.service.impl.collection;
 
+import jdk.jshell.spi.ExecutionControl;
 import org.github.turostaska.dao.IUserDao;
 import org.github.turostaska.domain.User;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.github.turostaska.service.IUserService;
 
+import java.util.List;
 import java.util.Optional;
 
 public class CollectionUserService implements IUserService {
@@ -16,7 +18,7 @@ public class CollectionUserService implements IUserService {
 
     @Override
     public void addOrUpdate(User user) {
-        if (dao.getById(user.getID()).isEmpty())
+        if (dao.getById(user.getId()).isEmpty())
             dao.create(user);
         else
             dao.update(user);
@@ -72,6 +74,25 @@ public class CollectionUserService implements IUserService {
 
         register(name, password, email);
         return RegistrationResult.SUCCESS;
+    }
+
+    @Override
+    public List<User> getAll() {
+        try {
+            throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void createPlayerForUser(User user) {
+        try {
+            throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void register(String name, String password, String email) {

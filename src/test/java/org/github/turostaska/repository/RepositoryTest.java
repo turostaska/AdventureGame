@@ -4,6 +4,7 @@ import org.github.turostaska.domain.*;
 import org.github.turostaska.service.ICharacterService;
 import org.github.turostaska.service.IScheduledTaskService;
 import org.github.turostaska.service.ITechniqueService;
+import org.github.turostaska.service.IToolService;
 import org.github.turostaska.service.impl.repository.RepositoryCharacterService;
 import org.github.turostaska.service.impl.repository.RepositoryScheduledTaskService;
 import org.junit.jupiter.api.Test;
@@ -117,6 +118,7 @@ class RepositoryTest {
 
     @Autowired private ICharacterService characterService;
     @Autowired private IScheduledTaskService taskService;
+    @Autowired private IToolService toolService;
 
     @Test
     public void duelExecutesAndGetsDeletedAfterward() {
@@ -146,6 +148,27 @@ class RepositoryTest {
         assertEquals(taskRepository.findAll().size(), 0);
         assertEquals(actionRepository.findAllDuelActions().size(), 0);
         assertEquals(actionRepository.findAll().size(), 0);
+
+    }
+
+    @Test
+    public void buyingWeapons() {
+        User faci =   new User("fáci", "AmyGlassires99", "faci@lmente.hu");
+        faci.createPlayer();
+        userRepository.save(faci);
+
+        UsableTool tool = new UsableTool("dobócsillag", 5, 0, 200, 20);
+
+        toolService.addOrUpdate(tool);
+
+        characterService.tryToBuyTool(faci.getPlayer(), tool);
+        characterService.tryToBuyTool(faci.getPlayer(), tool);
+        characterService.tryToBuyTool(faci.getPlayer(), tool);
+
+        Player found = playerRepository.findByName("fáci").get();
+
+        assertEquals(found.getTools().get(tool), 2);
+
 
     }
 }

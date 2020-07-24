@@ -1,5 +1,6 @@
 package org.github.turostaska.service.impl.collection;
 
+import jdk.jshell.spi.ExecutionControl;
 import org.github.turostaska.dao.INPCDao;
 import org.github.turostaska.dao.IPlayerDao;
 import org.github.turostaska.domain.*;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.github.turostaska.service.IActionService;
 import org.github.turostaska.service.ICharacterService;
 
+import java.util.List;
 import java.util.Optional;
 
 public class CollectionCharacterService implements ICharacterService {
@@ -134,6 +136,26 @@ public class CollectionCharacterService implements ICharacterService {
     @Override
     public void heal(Character who, int amount) {
         who.heal(amount);
+    }
+
+    @Override
+    public List<Player> getAllPlayers() {
+        try {
+            throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<NPC> getAllNPCs() {
+        try {
+            throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private void kill(Player who) {

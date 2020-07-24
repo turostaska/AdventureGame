@@ -7,3 +7,9 @@ spring:
     url: jdbc:h2:file:./data
     username: admin
     password: admin
+
+logging:
+  file: log.log
+#  jpa:
+#    hibernate:
+#      ddl-auto: update

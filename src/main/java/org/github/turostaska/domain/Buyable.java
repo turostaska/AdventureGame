@@ -8,6 +8,8 @@ import javax.persistence.Id;
 public abstract class Buyable {
     protected String name;
 
+    public Buyable() {}
+
     @Id
     @GeneratedValue
     protected Long ID;

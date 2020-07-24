@@ -4,6 +4,8 @@ import org.github.turostaska.dao.*;
 import org.github.turostaska.dao.impl.list.*;
 import org.github.turostaska.service.impl.repository.RepositoryCharacterService;
 import org.github.turostaska.service.impl.repository.RepositoryScheduledTaskService;
+import org.github.turostaska.service.impl.repository.RepositoryToolService;
+import org.github.turostaska.service.impl.repository.RepositoryUserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.github.turostaska.service.*;
@@ -63,12 +65,12 @@ public class ConfigurationClass {
     }
 
     @Bean
-    public IToolService toolService(IToolDao toolDao) {
+    public IToolService inMemoryToolService(IToolDao toolDao) {
         return new CollectionToolService(toolDao);
     }
 
     @Bean
-    public IUserService userService(IUserDao userDao) {
+    public IUserService inMemoryUserService(IUserDao userDao) {
         return new CollectionUserService(userDao);
     }
 
@@ -88,4 +90,12 @@ public class ConfigurationClass {
     public ICharacterService characterService() {
         return new RepositoryCharacterService();
     }
+
+    @Bean
+    @Primary
+    public IToolService toolService() { return new RepositoryToolService(); }
+
+    @Bean
+    @Primary
+    public IUserService userService() { return new RepositoryUserService(); }
 }

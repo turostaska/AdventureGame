@@ -3,6 +3,8 @@ package org.github.turostaska.service;
 import org.github.turostaska.domain.*;
 
 import org.github.turostaska.domain.Character;
+
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -117,5 +119,17 @@ public interface ICharacterService {
      * @param amount The amount of hit points to heal
      */
     void heal(Character who, int amount);
+
+    /**
+     * Returns a list of all players
+     * @return A list of all players
+     */
+    List<Player> getAllPlayers();
+
+    /**
+     * Returns a list of all NPCs
+     * @return A list of all NPCs
+     */
+    List<NPC> getAllNPCs();
 
 }

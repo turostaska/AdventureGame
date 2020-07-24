@@ -4,19 +4,20 @@ import org.github.turostaska.domain.User;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.github.turostaska.repository.IUserRepository;
 import org.github.turostaska.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 
 public class RepositoryUserService implements IUserService {
+    @Autowired
     private IUserRepository repository;
 
-    public RepositoryUserService(IUserRepository repository) {
-        this.repository = repository;
-    }
+    public RepositoryUserService() {}
 
     @Override
     public void addOrUpdate(User user) {
-        repository.findById(user.getID());
+        repository.save(user);
     }
 
     @Override
@@ -69,6 +70,17 @@ public class RepositoryUserService implements IUserService {
 
         register(name, password, email);
         return RegistrationResult.SUCCESS;
+    }
+
+    @Override
+    public List<User> getAll() {
+        return repository.findAll();
+    }
+
+    @Override
+    public void createPlayerForUser(User user) {
+        user.createPlayer();
+        addOrUpdate(user);
     }
 
     private void register(String name, String password, String email) {

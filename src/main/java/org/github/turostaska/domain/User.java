@@ -1,5 +1,8 @@
 package org.github.turostaska.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 
@@ -11,10 +14,10 @@ public class User {
 
     @Id
     @GeneratedValue
-    private Long ID;
+    private Long id;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-    //@JoinColumn(name = "playerId", referencedColumnName = "ID")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Player player;
 
     public User(String userName, String password, String email) {
@@ -22,6 +25,8 @@ public class User {
         this.password = password;
         this.email = email;
     }
+
+    public User() {}
 
     public void createPlayer() {
         if (player != null)
@@ -34,19 +39,39 @@ public class User {
         return userName;
     }
 
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getEmail() {
         return email;
     }
 
-    public Long getID() {
-        return ID;
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Player getPlayer() {
         return player;
     }
 
-    public String getPassword() {
-        return password;
+    public void setPlayer(Player player) {
+        this.player = player;
     }
 }
