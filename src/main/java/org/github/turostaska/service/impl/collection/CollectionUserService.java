@@ -30,6 +30,11 @@ public class CollectionUserService implements IUserService {
     }
 
     @Override
+    public void deleteById(Long id) {
+        getById(id).ifPresent(this::delete);
+    }
+
+    @Override
     public Optional<User> getById(Long ID) {
         return dao.getById(ID);
     }

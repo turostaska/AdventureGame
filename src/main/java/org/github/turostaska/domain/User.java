@@ -1,6 +1,7 @@
 package org.github.turostaska.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -9,7 +10,7 @@ import javax.persistence.*;
 @Entity
 public class User {
     private String userName;
-    private String password;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) private String password;
     private String email;
 
     @Id
@@ -17,7 +18,7 @@ public class User {
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
-    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @JsonManagedReference
     private Player player;
 
     public User(String userName, String password, String email) {

@@ -132,4 +132,5 @@ public interface ICharacterService {
      */
     List<NPC> getAllNPCs();
 
+    void deletePlayerById(Long id);
 }

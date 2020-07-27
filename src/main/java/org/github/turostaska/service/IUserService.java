@@ -21,6 +21,8 @@ public interface IUserService {
      */
     void delete(User user);
 
+    void deleteById(Long id);
+
     /**
      * Returns the user with the desired ID if it exists in the data structure, otherwise returns an empty object
      * @param ID The desired user's ID

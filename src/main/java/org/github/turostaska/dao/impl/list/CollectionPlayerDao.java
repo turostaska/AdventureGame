@@ -18,7 +18,7 @@ public class CollectionPlayerDao implements IPlayerDao {
     @Override
     public Optional<Player> getById(Long ID) {
         for (Player p : players) {
-            if (p.getID() == ID)
+            if (p.getId() == ID)
                 return Optional.of(p);
         }
         return Optional.empty();

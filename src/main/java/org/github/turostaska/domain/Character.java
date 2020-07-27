@@ -1,15 +1,15 @@
 package org.github.turostaska.domain;
 
+import com.fasterxml.jackson.annotation.*;
 import org.github.turostaska.Util;
 import org.github.turostaska.service.ICharacterService;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Entity
+@JsonPropertyOrder(value = { "ID", "inventoryKeys", "inventoryValues" }, alphabetic = true)
 public abstract class Character {
     protected String name;
 
@@ -28,6 +28,7 @@ public abstract class Character {
     @ElementCollection
     @CollectionTable(name="inventory")
     @MapKeyColumn(name="tool")
+    @JsonIgnore
     protected Map<Tool, Integer> tools = new HashMap<>();
 
     protected int strength;
@@ -43,8 +44,7 @@ public abstract class Character {
         this.strength = strength;
     }
 
-    protected Character() {
-    }
+    protected Character() {}
 
     public int getCurrentMana() {
         return currentMana;
@@ -66,7 +66,7 @@ public abstract class Character {
         return name;
     }
 
-    public Long getID() {
+    public Long getId() {
         return ID;
     }
 
@@ -118,6 +118,7 @@ public abstract class Character {
         loseMana(-amount);
     }
 
+    @JsonIgnore
     public boolean isAlive() {
         return currentHP > 0;
     }
@@ -141,7 +142,42 @@ public abstract class Character {
         return tools.containsKey(tool);
     }
 
-    public void setID(Long ID) {
+    public void setId(Long ID) {
         this.ID = ID;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setKnownTechniques(List<Technique> knownTechniques) {
+        this.knownTechniques = knownTechniques;
+    }
+
+    public void setTools(Map<Tool, Integer> tools) {
+        this.tools = tools;
+    }
+
+    @JsonProperty("inventoryKeys")
+    public Set<Tool> getInventoryKeys() {
+        return tools.keySet();
+    }
+
+    @JsonProperty("inventoryKeys")
+    public void setInventoryKeys(Set<Tool> keys) {
+        tools.clear();
+        keys.forEach(tool -> tools.put(tool, 0));
+    }
+
+    @JsonProperty("inventoryValues")
+    public Collection<Integer> getInventoryValues() {
+        return tools.values();
+    }
+
+    @JsonProperty("inventoryValues")
+    public void setInventoryValues(Collection<Integer> values) {
+        var arrayOfValues = new ArrayList<>(values);
+        AtomicInteger i = new AtomicInteger();
+        tools.keySet().forEach(key -> tools.replace(key, arrayOfValues.get(i.getAndIncrement())));
     }
 }

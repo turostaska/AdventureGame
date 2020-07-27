@@ -131,4 +131,9 @@ public class RepositoryCharacterService implements ICharacterService {
         return npcRepository.findAll();
     }
 
+    @Override
+    public void deletePlayerById(Long id) {
+        playerRepository.deleteById(id);
+    }
+
 }

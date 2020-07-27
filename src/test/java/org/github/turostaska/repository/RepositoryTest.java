@@ -3,21 +3,16 @@ package org.github.turostaska.repository;
 import org.github.turostaska.domain.*;
 import org.github.turostaska.service.ICharacterService;
 import org.github.turostaska.service.IScheduledTaskService;
-import org.github.turostaska.service.ITechniqueService;
 import org.github.turostaska.service.IToolService;
-import org.github.turostaska.service.impl.repository.RepositoryCharacterService;
-import org.github.turostaska.service.impl.repository.RepositoryScheduledTaskService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Example;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
@@ -59,7 +54,7 @@ class RepositoryTest {
     public void registerNewPlayer() {
         User faci = new User("fáci", "AmyGlassires99", "faci@lmente.hu");
         Player player = new Player(faci);
-        player.setID(null);
+        player.setId(null);
 
         em.persist(faci);
         em.flush();

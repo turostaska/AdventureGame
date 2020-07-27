@@ -1,5 +1,7 @@
 package org.github.turostaska.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import javax.persistence.Entity;
 
 @Entity

@@ -1,5 +1,9 @@
 package org.github.turostaska.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.github.turostaska.service.ICharacterService;
 
 import javax.persistence.*;
@@ -11,9 +15,11 @@ public class Player extends Character {
     private int money;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ScheduledTask> actionQueue;
+    @JsonManagedReference
+    private List<ScheduledTask> actionQueue = new ArrayList<>();
 
-    @OneToOne//(mappedBy = "player")
+    @OneToOne
+    @JsonBackReference
     private User user;
 
     public Player(User user) {
@@ -65,7 +71,7 @@ public class Player extends Character {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
-        return this.ID == player.ID;
+        return this.ID.equals(player.ID);
     }
 
     public boolean tryToBuyTool(Tool tool) {
@@ -115,6 +121,7 @@ public class Player extends Character {
         actionQueue.add(scheduledTask);
     }
 
+    @JsonIgnore
     public long getTimeToFinishAllTasksInSeconds() {
         long totalTime = 0;
         for (ScheduledTask a : actionQueue) {

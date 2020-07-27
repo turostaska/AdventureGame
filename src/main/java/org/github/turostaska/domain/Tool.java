@@ -1,8 +1,17 @@
 package org.github.turostaska.domain;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
 import javax.persistence.Entity;
 
 @Entity
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "typ")
+@JsonPropertyOrder(value = { "ID" })
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = UsableTool.class, name = "UT"),
+        @JsonSubTypes.Type(value = NonUsableTool.class, name = "NUT")})
 public abstract class Tool extends Buyable {
     private int maxQuantity;
 

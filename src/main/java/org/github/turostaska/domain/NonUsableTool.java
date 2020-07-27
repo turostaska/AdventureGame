@@ -1,5 +1,7 @@
 package org.github.turostaska.domain;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import javax.persistence.Entity;
 
 @Entity
@@ -11,4 +13,5 @@ public class NonUsableTool extends Tool {
     @Override
     public void useUp(Character usedBy) {}
 
+    public NonUsableTool() {}
 }

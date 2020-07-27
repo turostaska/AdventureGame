@@ -26,6 +26,10 @@ public abstract class Buyable {
         return ID;
     }
 
+    public void setID(Long ID) {
+        this.ID = ID;
+    }
+
     public int getDamage() {
         return damage;
     }

@@ -1,19 +1,34 @@
 package org.github.turostaska.config;
 
+import org.github.turostaska.controller.assembler.NpcModelAssembler;
+import org.github.turostaska.controller.assembler.PlayerModelAssembler;
+import org.github.turostaska.controller.assembler.UserModelAssembler;
 import org.github.turostaska.dao.*;
 import org.github.turostaska.dao.impl.list.*;
+import org.github.turostaska.domain.*;
 import org.github.turostaska.service.impl.repository.RepositoryCharacterService;
 import org.github.turostaska.service.impl.repository.RepositoryScheduledTaskService;
 import org.github.turostaska.service.impl.repository.RepositoryToolService;
 import org.github.turostaska.service.impl.repository.RepositoryUserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.github.turostaska.service.*;
 import org.github.turostaska.service.impl.collection.*;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
+import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
+
+import javax.persistence.EntityManager;
+import javax.persistence.metamodel.Type;
+import java.util.List;
 
 @org.springframework.context.annotation.Configuration
 public class ConfigurationClass {
+    private static final Logger log = LoggerFactory.getLogger(ConfigurationClass.class);
+
     @Bean
     public IActionDao actionDao() {
         return new CollectionActionDao();
@@ -98,4 +113,34 @@ public class ConfigurationClass {
     @Bean
     @Primary
     public IUserService userService() { return new RepositoryUserService(); }
+
+    @Bean
+    CommandLineRunner initUserDatabase(IUserService userService) {
+        return args -> {
+            log.info("Preloading...");
+
+            List<User> users = List.of(
+                    new User("fáci", "AmyGlassires99", "faci@lmente.hu"),
+                    new User("rolcsi", "DamanciaTV7", "rolcsi@cringemail.hu")
+                );
+            users.forEach(userService::createPlayerForUser);
+            users.forEach(userService::addOrUpdate);
+
+            var tool = new UsableTool("dobócsillag", 5, 0, 400, 20);
+
+            toolService().addOrUpdate(tool);
+
+            characterService().tryToBuyTool(users.get(0).getPlayer(), tool);
+            users.forEach(userService::addOrUpdate);
+
+
+            log.info("Preloading finished.");
+        };
+    }
+
+    @Bean UserModelAssembler userModelAssembler() { return new UserModelAssembler(); }
+
+    @Bean PlayerModelAssembler characterModelAssembler() { return new PlayerModelAssembler(); }
+
+    @Bean NpcModelAssembler npcModelAssembler() { return new NpcModelAssembler(); }
 }

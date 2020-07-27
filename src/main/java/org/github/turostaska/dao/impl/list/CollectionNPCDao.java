@@ -18,7 +18,7 @@ public class CollectionNPCDao implements INPCDao {
     @Override
     public Optional<NPC> getById(Long ID) {
         for (NPC npc : NPCs) {
-            if (npc.getID() == ID)
+            if (npc.getId() == ID)
                 return Optional.of(npc);
         }
         return Optional.empty();

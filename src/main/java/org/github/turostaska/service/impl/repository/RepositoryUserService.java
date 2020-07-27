@@ -26,6 +26,11 @@ public class RepositoryUserService implements IUserService {
     }
 
     @Override
+    public void deleteById(Long id) {
+        repository.deleteById(id);
+    }
+
+    @Override
     public Optional<User> getById(Long ID) {
         return repository.findById(ID);
     }

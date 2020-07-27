@@ -1,5 +1,7 @@
 package org.github.turostaska.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.github.turostaska.service.ICharacterService;
 import org.springframework.context.annotation.Bean;
 
@@ -18,6 +20,7 @@ public class ScheduledTask {
     private Action action;
 
     @OneToOne
+    @JsonBackReference
     protected Player player;
 
     public Action getAction() {

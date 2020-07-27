@@ -30,7 +30,7 @@ public class CollectionCharacterService implements ICharacterService {
 
     @Override
     public void addOrUpdate(Player player) {
-        if (playerDao.getById(player.getID()).isEmpty())
+        if (playerDao.getById(player.getId()).isEmpty())
             playerDao.create(player);
         else
             playerDao.update(player);
@@ -65,7 +65,7 @@ public class CollectionCharacterService implements ICharacterService {
 
     @Override
     public void addOrUpdate(NPC npc) {
-        if (npcDao.getById(npc.getID()).isEmpty())
+        if (npcDao.getById(npc.getId()).isEmpty())
             npcDao.create(npc);
         else
             npcDao.update(npc);
@@ -156,6 +156,11 @@ public class CollectionCharacterService implements ICharacterService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public void deletePlayerById(Long id) {
+        playerDao.getById(id).ifPresent(playerDao::delete);
     }
 
     private void kill(Player who) {
