@@ -1,5 +1,6 @@
 package org.github.turostaska.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,7 +16,7 @@ public abstract class Buyable {
 
     @Id @GeneratedValue
     @Getter @Setter
-    protected Long ID;
+    protected Long id;
 
     @Getter @Setter protected int damage;
     @Getter @Setter protected int healingAmount;
@@ -28,6 +29,7 @@ public abstract class Buyable {
         this.costToBuy = costToBuy;
     }
 
+    @JsonIgnore
     public int getStrengthIncrease() {
         return costToBuy / 100;
     }

@@ -1,15 +1,10 @@
 package org.github.turostaska.config;
 
-import org.github.turostaska.controller.assembler.NpcModelAssembler;
-import org.github.turostaska.controller.assembler.PlayerModelAssembler;
-import org.github.turostaska.controller.assembler.UserModelAssembler;
+import org.github.turostaska.controller.assembler.*;
 import org.github.turostaska.dao.*;
 import org.github.turostaska.dao.impl.list.*;
 import org.github.turostaska.domain.*;
-import org.github.turostaska.service.impl.repository.RepositoryCharacterService;
-import org.github.turostaska.service.impl.repository.RepositoryScheduledTaskService;
-import org.github.turostaska.service.impl.repository.RepositoryToolService;
-import org.github.turostaska.service.impl.repository.RepositoryUserService;
+import org.github.turostaska.service.impl.repository.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -70,7 +65,7 @@ public class ConfigurationClass {
     }
 
     @Bean
-    public ITechniqueService techniqueService(ITechniqueDao techniqueDao) {
+    public ITechniqueService inMemoryTechniqueService(ITechniqueDao techniqueDao) {
         return new CollectionTechniqueService(techniqueDao);
     }
 
@@ -110,6 +105,12 @@ public class ConfigurationClass {
     public IUserService userService() { return new RepositoryUserService(); }
 
     @Bean
+    @Primary
+    public ITechniqueService techniqueService() {
+        return new RepositoryTechniqueService();
+    }
+
+    @Bean
     CommandLineRunner initUserDatabase(IUserService userService) {
         return args -> {
             log.info("Preloading...");
@@ -119,15 +120,20 @@ public class ConfigurationClass {
                     new User("rolcsi", "DamanciaTV7", "rolcsi@cringemail.hu")
                 );
             users.forEach(userService::createPlayerForUser);
-            users.forEach(userService::addOrUpdate);
 
-            var tool = new UsableTool("dobócsillag", 5, 0, 400, 20);
+            UsableTool tool1 = new UsableTool("dobócsillag", 5, 0, 10, 20);
+            NonUsableTool tool2 = new NonUsableTool("kard", 10, 0, 300, 2);
+            UsableTool tool3 = new UsableTool("kötszer idk", 0, 20, 20, 20);
 
-            toolService().addOrUpdate(tool);
+            toolService().addOrUpdate(tool1);
+            toolService().addOrUpdate(tool2);
+            toolService().addOrUpdate(tool3);
 
-            characterService().tryToBuyTool(users.get(0).getPlayer(), tool);
-            users.forEach(userService::addOrUpdate);
-
+            List<Technique> techniques = List.of(
+                    new Technique("tűzgolyó", 100, 0, 2000, 40),
+                    new Technique("nagy tűzgolyó", 200, 0, 500, 90)
+            );
+            techniques.forEach(techniqueService()::addOrUpdate);
 
             log.info("Preloading finished.");
         };
@@ -138,4 +144,8 @@ public class ConfigurationClass {
     @Bean PlayerModelAssembler characterModelAssembler() { return new PlayerModelAssembler(); }
 
     @Bean NpcModelAssembler npcModelAssembler() { return new NpcModelAssembler(); }
+
+    @Bean ToolModelAssembler toolModelAssembler() { return new ToolModelAssembler(); }
+
+    @Bean TechniqueModelAssembler techniqueModelAssembler() { return new TechniqueModelAssembler(); }
 }

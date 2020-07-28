@@ -4,6 +4,7 @@ import org.github.turostaska.dao.ITechniqueDao;
 import org.github.turostaska.domain.Technique;
 import org.github.turostaska.service.ITechniqueService;
 
+import java.util.List;
 import java.util.Optional;
 
 public class CollectionTechniqueService implements ITechniqueService {
@@ -15,7 +16,7 @@ public class CollectionTechniqueService implements ITechniqueService {
 
     @Override
     public void addOrUpdate(Technique technique) {
-        if (dao.getById(technique.getID()).isEmpty())
+        if (dao.getById(technique.getId()).isEmpty())
             dao.create(technique);
         else
             dao.update(technique);
@@ -34,5 +35,15 @@ public class CollectionTechniqueService implements ITechniqueService {
     @Override
     public Optional<Technique> getByName(String name) {
         return dao.getByName(name);
+    }
+
+    @Override
+    public List<Technique> getAll() {
+        return dao.getAll();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        dao.getById(id).ifPresent(dao::delete);
     }
 }

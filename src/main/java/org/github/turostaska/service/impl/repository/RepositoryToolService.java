@@ -7,6 +7,7 @@ import org.github.turostaska.repository.IUsableToolRepository;
 import org.github.turostaska.service.IToolService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 
 public class RepositoryToolService implements IToolService {
@@ -51,5 +52,25 @@ public class RepositoryToolService implements IToolService {
     @Override
     public Optional<NonUsableTool> getNonUsableToolByName(String name) {
         return nonUsableToolRepository.findByName(name);
+    }
+
+    @Override
+    public List<UsableTool> getAllUsableTools() {
+        return usableToolRepository.findAll();
+    }
+
+    @Override
+    public List<NonUsableTool> getAllNonUsableTools() {
+        return nonUsableToolRepository.findAll();
+    }
+
+    @Override
+    public void deleteUsableToolById(Long id) {
+        usableToolRepository.deleteById(id);
+    }
+
+    @Override
+    public void deleteNonUsableToolById(Long id) {
+        nonUsableToolRepository.deleteById(id);
     }
 }

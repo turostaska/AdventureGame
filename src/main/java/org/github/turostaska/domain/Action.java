@@ -14,7 +14,7 @@ public abstract class Action {
 
     @Id @GeneratedValue
     @Getter @Setter
-    protected Long ID;
+    protected Long id;
 
     public static final long SECONDS = 1;
     public static final long MINUTES = 60 * SECONDS;

@@ -5,6 +5,7 @@ import org.github.turostaska.repository.ITechniqueRepository;
 import org.github.turostaska.service.ITechniqueService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
 import java.util.Optional;
 
 public class RepositoryTechniqueService implements ITechniqueService {
@@ -28,5 +29,15 @@ public class RepositoryTechniqueService implements ITechniqueService {
     @Override
     public Optional<Technique> getByName(String name) {
         return techniqueRepository.findByName(name);
+    }
+
+    @Override
+    public List<Technique> getAll() {
+        return techniqueRepository.findAll();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        techniqueRepository.deleteById(id);
     }
 }

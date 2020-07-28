@@ -43,6 +43,7 @@ public class UserController {
 
     @PostMapping("/users")
     ResponseEntity<?> add(@RequestBody User newUser) {
+        newUser.setId(null);
         userService.addOrUpdate(newUser);
         User user = userService.getByName(newUser.getUserName())
                 .orElseThrow(() -> new IllegalArgumentException("Couldn't add user " + newUser.getUserName() + "."));

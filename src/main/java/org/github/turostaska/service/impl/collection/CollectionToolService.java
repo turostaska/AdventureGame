@@ -1,10 +1,12 @@
 package org.github.turostaska.service.impl.collection;
 
+import jdk.jshell.spi.ExecutionControl;
 import org.github.turostaska.dao.IToolDao;
 import org.github.turostaska.domain.NonUsableTool;
 import org.github.turostaska.domain.UsableTool;
 import org.github.turostaska.service.IToolService;
 
+import java.util.List;
 import java.util.Optional;
 
 public class CollectionToolService implements IToolService {
@@ -16,7 +18,7 @@ public class CollectionToolService implements IToolService {
 
     @Override
     public void addOrUpdate(UsableTool tool) {
-        if (dao.getById(tool.getID()).isEmpty())
+        if (dao.getById(tool.getId()).isEmpty())
             dao.create(tool);
         else
             dao.update(tool);
@@ -24,7 +26,7 @@ public class CollectionToolService implements IToolService {
 
     @Override
     public void addOrUpdate(NonUsableTool tool) {
-        if (dao.getById(tool.getID()).isEmpty())
+        if (dao.getById(tool.getId()).isEmpty())
             dao.create(tool);
         else
             dao.update(tool);
@@ -70,6 +72,44 @@ public class CollectionToolService implements IToolService {
             return Optional.of((NonUsableTool) dao.getByName(name).get());
 
         return Optional.empty();
+    }
+
+    @Override
+    public List<UsableTool> getAllUsableTools() {
+        try {
+            throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<NonUsableTool> getAllNonUsableTools() {
+        try {
+            throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public void deleteUsableToolById(Long id) {
+        try {
+            throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteNonUsableToolById(Long id) {
+        try {
+            throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
     }
 
 }

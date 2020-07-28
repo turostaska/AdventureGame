@@ -4,6 +4,7 @@ import org.github.turostaska.domain.NonUsableTool;
 import org.github.turostaska.domain.Tool;
 import org.github.turostaska.domain.UsableTool;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface IToolService {
@@ -58,4 +59,13 @@ public interface IToolService {
      * @return The tool with the given name if it exists, otherwise an empty object
      */
     Optional<NonUsableTool> getNonUsableToolByName(String name);
+
+    List<UsableTool> getAllUsableTools();
+
+    List<NonUsableTool> getAllNonUsableTools();
+
+    void deleteUsableToolById(Long id);
+
+    void deleteNonUsableToolById(Long id);
+
 }

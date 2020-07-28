@@ -56,7 +56,7 @@ public class CollectionToolDao implements IToolDao {
     @Override
     public Optional<Tool> getById(Long ID) {
         for (Tool t : tools) {
-            if (t.getID() == ID)
+            if (t.getId() == ID)
                 return Optional.of(t);
         }
         return Optional.empty();
@@ -74,7 +74,7 @@ public class CollectionToolDao implements IToolDao {
     @Override
     public void update(Tool tool) {
         for (int i = 0; i < tools.size(); ++i) {
-            if (tools.get(i).getID() == tool.getID()) {
+            if (tools.get(i).getId() == tool.getId()) {
                 tools.set(i, tool);
                 return;
             }

@@ -16,7 +16,7 @@ public class CollectionTechniqueDao implements ITechniqueDao {
     @Override
     public Optional<Technique> getById(Long ID) {
         for (Technique t : techniques) {
-            if (t.getID() == ID)
+            if (t.getId() == ID)
                 return Optional.of(t);
         }
         return Optional.empty();
@@ -34,7 +34,7 @@ public class CollectionTechniqueDao implements ITechniqueDao {
     @Override
     public void update(Technique technique) {
         for (int i = 0; i < techniques.size(); ++i) {
-            if (techniques.get(i).getID() == technique.getID()) {
+            if (techniques.get(i).getId() == technique.getId()) {
                 techniques.set(i, technique);
                 return;
             }

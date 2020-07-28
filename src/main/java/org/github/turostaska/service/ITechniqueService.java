@@ -1,6 +1,8 @@
 package org.github.turostaska.service;
 
 import org.github.turostaska.domain.Technique;
+
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -32,4 +34,8 @@ public interface ITechniqueService {
      * @return The technique with the given name if it exists, otherwise an empty object
      */
     Optional<Technique> getByName(String name);
+
+    List<Technique> getAll();
+
+    void deleteById(Long id);
 }

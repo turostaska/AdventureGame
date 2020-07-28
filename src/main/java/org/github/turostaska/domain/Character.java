@@ -78,26 +78,14 @@ public abstract class Character {
         return tools.containsKey(tool);
     }
 
-    @JsonProperty("inventoryKeys")
-    public Set<Tool> getInventoryKeys() {
-        return tools.keySet();
+    @JsonProperty(value = "inventoryKeys", access = JsonProperty.Access.READ_ONLY)
+    public ArrayList<Tool> getInventoryKeys() {
+        return new ArrayList<>(tools.keySet());
     }
 
-    @JsonProperty("inventoryKeys")
-    public void setInventoryKeys(Set<Tool> keys) {
-        tools.clear();
-        keys.forEach(tool -> tools.put(tool, 0));
-    }
-
-    @JsonProperty("inventoryValues")
-    public Collection<Integer> getInventoryValues() {
-        return tools.values();
-    }
-
-    @JsonProperty("inventoryValues")
-    public void setInventoryValues(Collection<Integer> values) {
-        var arrayOfValues = new ArrayList<>(values);
-        AtomicInteger i = new AtomicInteger();
-        tools.keySet().forEach(key -> tools.replace(key, arrayOfValues.get(i.getAndIncrement())));
+    @JsonProperty(value = "inventoryValues", access = JsonProperty.Access.READ_ONLY)
+    @JsonPropertyOrder()
+    public ArrayList<Integer> getInventoryValues() {
+        return new ArrayList<>(tools.values());
     }
 }

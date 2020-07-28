@@ -21,7 +21,7 @@ public class CollectionActionService implements IActionService {
 
     @Override
     public void addOrUpdate(Action action) {
-        if (dao.getById(action.getID()).isEmpty())
+        if (dao.getById(action.getId()).isEmpty())
             dao.create(action);
         else
             dao.update(action);
