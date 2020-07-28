@@ -1,17 +1,22 @@
 package org.github.turostaska.domain;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
+@NoArgsConstructor
 @DiscriminatorValue("REST")
 public class RestAction extends Action {
+    @Getter @Setter private int cost;
+
     public RestAction(long timeToFinishInSeconds, int cost) {
         super(timeToFinishInSeconds);
         this.cost = cost;
     }
-
-    private int cost;
 
     @Override
     public void takeEffect(Player player) {
@@ -22,10 +27,6 @@ public class RestAction extends Action {
     @Override
     public boolean carryOutAndGetIfSuccessful(Player who) {
         return true;
-    }
-
-    public int getCost() {
-        return cost;
     }
 
     @Override

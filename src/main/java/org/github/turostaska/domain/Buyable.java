@@ -1,46 +1,25 @@
 package org.github.turostaska.domain;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+@NoArgsConstructor
 @Entity
 public abstract class Buyable {
-    protected String name;
+    @Getter @Setter protected String name;
 
-    public Buyable() {}
-
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
+    @Getter @Setter
     protected Long ID;
 
-    protected int damage;
-    protected int healingAmount;
-    protected int costToBuy;
-
-    public String getName() {
-        return name;
-    }
-
-    public Long getID() {
-        return ID;
-    }
-
-    public void setID(Long ID) {
-        this.ID = ID;
-    }
-
-    public int getDamage() {
-        return damage;
-    }
-
-    public int getHealingAmount() {
-        return healingAmount;
-    }
-
-    public int getCostToBuy() {
-        return costToBuy;
-    }
+    @Getter @Setter protected int damage;
+    @Getter @Setter protected int healingAmount;
+    @Getter @Setter protected int costToBuy;
 
     public Buyable(String name, int damage, int heal, int costToBuy) {
         this.name = name;

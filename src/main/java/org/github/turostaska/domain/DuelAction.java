@@ -1,33 +1,27 @@
 package org.github.turostaska.domain;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.github.turostaska.Util;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 @Entity
+@NoArgsConstructor
 @DiscriminatorValue("DUEL")
 public class DuelAction extends Action {
     @OneToOne
+    @Getter @Setter
     private Player opponent;
-    private Boolean attackerWon;
-
-    public Player getOpponent() {
-        return opponent;
-    }
-
-    public Boolean getAttackerWon() {
-        return attackerWon;
-    }
+    @Getter @Setter private Boolean attackerWon;
 
     public DuelAction(long timeToFinishInSeconds, Player opponent) {
         super(timeToFinishInSeconds);
         this.opponent = opponent;
     }
-
-    public DuelAction() {}
 
     @Override
     public void takeEffect(Player player) {

@@ -3,23 +3,27 @@ package org.github.turostaska.domain;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.github.turostaska.service.ICharacterService;
 
 import javax.persistence.*;
-import javax.swing.text.html.Option;
 import java.util.*;
 
 @Entity
+@NoArgsConstructor
 public class Player extends Character {
-    private int money;
+    @Getter @Setter private int money;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
+    @Getter @Setter
     private List<ScheduledTask> actionQueue = new ArrayList<>();
 
     @OneToOne
     @JsonBackReference
+    @Getter @Setter
     private User user;
 
     public Player(User user) {
@@ -32,29 +36,6 @@ public class Player extends Character {
         this.money = BASE_MONEY;
         this.actionQueue = new ArrayList<>();
         this.user = user;
-    }
-
-    public Player() {}
-
-    public Player(String name,
-                  int currentHP,
-                  int maxHP,
-                  int currentMana,
-                  int maxMana,
-                  ArrayList<Technique> knownTechniques,
-                  HashMap<Tool, Integer> tools,
-                  int strength,
-                  int money,
-                  List<ScheduledTask> actionQueue,
-                  User user) {
-        super(name, currentHP, maxHP, currentMana, maxMana, knownTechniques, tools, strength);
-        this.money = money;
-        this.actionQueue = actionQueue;
-        this.user = user;
-    }
-
-    public int getMoney() {
-        return money;
     }
 
     public void addMoney(int sum) {
@@ -71,7 +52,7 @@ public class Player extends Character {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Player player = (Player) o;
-        return this.ID.equals(player.ID);
+        return this.id.equals(player.id);
     }
 
     public boolean tryToBuyTool(Tool tool) {
@@ -128,10 +109,6 @@ public class Player extends Character {
             totalTime += a.getTimeOfRunningInSeconds();
         }
         return totalTime;
-    }
-
-    public List<ScheduledTask> getActionQueue() {
-        return actionQueue;
     }
 
     public void removeScheduledActionFromQueue(ScheduledTask scheduledTask) {

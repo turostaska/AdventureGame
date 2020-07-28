@@ -12,20 +12,15 @@ import org.github.turostaska.service.impl.repository.RepositoryToolService;
 import org.github.turostaska.service.impl.repository.RepositoryUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.github.turostaska.service.*;
 import org.github.turostaska.service.impl.collection.*;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
-import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurer;
-
-import javax.persistence.EntityManager;
-import javax.persistence.metamodel.Type;
 import java.util.List;
 
-@org.springframework.context.annotation.Configuration
+@Configuration
 public class ConfigurationClass {
     private static final Logger log = LoggerFactory.getLogger(ConfigurationClass.class);
 

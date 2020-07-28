@@ -1,13 +1,12 @@
 package org.github.turostaska.domain;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 
 @Entity
+@NoArgsConstructor
 public class UsableTool extends Tool {
-    public UsableTool() {}
-
     public UsableTool(String name, int damage, int heal, int costToBuy, int maxQuantity) {
         super(name, damage, heal, costToBuy, maxQuantity);
     }

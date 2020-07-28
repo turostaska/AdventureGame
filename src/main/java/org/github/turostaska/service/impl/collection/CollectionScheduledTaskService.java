@@ -28,7 +28,7 @@ public class CollectionScheduledTaskService implements IScheduledTaskService {
 
     @Override
     public void addOrUpdate(ScheduledTask scheduledTask) {
-        if (dao.getById(scheduledTask.getID()).isEmpty())
+        if (dao.getById(scheduledTask.getId()).isEmpty())
             dao.create(scheduledTask);
         else
             dao.update(scheduledTask);

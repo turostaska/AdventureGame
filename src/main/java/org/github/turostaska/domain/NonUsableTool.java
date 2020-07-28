@@ -1,10 +1,11 @@
 package org.github.turostaska.domain;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 
 @Entity
+@NoArgsConstructor
 public class NonUsableTool extends Tool {
     public NonUsableTool(String name, int damage, int heal, int costToBuy, int maxQuantity) {
         super(name, damage, heal, costToBuy, maxQuantity);
@@ -13,5 +14,4 @@ public class NonUsableTool extends Tool {
     @Override
     public void useUp(Character usedBy) {}
 
-    public NonUsableTool() {}
 }

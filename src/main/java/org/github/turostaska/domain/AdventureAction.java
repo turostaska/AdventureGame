@@ -1,5 +1,8 @@
 package org.github.turostaska.domain;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.github.turostaska.Util;
 
 import javax.persistence.DiscriminatorValue;
@@ -9,26 +12,23 @@ import java.util.List;
 
 @Entity
 @DiscriminatorValue("ADVENTURE")
+@NoArgsConstructor
 public class AdventureAction extends Action {
+    @Getter @Setter private int difficulty;
+
+    @ManyToMany
+    @Getter @Setter
+    private List<Technique> techniqueRewards;
+
+    @ManyToMany
+    @Getter @Setter
+    private List<Tool> toolRewards;
+
     public AdventureAction(long timeToFinishInSeconds, List<Technique> techniqueRewards, List<Tool> toolRewards, int difficulty) {
         super(timeToFinishInSeconds);
         this.techniqueRewards = techniqueRewards;
         this.toolRewards = toolRewards;
         this.difficulty = difficulty;
-    }
-
-    private int difficulty;
-    @ManyToMany
-    private List<Technique> techniqueRewards;
-
-    @ManyToMany
-    private List<Tool> toolRewards;
-
-    public List<Technique> getTechniqueRewards() {
-        return techniqueRewards;
-    }
-    public List<Tool> getToolRewards() {
-        return toolRewards;
     }
 
     @Override

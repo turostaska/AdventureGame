@@ -1,14 +1,18 @@
 package org.github.turostaska.domain;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.github.turostaska.Util;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
+@NoArgsConstructor
 @DiscriminatorValue("MISSION")
 public class MissionAction extends Action {
-    private int reward;
+    @Getter @Setter private int reward;
 
     public MissionAction(long timeToFinishInSeconds, int reward, int difficulty) {
         super(timeToFinishInSeconds);
@@ -35,7 +39,7 @@ public class MissionAction extends Action {
     public enum Rank {
         E(0), D(50), C(200), B(400), A(600), S(1000);
 
-        private Rank(int baseDifficulty) { this.baseDifficulty = baseDifficulty; }
+        Rank(int baseDifficulty) { this.baseDifficulty = baseDifficulty; }
         private int baseDifficulty;
 
         public int getBaseDifficulty() {
@@ -43,20 +47,8 @@ public class MissionAction extends Action {
         }
     };
 
-    private int difficulty;
-    private Rank rank;
-
-    public int getReward() {
-        return reward;
-    }
-
-    public int getDifficulty() {
-        return difficulty;
-    }
-
-    public Rank getRank() {
-        return rank;
-    }
+    @Getter @Setter private int difficulty;
+    @Getter @Setter private Rank rank;
 
     @Override
     public void takeEffect(Player player) {

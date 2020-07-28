@@ -18,7 +18,7 @@ public class CollectionScheduledActionDao implements IScheduledActionDao {
     @Override
     public Optional<ScheduledTask> getById(Long ID) {
         for (ScheduledTask scheduledTask : list) {
-            if (scheduledTask.getID() == ID)
+            if (scheduledTask.getId() == ID)
                 return Optional.of(scheduledTask);
         }
         return Optional.empty();
@@ -38,7 +38,7 @@ public class CollectionScheduledActionDao implements IScheduledActionDao {
     @Override
     public void update(ScheduledTask scheduledTask) {
         for (int i = 0; i < list.size(); ++i) {
-            if (list.get(i).getID() == scheduledTask.getID()) {
+            if (list.get(i).getId() == scheduledTask.getId()) {
                 list.set(i, scheduledTask);
                 return;
             }

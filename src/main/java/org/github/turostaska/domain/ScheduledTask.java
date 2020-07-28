@@ -1,31 +1,30 @@
 package org.github.turostaska.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import org.github.turostaska.service.ICharacterService;
-import org.springframework.context.annotation.Bean;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@NoArgsConstructor
 public class ScheduledTask {
     @Id
     @GeneratedValue
-    private Long ID;
+    @Getter @Setter
+    private Long id;
 
-    private LocalDateTime estimatedTimeOfFinishing;
+    @Getter @Setter private LocalDateTime estimatedTimeOfFinishing;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
-    private Action action;
+    @Getter @Setter private Action action;
 
     @OneToOne
     @JsonBackReference
+    @Getter @Setter
     protected Player player;
-
-    public Action getAction() {
-        return action;
-    }
 
     public ScheduledTask(Action action, Player player, LocalDateTime estimatedTimeOfFinishing) {
         this.action = action;
@@ -33,25 +32,11 @@ public class ScheduledTask {
         this.estimatedTimeOfFinishing = estimatedTimeOfFinishing;
     }
 
-    public ScheduledTask() {}
-
-    public LocalDateTime getEstimatedTimeOfFinishing() {
-        return estimatedTimeOfFinishing;
-    }
-
-    public Long getID() {
-        return ID;
-    }
-
     public void trigger() {
         if (action.carryOutAndGetIfSuccessful(player))
             action.takeEffect(player);
 
         player.removeScheduledActionFromQueue(this);
-    }
-
-    public Player getPlayer() {
-        return player;
     }
 
     public long getTimeOfRunningInSeconds() {

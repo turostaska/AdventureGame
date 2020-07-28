@@ -1,24 +1,32 @@
 package org.github.turostaska.domain;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 
 @Entity
+@NoArgsConstructor
 public class User {
-    private String userName;
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) private String password;
-    private String email;
+    @Getter @Setter private String userName;
 
-    @Id
-    @GeneratedValue
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @Getter @Setter
+    private String password;
+
+    @Getter @Setter private String email;
+
+    @Id @GeneratedValue
+    @Getter @Setter
     private Long id;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "user", orphanRemoval = true)
     @JsonManagedReference
+    @Getter @Setter
     private Player player;
 
     public User(String userName, String password, String email) {
@@ -27,8 +35,6 @@ public class User {
         this.email = email;
     }
 
-    public User() {}
-
     public void createPlayer() {
         if (player != null)
             return;
@@ -36,43 +42,4 @@ public class User {
         this.player = new Player(this);
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
-    }
 }

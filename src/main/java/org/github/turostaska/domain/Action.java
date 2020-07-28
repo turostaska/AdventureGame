@@ -1,14 +1,19 @@
 package org.github.turostaska.domain;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
+@NoArgsConstructor
 @DiscriminatorColumn(name="type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Action {
-    protected long timeToFinishInSeconds;
+    @Getter @Setter protected long timeToFinishInSeconds;
 
-    @Id
-    @GeneratedValue
+    @Id @GeneratedValue
+    @Getter @Setter
     protected Long ID;
 
     public static final long SECONDS = 1;
@@ -18,16 +23,6 @@ public abstract class Action {
 
     public Action(long timeToFinishInSeconds) {
         this.timeToFinishInSeconds = timeToFinishInSeconds;
-    }
-
-    public Action() {}
-
-    public long getTimeToFinishInSeconds() {
-        return timeToFinishInSeconds;
-    }
-
-    public Long getID() {
-        return ID;
     }
 
     public boolean playerAbleToTakeOnAction(Player player) {
