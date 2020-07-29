@@ -1,5 +1,6 @@
 package org.github.turostaska.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,23 +12,25 @@ import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
-public class ScheduledDuelTask extends ScheduledTask {
+public class StatefulScheduledTask extends ScheduledTask {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @Getter @Setter
-    private DuelAction duelAction;
+    @JsonIgnore
+    private Action statefulAction;
+    //todo: StatefulAction class?
 
     @Override
     public Action getAction() {
-        return duelAction;
+        return statefulAction;
     }
 
     @Override
     public void setAction(Action action) {
-        this.duelAction = (DuelAction)action;
+        this.statefulAction = action;
     }
 
-    public ScheduledDuelTask(DuelAction action, Player player, LocalDateTime estimatedTimeOfFinishing) {
-        this.duelAction = action;
+    public StatefulScheduledTask(DuelAction action, Player player, LocalDateTime estimatedTimeOfFinishing) {
+        this.statefulAction = action;
         this.player = player;
         this.estimatedTimeOfFinishing = estimatedTimeOfFinishing;
     }

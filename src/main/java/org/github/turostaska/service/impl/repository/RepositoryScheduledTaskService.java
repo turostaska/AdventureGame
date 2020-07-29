@@ -64,7 +64,8 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
                 }
             }, timeToFinishWithThisTaskInSecs, TimeUnit.SECONDS);
 
-            characterService.addOrUpdate(player);
+            Player newPlayer = characterService.addOrUpdate(player);
+            player.setActionQueue(newPlayer.getActionQueue());
         }
     }
 
@@ -77,7 +78,7 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
             long timeToFinishWithOtherActionsInSecs = player.getTimeToFinishAllTasksInSeconds();
             long timeToFinishWithThisTaskInSecs = timeToFinishWithOtherActionsInSecs + action.getTimeToFinishInSeconds();
 
-            player.addToActionQueue(new ScheduledDuelTask( (DuelAction) action, player, LocalDateTime.now().plusSeconds(timeToFinishWithThisTaskInSecs)));
+            player.addToActionQueue(new StatefulScheduledTask( (DuelAction) action, player, LocalDateTime.now().plusSeconds(timeToFinishWithThisTaskInSecs)));
 
             scheduler.schedule( () ->  {
                 Optional<Player> playerAtTrigger = characterService.getPlayerById(player.getId());
@@ -90,7 +91,8 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
                 }
             }, timeToFinishWithThisTaskInSecs, TimeUnit.SECONDS);
 
-            characterService.addOrUpdate(player);
+            Player newPlayer = characterService.addOrUpdate(player);
+            player.setActionQueue(newPlayer.getActionQueue());
         }
     }
 

@@ -113,15 +113,9 @@ public class Player extends Character {
         return totalTime;
     }
 
-    public void removeScheduledActionFromQueue(ScheduledTask scheduledTask) {
-        actionQueue.remove(scheduledTask);
-        scheduledTask.setPlayer(null);
-    }
-
     public Optional<ScheduledTask> popScheduledActionFromQueue() {
         if (!actionQueue.isEmpty()) {
-            var first = Optional.of(actionQueue.remove(0));
-            return first;
+            return Optional.of(actionQueue.remove(0));
         }
         return Optional.empty();
     }
@@ -129,5 +123,6 @@ public class Player extends Character {
     public void triggerNextTaskInQueue() {
         if (!actionQueue.isEmpty())
             actionQueue.get(0).trigger();
+
     }
 }

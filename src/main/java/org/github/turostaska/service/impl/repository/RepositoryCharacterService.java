@@ -40,8 +40,9 @@ public class RepositoryCharacterService implements ICharacterService {
 
     @Override
     public void tryToBuyTool(Player player, Tool item) {
-        if (player.tryToBuyTool(item))
+        if (player.tryToBuyTool(item)) {
             addOrUpdate(player);
+        }
     }
 
     @Override

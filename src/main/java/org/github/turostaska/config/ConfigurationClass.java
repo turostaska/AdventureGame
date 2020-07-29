@@ -137,7 +137,8 @@ public class ConfigurationClass {
 
             List<Technique> techniques = List.of(
                     new Technique("tűzgolyó", 100, 0, 2000, 40),
-                    new Technique("nagy tűzgolyó", 200, 0, 500, 90)
+                    new Technique("nagy tűzgolyó", 200, 0, 500, 90),
+                    new Technique("nagy vízhórukk", 40, 0, 100, 20)
             );
             techniques.forEach(techniqueService()::addOrUpdate);
 
@@ -151,8 +152,21 @@ public class ConfigurationClass {
             );
             actions.forEach(actionService()::addOrUpdate);
 
-            //scheduledTaskService().tryToScheduleActionForPlayer(users.get(0).getPlayer(), actions.get(2));
-            scheduledTaskService().tryToScheduleDuelActionForPlayer(users.get(0).getPlayer(), (DuelAction)actions.get(3), users.get(1).getPlayer());
+            Player faci = characterService().getPlayerByName("fáci").get();
+            Player rolcsi = characterService().getPlayerByName("rolcsi").get();
+
+//            scheduledTaskService().tryToScheduleActionForPlayer(faci, actions.get(2));
+//            scheduledTaskService().tryToScheduleActionForPlayer(faci, actions.get(5));
+//            scheduledTaskService().tryToScheduleActionForPlayer(faci, actions.get(4));
+//            scheduledTaskService().tryToScheduleDuelActionForPlayer(faci, (DuelAction)actions.get(3), rolcsi);
+//            scheduledTaskService().tryToScheduleDuelActionForPlayer(faci, (DuelAction)actions.get(3), rolcsi);
+//            scheduledTaskService().tryToScheduleDuelActionForPlayer(faci, (DuelAction)actions.get(3), rolcsi);
+//            scheduledTaskService().tryToScheduleDuelActionForPlayer(faci, (DuelAction)actions.get(3), rolcsi);
+
+            characterService().tryToBuyTool(faci, tool1);
+            characterService().tryToBuyTool(faci, tool1);
+
+            characterService().tryToLearnTechnique(faci, techniques.get(2));
 
             log.info("Preloading finished.");
         };

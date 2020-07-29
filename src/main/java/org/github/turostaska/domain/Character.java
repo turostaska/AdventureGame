@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.github.turostaska.Util;
 import org.github.turostaska.service.ICharacterService;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.util.*;
@@ -28,11 +30,12 @@ public abstract class Character {
     @Getter @Setter protected int strength;
     @Getter @Setter protected int money;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(value = FetchMode.SUBSELECT)
     @Getter @Setter
     protected List<Technique> knownTechniques = new ArrayList<>();
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="inventory")
     @MapKeyColumn(name="tool")
     @JsonIgnore

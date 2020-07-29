@@ -95,4 +95,5 @@ public class CharacterController {
         return playerModelAssembler.toModel(player);
     }
 
+    //todo: actionök elvállalása
 }
