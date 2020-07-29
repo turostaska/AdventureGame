@@ -16,7 +16,7 @@ public class ScheduledTask {
     @Getter @Setter
     private Long id;
 
-    @Getter @Setter private LocalDateTime estimatedTimeOfFinishing;
+    @Getter @Setter protected LocalDateTime estimatedTimeOfFinishing;
 
     @OneToOne
     @Getter @Setter private Action action;
@@ -33,13 +33,13 @@ public class ScheduledTask {
     }
 
     public void trigger() {
-        if (action.carryOutAndGetIfSuccessful(player))
-            action.takeEffect(player);
+        if (getAction().carryOutAndGetIfSuccessful(player))
+            getAction().takeEffect(player);
 
         player.popScheduledActionFromQueue();
     }
 
     public long getTimeOfRunningInSeconds() {
-        return action.getTimeToFinishInSeconds();
+        return getAction().getTimeToFinishInSeconds();
     }
 }

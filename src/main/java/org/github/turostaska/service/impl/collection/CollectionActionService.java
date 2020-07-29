@@ -2,10 +2,7 @@ package org.github.turostaska.service.impl.collection;
 
 import jdk.jshell.spi.ExecutionControl;
 import org.github.turostaska.dao.IActionDao;
-import org.github.turostaska.domain.Action;
-import org.github.turostaska.domain.AdventureAction;
-import org.github.turostaska.domain.MissionAction;
-import org.github.turostaska.domain.RestAction;
+import org.github.turostaska.domain.*;
 import org.github.turostaska.service.IActionService;
 
 import java.util.List;
@@ -61,6 +58,16 @@ public class CollectionActionService implements IActionService {
 
     @Override
     public List<MissionAction> getAllMissionActions() {
+        try {
+            throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<DuelAction> getAllDuelActions() {
         try {
             throw new ExecutionControl.NotImplementedException("lusta voltam");
         } catch (ExecutionControl.NotImplementedException e) {

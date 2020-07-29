@@ -54,6 +54,11 @@ public class ActionController {
         return CollectionModel.of(actions, linkTo(methodOn(ActionController.class).allMissionActions()).withSelfRel());
     }
 
+    @GetMapping("/duel_actions")
+    public List<DuelAction> allDuelActions() {
+        return actionService.getAllDuelActions();
+    }
+
     @PostMapping("/rest_actions")
     ResponseEntity<?> addRestAction(@RequestBody RestAction newAction) {
         newAction.setId(null);

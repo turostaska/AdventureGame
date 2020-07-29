@@ -15,10 +15,10 @@ import javax.persistence.OneToOne;
 public class DuelAction extends Action {
     @OneToOne
     @Getter @Setter
-    private Player opponent;
+    private Character opponent;
     @Getter @Setter private Boolean attackerWon;
 
-    public DuelAction(long timeToFinishInSeconds, Player opponent) {
+    public DuelAction(long timeToFinishInSeconds, Character opponent) {
         super(timeToFinishInSeconds);
         this.opponent = opponent;
     }
@@ -26,7 +26,7 @@ public class DuelAction extends Action {
     @Override
     public void takeEffect(Player player) {
         //todo: szofisztikáltabb nyeremény?
-        Player winner, loser;
+        Character winner, loser;
         if (attackerWon) {
             winner = player; loser = opponent;
         }

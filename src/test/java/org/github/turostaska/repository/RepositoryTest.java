@@ -126,7 +126,7 @@ class RepositoryTest {
 
         DuelAction duel = new DuelAction(3*Action.SECONDS, rolcsi.getPlayer());
 
-        taskService.tryToScheduleActionForPlayer(faci.getPlayer(), duel);
+        taskService.tryToScheduleDuelActionForPlayer(faci.getPlayer(), duel, rolcsi.getPlayer());
 
         assertEquals(actionRepository.findAllDuelActions().get(0).getOpponent(), rolcsi.getPlayer());
         assertEquals(((DuelAction)(taskRepository.findAll().get(0).getAction())).getOpponent() , rolcsi.getPlayer());

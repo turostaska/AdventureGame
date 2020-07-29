@@ -26,6 +26,7 @@ public abstract class Character {
     @Getter @Setter protected int currentMana;
     @Getter @Setter protected int maxMana;
     @Getter @Setter protected int strength;
+    @Getter @Setter protected int money;
 
     @ManyToMany
     @Getter @Setter
@@ -67,6 +68,8 @@ public abstract class Character {
         if (tools.get(tool) == 0)
             tools.remove(tool);
     }
+
+    public void addMoney(int sum) {}
 
     public abstract void update(ICharacterService service);
 

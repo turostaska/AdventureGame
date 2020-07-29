@@ -164,6 +164,15 @@ public class CollectionCharacterService implements ICharacterService {
         playerDao.getById(id).ifPresent(playerDao::delete);
     }
 
+    @Override
+    public Optional<Character> findById(Long id) {
+        if (getPlayerById(id).isPresent())
+            return Optional.of(getPlayerById(id).get());
+        if (getNPCById(id).isPresent())
+            return Optional.of(getNPCById(id).get());
+        return Optional.empty();
+    }
+
     private void kill(Player who) {
         takeDamage(who, who.getMaxHP());
     }

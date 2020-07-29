@@ -145,12 +145,14 @@ public class ConfigurationClass {
                     new RestAction(8*RestAction.HOURS, 50),
                     new RestAction(4*RestAction.HOURS, 100),
                     new MissionAction(15*Action.SECONDS, 1000, 0),
+                    new DuelAction(15*Action.SECONDS, null),
                     new MissionAction(5*RestAction.SECONDS, 4000, 300),
                     new MissionAction(4*RestAction.SECONDS, 10000, 700)
             );
             actions.forEach(actionService()::addOrUpdate);
 
-            scheduledTaskService().tryToScheduleActionForPlayer(users.get(0).getPlayer(), actions.get(2));
+            //scheduledTaskService().tryToScheduleActionForPlayer(users.get(0).getPlayer(), actions.get(2));
+            scheduledTaskService().tryToScheduleDuelActionForPlayer(users.get(0).getPlayer(), (DuelAction)actions.get(3), users.get(1).getPlayer());
 
             log.info("Preloading finished.");
         };

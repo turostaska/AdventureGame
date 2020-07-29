@@ -15,6 +15,7 @@ public class RepositoryCharacterService implements ICharacterService {
 
     @Autowired private IPlayerRepository playerRepository;
     @Autowired private INPCRepository npcRepository;
+
     @Autowired private IActionService actionService;
 
     @Override
@@ -134,6 +135,15 @@ public class RepositoryCharacterService implements ICharacterService {
     @Override
     public void deletePlayerById(Long id) {
         playerRepository.deleteById(id);
+    }
+
+    @Override
+    public Optional<Character> findById(Long id) {
+        if (getPlayerById(id).isPresent())
+            return Optional.of(getPlayerById(id).get());
+        if (getNPCById(id).isPresent())
+            return Optional.of(getNPCById(id).get());
+        return Optional.empty();
     }
 
 }

@@ -1,9 +1,6 @@
 package org.github.turostaska.service.impl.repository;
 
-import org.github.turostaska.domain.Action;
-import org.github.turostaska.domain.AdventureAction;
-import org.github.turostaska.domain.MissionAction;
-import org.github.turostaska.domain.RestAction;
+import org.github.turostaska.domain.*;
 import org.github.turostaska.repository.IActionRepository;
 import org.github.turostaska.service.IActionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +40,11 @@ public class RepositoryActionService implements IActionService {
     @Override
     public List<MissionAction> getAllMissionActions() {
         return repository.findAllMissionActions();
+    }
+
+    @Override
+    public List<DuelAction> getAllDuelActions() {
+        return repository.findAllDuelActions();
     }
 
     @Override

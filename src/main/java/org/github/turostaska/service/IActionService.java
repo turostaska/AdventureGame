@@ -1,9 +1,6 @@
 package org.github.turostaska.service;
 
-import org.github.turostaska.domain.Action;
-import org.github.turostaska.domain.AdventureAction;
-import org.github.turostaska.domain.MissionAction;
-import org.github.turostaska.domain.RestAction;
+import org.github.turostaska.domain.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -46,6 +43,12 @@ public interface IActionService {
      * @return The list of actions of type
      */
     List<MissionAction> getAllMissionActions();
+
+    /**
+     * Returns a list of all actions that have the specified type
+     * @return The list of actions of type
+     */
+    List<DuelAction> getAllDuelActions();
 
     /**
      * Returns the rest action that is free in order to have players be able to have a forced rest.

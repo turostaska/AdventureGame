@@ -16,7 +16,6 @@ import java.util.*;
 @Entity
 @NoArgsConstructor
 public class Player extends Character {
-    @Getter @Setter private int money;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
@@ -40,6 +39,7 @@ public class Player extends Character {
         this.user = user;
     }
 
+    @Override
     public void addMoney(int sum) {
         this.money += sum;
     }

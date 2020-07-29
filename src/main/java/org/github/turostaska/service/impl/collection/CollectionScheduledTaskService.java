@@ -2,6 +2,7 @@ package org.github.turostaska.service.impl.collection;
 
 import org.github.turostaska.dao.IScheduledActionDao;
 import org.github.turostaska.domain.*;
+import org.github.turostaska.domain.Character;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.github.turostaska.service.ICharacterService;
 import org.github.turostaska.service.IScheduledTaskService;
@@ -76,6 +77,13 @@ public class CollectionScheduledTaskService implements IScheduledTaskService {
                 }, timeToFinishWithThisTaskInSecs, TimeUnit.SECONDS);
             addOrUpdate(scheduledTask);
         }
+    }
+
+    @Override
+    public void tryToScheduleDuelActionForPlayer(Player player, DuelAction action, Character opponent) {
+        DuelAction duelAction = new DuelAction(action.getTimeToFinishInSeconds(),
+                action.getOpponent());
+        tryToScheduleActionForPlayer(player, (Action)duelAction);
     }
 
     @Override

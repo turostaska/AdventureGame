@@ -1,7 +1,9 @@
 package org.github.turostaska.service;
 
 import org.github.turostaska.domain.Action;
+import org.github.turostaska.domain.DuelAction;
 import org.github.turostaska.domain.Player;
+import org.github.turostaska.domain.Character;
 import org.github.turostaska.domain.ScheduledTask;
 
 import java.util.List;
@@ -46,6 +48,14 @@ public interface IScheduledTaskService {
      * @param action The action to be scheduled
      */
     void tryToScheduleActionForPlayer(Player player, Action action);
+
+    /**
+     * Schedules the specified duel action for the player if he is eligible to do the task.
+     * @param player The player that wants to schedule an action
+     * @param action The duel action to be scheduled
+     * @param opponent The character being challenged
+     */
+    void tryToScheduleDuelActionForPlayer(Player player, DuelAction action, Character opponent);
 
     void deleteById(Long id);
 
