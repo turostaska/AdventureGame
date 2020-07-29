@@ -3,16 +3,22 @@ package org.github.turostaska.controller;
 import org.github.turostaska.config.ConfigurationClass;
 import org.github.turostaska.controller.assembler.TechniqueModelAssembler;
 import org.github.turostaska.domain.Technique;
+import org.github.turostaska.domain.UsableTool;
 import org.github.turostaska.service.ITechniqueService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 public class TechniqueController {
@@ -22,8 +28,10 @@ public class TechniqueController {
     @Autowired private TechniqueModelAssembler assembler;
 
     @GetMapping("/techniques")
-    public List<Technique> all() {
-        return techniqueService.getAll();
+    public CollectionModel<EntityModel<Technique>> all() {
+        var techniques = techniqueService.getAll().stream().map(assembler::toModel).collect(Collectors.toList());
+
+        return CollectionModel.of(techniques, linkTo(methodOn(TechniqueController.class).all()).withSelfRel());
     }
 
     @GetMapping("/techniques/{id}")

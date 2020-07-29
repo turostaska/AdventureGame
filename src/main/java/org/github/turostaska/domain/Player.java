@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.github.turostaska.service.ICharacterService;
+import org.hibernate.annotations.Fetch;
+import org.springframework.data.repository.cdi.Eager;
 
 import javax.persistence.*;
 import java.util.*;
@@ -16,7 +18,7 @@ import java.util.*;
 public class Player extends Character {
     @Getter @Setter private int money;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
     @Getter @Setter
     private List<ScheduledTask> actionQueue = new ArrayList<>();
@@ -113,14 +115,19 @@ public class Player extends Character {
 
     public void removeScheduledActionFromQueue(ScheduledTask scheduledTask) {
         actionQueue.remove(scheduledTask);
+        scheduledTask.setPlayer(null);
     }
 
     public Optional<ScheduledTask> popScheduledActionFromQueue() {
         if (!actionQueue.isEmpty()) {
-            var first = Optional.of(actionQueue.get(0));
-            actionQueue.remove(0);
+            var first = Optional.of(actionQueue.remove(0));
             return first;
         }
         return Optional.empty();
+    }
+
+    public void triggerNextTaskInQueue() {
+        if (!actionQueue.isEmpty())
+            actionQueue.get(0).trigger();
     }
 }

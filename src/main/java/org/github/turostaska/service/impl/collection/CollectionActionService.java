@@ -20,11 +20,13 @@ public class CollectionActionService implements IActionService {
     }
 
     @Override
-    public void addOrUpdate(Action action) {
+    public Action addOrUpdate(Action action) {
         if (dao.getById(action.getId()).isEmpty())
             dao.create(action);
         else
             dao.update(action);
+
+        return dao.getById(action.getId()).get();
     }
 
     @Override
@@ -71,5 +73,10 @@ public class CollectionActionService implements IActionService {
     public RestAction getFreeRestAction() {
         Stream<RestAction> restsStream = getAllRestActions().stream();
         return restsStream.filter( a -> a.getCost() == 0 ).findFirst().orElseThrow();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        dao.getById(id).ifPresent(dao::delete);
     }
 }

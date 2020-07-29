@@ -1,50 +1,63 @@
 package org.github.turostaska.controller;
 
 import org.github.turostaska.config.ConfigurationClass;
-import org.github.turostaska.controller.assembler.ToolModelAssembler;
+import org.github.turostaska.controller.assembler.NonUsableToolModelAssembler;
+import org.github.turostaska.controller.assembler.UsableToolModelAssembler;
 import org.github.turostaska.domain.*;
 import org.github.turostaska.service.IToolService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 public class ToolController {
     private static final Logger log = LoggerFactory.getLogger(ConfigurationClass.class);
 
     @Autowired private IToolService toolService;
-    @Autowired private ToolModelAssembler assembler;
+    @Autowired private UsableToolModelAssembler usableToolModelAssembler;
+    @Autowired private NonUsableToolModelAssembler nonUsableToolModelAssembler;
 
     @GetMapping("/usable_tools")
-    public List<UsableTool> allUsableTools() {
-        return toolService.getAllUsableTools();
+    public CollectionModel<EntityModel<UsableTool>> allUsableTools() {
+        var tools = toolService.getAllUsableTools().stream().map(usableToolModelAssembler::toModel)
+                .collect(Collectors.toList());
+
+        return CollectionModel.of(tools, linkTo(methodOn(ToolController.class).allUsableTools()).withSelfRel());
     }
 
     @GetMapping("/non_usable_tools")
-    public List<NonUsableTool> allNonUsableTools() {
-        return toolService.getAllNonUsableTools();
+    public CollectionModel<EntityModel<NonUsableTool>> allNonUsableTools() {
+        var tools = toolService.getAllNonUsableTools().stream().map(nonUsableToolModelAssembler::toModel)
+                .collect(Collectors.toList());
+
+        return CollectionModel.of(tools, linkTo(methodOn(ToolController.class).allNonUsableTools()).withSelfRel());
     }
 
     @GetMapping("/usable_tools/{id}")
-    public EntityModel<Tool> getUsableTool(@PathVariable Long id) {
+    public EntityModel<UsableTool> getUsableTool(@PathVariable Long id) {
         UsableTool tool = toolService.getUsableToolById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Tool does not exist."));
 
-        return assembler.toModel(tool);
+        return usableToolModelAssembler.toModel(tool);
     }
 
     @GetMapping("/non_usable_tools/{id}")
-    public EntityModel<Tool> getNonUsableTool(@PathVariable Long id) {
+    public EntityModel<NonUsableTool> getNonUsableTool(@PathVariable Long id) {
         NonUsableTool tool = toolService.getNonUsableToolById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Tool does not exist."));
 
-        return assembler.toModel(tool);
+        return nonUsableToolModelAssembler.toModel(tool);
     }
 
     @PostMapping("/usable_tools")
@@ -57,7 +70,7 @@ public class ToolController {
 
         log.info(String.format("Created tool with name '%s' and ID %s", tool.getName(), tool.getId()));
 
-        EntityModel<Tool> entityModel = assembler.toModel(tool);
+        var entityModel = usableToolModelAssembler.toModel(tool);
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
 
@@ -71,7 +84,7 @@ public class ToolController {
 
         log.info(String.format("Created tool with name '%s' and ID %s", tool.getName(), tool.getId()));
 
-        EntityModel<Tool> entityModel = assembler.toModel(tool);
+        var entityModel = nonUsableToolModelAssembler.toModel(tool);
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
 
@@ -103,7 +116,7 @@ public class ToolController {
 
         log.info(String.format("Tool updated with id %s", id));
 
-        EntityModel<Tool> entityModel = assembler.toModel(toolService.getUsableToolById(id).get());
+        var entityModel = usableToolModelAssembler.toModel(toolService.getUsableToolById(id).get());
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
 
@@ -117,7 +130,7 @@ public class ToolController {
 
         log.info(String.format("Tool updated with id %s", id));
 
-        EntityModel<Tool> entityModel = assembler.toModel(toolService.getNonUsableToolById(id).get());
+        var entityModel = nonUsableToolModelAssembler.toModel(toolService.getNonUsableToolById(id).get());
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
 

@@ -29,11 +29,12 @@ public class CollectionCharacterService implements ICharacterService {
     }
 
     @Override
-    public void addOrUpdate(Player player) {
+    public Player addOrUpdate(Player player) {
         if (playerDao.getById(player.getId()).isEmpty())
             playerDao.create(player);
         else
             playerDao.update(player);
+        return getPlayerByName(player.getName()).orElseThrow(IllegalStateException::new);
     }
 
     @Override

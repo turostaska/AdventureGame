@@ -3,22 +3,22 @@ package org.github.turostaska.controller;
 import org.github.turostaska.config.ConfigurationClass;
 import org.github.turostaska.controller.assembler.NpcModelAssembler;
 import org.github.turostaska.controller.assembler.PlayerModelAssembler;
-import org.github.turostaska.domain.Player;
-import org.github.turostaska.domain.Technique;
-import org.github.turostaska.domain.Tool;
-import org.github.turostaska.domain.User;
+import org.github.turostaska.domain.*;
 import org.github.turostaska.service.ICharacterService;
 import org.github.turostaska.service.ITechniqueService;
 import org.github.turostaska.service.IToolService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
-import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.stream.Collectors;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 public class CharacterController {
@@ -32,12 +32,15 @@ public class CharacterController {
     @Autowired private NpcModelAssembler npcModelAssembler;
 
     @GetMapping("/players")
-    public List<Player> allPlayers() {
-        return characterService.getAllPlayers();
+    public CollectionModel<EntityModel<Player>> allPlayers() {
+        var players = characterService.getAllPlayers().stream().map(playerModelAssembler::toModel)
+                .collect(Collectors.toList());
+
+        return CollectionModel.of(players, linkTo(methodOn(CharacterController.class).allPlayers()).withSelfRel());
     }
 
     @GetMapping("/players/{id}")
-    public EntityModel<Player> getName(@PathVariable Long id) {
+    public EntityModel<Player> getPlayerById(@PathVariable Long id) {
         Player player = characterService.getPlayerById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Player does not exist."));
 

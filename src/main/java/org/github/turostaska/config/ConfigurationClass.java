@@ -55,7 +55,7 @@ public class ConfigurationClass {
     }
 
     @Bean
-    public IActionService actionService(IActionDao actionDao) {
+    public IActionService inMemoryActionService(IActionDao actionDao) {
         return new CollectionActionService(actionDao);
     }
 
@@ -111,6 +111,12 @@ public class ConfigurationClass {
     }
 
     @Bean
+    @Primary
+    public IActionService actionService() {
+        return new RepositoryActionService();
+    }
+
+    @Bean
     CommandLineRunner initUserDatabase(IUserService userService) {
         return args -> {
             log.info("Preloading...");
@@ -135,6 +141,17 @@ public class ConfigurationClass {
             );
             techniques.forEach(techniqueService()::addOrUpdate);
 
+            List<Action> actions = List.of(
+                    new RestAction(8*RestAction.HOURS, 50),
+                    new RestAction(4*RestAction.HOURS, 100),
+                    new MissionAction(15*Action.SECONDS, 1000, 0),
+                    new MissionAction(5*RestAction.SECONDS, 4000, 300),
+                    new MissionAction(4*RestAction.SECONDS, 10000, 700)
+            );
+            actions.forEach(actionService()::addOrUpdate);
+
+            scheduledTaskService().tryToScheduleActionForPlayer(users.get(0).getPlayer(), actions.get(2));
+
             log.info("Preloading finished.");
         };
     }
@@ -145,7 +162,17 @@ public class ConfigurationClass {
 
     @Bean NpcModelAssembler npcModelAssembler() { return new NpcModelAssembler(); }
 
-    @Bean ToolModelAssembler toolModelAssembler() { return new ToolModelAssembler(); }
+    @Bean UsableToolModelAssembler usableToolModelAssembler() { return new UsableToolModelAssembler(); }
+
+    @Bean NonUsableToolModelAssembler nonUsableToolModelAssembler() { return new NonUsableToolModelAssembler(); }
 
     @Bean TechniqueModelAssembler techniqueModelAssembler() { return new TechniqueModelAssembler(); }
+
+    @Bean AdventureActionModelAssembler adventureActionModelAssembler() { return new AdventureActionModelAssembler(); }
+
+    @Bean RestActionModelAssembler actionModelAssembler() { return new RestActionModelAssembler(); }
+
+    @Bean MissionActionModelAssembler missionModelAssembler() { return new MissionActionModelAssembler(); }
+
+    @Bean ScheduledTaskModelAssembler scheduledTaskModelAssembler() { return new ScheduledTaskModelAssembler(); }
 }

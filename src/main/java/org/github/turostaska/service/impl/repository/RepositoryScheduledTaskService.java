@@ -1,7 +1,6 @@
 package org.github.turostaska.service.impl.repository;
 
 import org.github.turostaska.domain.Action;
-import org.github.turostaska.domain.DuelAction;
 import org.github.turostaska.domain.Player;
 import org.github.turostaska.domain.ScheduledTask;
 import org.github.turostaska.repository.IScheduledTaskRepository;
@@ -24,8 +23,8 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
     @Override
-    public void addOrUpdate(ScheduledTask scheduledTask) {
-        taskRepository.save(scheduledTask);
+    public ScheduledTask addOrUpdate(ScheduledTask scheduledTask) {
+        return taskRepository.save(scheduledTask);
     }
 
     @Override
@@ -39,6 +38,11 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
     }
 
     @Override
+    public List<ScheduledTask> getAll() {
+        return taskRepository.findAll();
+    }
+
+    @Override
     public List<ScheduledTask> getByPlayer(Player player) {
         return taskRepository.findByPlayer(player);
     }
@@ -49,18 +53,23 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
             long timeToFinishWithOtherActionsInSecs = player.getTimeToFinishAllTasksInSeconds();
             long timeToFinishWithThisTaskInSecs = timeToFinishWithOtherActionsInSecs + action.getTimeToFinishInSeconds();
 
-            var scheduledTask = new ScheduledTask( action, player, LocalDateTime.now().plusSeconds(timeToFinishWithThisTaskInSecs));
-
-            player.addToActionQueue(scheduledTask);
+            player.addToActionQueue(new ScheduledTask( action, player, LocalDateTime.now().plusSeconds(timeToFinishWithThisTaskInSecs)));
 
             scheduler.schedule( () ->  {
-                scheduledTask.trigger();
-                player.popScheduledActionFromQueue();
-                characterService.addOrUpdate(player);
+                Optional<Player> playerAtTrigger = characterService.getPlayerById(player.getId());
+                if (playerAtTrigger.isPresent()) {
+                    playerAtTrigger.get().triggerNextTaskInQueue();
+                    characterService.addOrUpdate(playerAtTrigger.get());
+                }
             }, timeToFinishWithThisTaskInSecs, TimeUnit.SECONDS);
 
             characterService.addOrUpdate(player);
         }
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        taskRepository.deleteById(id);
     }
 
 }

@@ -18,7 +18,7 @@ public class ScheduledTask {
 
     @Getter @Setter private LocalDateTime estimatedTimeOfFinishing;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne
     @Getter @Setter private Action action;
 
     @OneToOne
@@ -36,7 +36,7 @@ public class ScheduledTask {
         if (action.carryOutAndGetIfSuccessful(player))
             action.takeEffect(player);
 
-        player.removeScheduledActionFromQueue(this);
+        player.popScheduledActionFromQueue();
     }
 
     public long getTimeOfRunningInSeconds() {

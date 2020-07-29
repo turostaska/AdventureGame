@@ -27,11 +27,13 @@ public class CollectionScheduledTaskService implements IScheduledTaskService {
     }
 
     @Override
-    public void addOrUpdate(ScheduledTask scheduledTask) {
+    public ScheduledTask addOrUpdate(ScheduledTask scheduledTask) {
         if (dao.getById(scheduledTask.getId()).isEmpty())
             dao.create(scheduledTask);
         else
             dao.update(scheduledTask);
+
+        return dao.getById(scheduledTask.getId()).get();
     }
 
     @Override
@@ -42,6 +44,11 @@ public class CollectionScheduledTaskService implements IScheduledTaskService {
     @Override
     public Optional<ScheduledTask> getById(Long ID) {
         return dao.getById(ID);
+    }
+
+    @Override
+    public List<ScheduledTask> getAll() {
+        return dao.getAll();
     }
 
     @Override
@@ -69,5 +76,10 @@ public class CollectionScheduledTaskService implements IScheduledTaskService {
                 }, timeToFinishWithThisTaskInSecs, TimeUnit.SECONDS);
             addOrUpdate(scheduledTask);
         }
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        getById(id).ifPresent(this::delete);
     }
 }

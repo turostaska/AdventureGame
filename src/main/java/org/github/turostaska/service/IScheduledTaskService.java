@@ -1,7 +1,6 @@
 package org.github.turostaska.service;
 
 import org.github.turostaska.domain.Action;
-import org.github.turostaska.domain.DuelAction;
 import org.github.turostaska.domain.Player;
 import org.github.turostaska.domain.ScheduledTask;
 
@@ -15,8 +14,9 @@ public interface IScheduledTaskService {
     /**
      * Creates a scheduled action if a record with the same ID doesn't exist, otherwise it overwrites it with the one given
      * @param scheduledTask The scheduled action to be created or be overwritten with
+     * @return The task added or updated
      */
-    void addOrUpdate(ScheduledTask scheduledTask);
+    ScheduledTask addOrUpdate(ScheduledTask scheduledTask);
 
     /**
      * Deletes the scheduled action from the data structure if it exists
@@ -31,6 +31,8 @@ public interface IScheduledTaskService {
      */
     Optional<ScheduledTask> getById(Long ID);
 
+    List<ScheduledTask> getAll();
+
     /**
      * Returns a list of all actions scheduled by a specific player
      * @param player The player
@@ -44,5 +46,7 @@ public interface IScheduledTaskService {
      * @param action The action to be scheduled
      */
     void tryToScheduleActionForPlayer(Player player, Action action);
+
+    void deleteById(Long id);
 
 }

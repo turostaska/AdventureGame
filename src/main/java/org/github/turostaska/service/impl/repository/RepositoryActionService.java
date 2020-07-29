@@ -16,8 +16,8 @@ public class RepositoryActionService implements IActionService {
     @Autowired private IActionRepository repository;
 
     @Override
-    public void addOrUpdate(Action action) {
-        repository.save(action);
+    public Action addOrUpdate(Action action) {
+        return repository.save(action);
     }
 
     @Override
@@ -50,5 +50,10 @@ public class RepositoryActionService implements IActionService {
         //todo: erre szerintem nem lesz külön szükség
         Stream<RestAction> restsStream = getAllRestActions().stream();
         return restsStream.filter( a -> a.getCost() == 0 ).findFirst().orElseThrow();
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        repository.deleteById(id);
     }
 }

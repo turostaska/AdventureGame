@@ -14,8 +14,9 @@ public interface ICharacterService {
     /**
      * Creates a player if a record with the same ID doesn't exist, otherwise it overwrites it with the one given
      * @param player The player to be created or be overwritten with
+     * @return
      */
-    void addOrUpdate(Player player);
+    Player addOrUpdate(Player player);
 
     /**
      * Deletes the player from the data structure if it exists

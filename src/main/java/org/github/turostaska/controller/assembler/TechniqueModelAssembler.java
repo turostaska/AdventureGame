@@ -1,6 +1,6 @@
 package org.github.turostaska.controller.assembler;
 
-import org.github.turostaska.controller.UserController;
+import org.github.turostaska.controller.TechniqueController;
 import org.github.turostaska.domain.Technique;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.RepresentationModelAssembler;
@@ -14,7 +14,7 @@ public class TechniqueModelAssembler  implements RepresentationModelAssembler<Te
     @Override
     public EntityModel<Technique> toModel(Technique entity) {
         return EntityModel.of(entity,
-                WebMvcLinkBuilder.linkTo(methodOn(UserController.class).get(entity.getId())).withSelfRel(),
-                linkTo(methodOn(UserController.class).all()).withRel("users"));
+                WebMvcLinkBuilder.linkTo(methodOn(TechniqueController.class).getById(entity.getId())).withSelfRel(),
+                linkTo(methodOn(TechniqueController.class).all()).withRel("techniques"));
     }
 }

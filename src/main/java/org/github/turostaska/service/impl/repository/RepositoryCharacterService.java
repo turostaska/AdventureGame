@@ -18,8 +18,8 @@ public class RepositoryCharacterService implements ICharacterService {
     @Autowired private IActionService actionService;
 
     @Override
-    public void addOrUpdate(Player player) {
-        playerRepository.save(player);
+    public Player addOrUpdate(Player player) {
+        return playerRepository.save(player);
     }
 
     @Override

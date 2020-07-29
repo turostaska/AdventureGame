@@ -2,11 +2,13 @@ package org.github.turostaska.service.impl;
 
 import org.github.turostaska.dao.IScheduledActionDao;
 import org.github.turostaska.domain.*;
+import org.github.turostaska.service.IActionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.github.turostaska.service.IScheduledTaskService;
 import org.github.turostaska.service.impl.collection.CollectionScheduledTaskService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +96,7 @@ class ScheduledTaskServiceTest {
         assertEquals(player.getCurrentHP(), player.getMaxHP());
         assertEquals(player.getCurrentMana(), player.getMaxMana());
         assertEquals(player.getActionQueue().size(), 0);
+        assertEquals(service.getAll().size(), 0);
     }
 
     @Test

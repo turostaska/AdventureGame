@@ -1,6 +1,5 @@
 package org.github.turostaska.service;
 
-import org.github.turostaska.dao.IActionDao;
 import org.github.turostaska.domain.Action;
 import org.github.turostaska.domain.AdventureAction;
 import org.github.turostaska.domain.MissionAction;
@@ -13,8 +12,9 @@ public interface IActionService {
     /**
      * Creates an action if a record with the same ID doesn't exist, otherwise it overwrites it with the one given
      * @param action The action to be created or be overwritten with
+     * @return The action added or updated
      */
-    void addOrUpdate(Action action);
+    Action addOrUpdate(Action action);
 
     /**
      * Deletes the action from the data structure if it exists
@@ -52,4 +52,6 @@ public interface IActionService {
      * @return The rest action with no costs
      */
     RestAction getFreeRestAction();
+
+    void deleteById(Long id);
 }
