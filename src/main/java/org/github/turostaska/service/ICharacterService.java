@@ -45,12 +45,16 @@ public interface ICharacterService {
      */
     void tryToBuyTool(Player player, Tool tool);
 
+    void obtainTool(NPC npc, Tool tool);
+
     /**
      * Makes the player learn the technique if he is able to afford it
      * @param player      The player that should learn the technique
      * @param technique   The tool to be learnt
      */
     void tryToLearnTechnique(Player player, Technique technique);
+
+    void learnTechnique(NPC npc, Technique technique);
 
 
     /**

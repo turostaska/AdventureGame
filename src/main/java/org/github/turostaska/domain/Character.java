@@ -42,6 +42,16 @@ public abstract class Character {
     @Getter @Setter
     protected Map<Tool, Integer> tools = new HashMap<>();
 
+    public Character(String name, int maxHP, int maxMana, int strength, int money) {
+        this.name = name;
+        this.maxHP = maxHP;
+        this.currentHP = maxHP;
+        this.maxMana = maxMana;
+        this.currentMana = maxMana;
+        this.strength = strength;
+        this.money = money;
+    }
+
     public void takeDamage(int damage) {
         this.currentHP = Util.clamp(currentHP - damage, 0, maxHP);
     }
@@ -73,6 +83,18 @@ public abstract class Character {
     }
 
     public void addMoney(int sum) {}
+
+    public void obtainTool(Tool tool) {
+        tools.merge(tool, 1, (a, b) -> a + b);
+
+        if (tools.get(tool) <= tool.getMaxQuantity())
+            this.strength += tool.getStrengthIncrease();
+    }
+
+    public void learnTechnique(Technique technique) {
+        knownTechniques.add(technique);
+        this.strength += technique.getStrengthIncrease();
+    }
 
     public abstract void update(ICharacterService service);
 

@@ -59,9 +59,27 @@ public class CollectionCharacterService implements ICharacterService {
     }
 
     @Override
+    public void obtainTool(NPC npc, Tool tool) {
+        try {
+            throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void tryToLearnTechnique(Player player, Technique technique) {
         if (player.tryToLearnTechnique(technique))
             addOrUpdate(player);
+    }
+
+    @Override
+    public void learnTechnique(NPC npc, Technique technique) {
+        try {
+            throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

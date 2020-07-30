@@ -46,9 +46,21 @@ public class RepositoryCharacterService implements ICharacterService {
     }
 
     @Override
+    public void obtainTool(NPC npc, Tool tool) {
+        npc.obtainTool(tool);
+        addOrUpdate(npc);
+    }
+
+    @Override
     public void tryToLearnTechnique(Player player, Technique technique) {
         if (player.tryToLearnTechnique(technique))
             addOrUpdate(player);
+    }
+
+    @Override
+    public void learnTechnique(NPC npc, Technique technique) {
+        npc.learnTechnique(technique);
+        addOrUpdate(npc);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package org.github.turostaska.controller.assembler;
 
+import org.github.turostaska.controller.CharacterController;
 import org.github.turostaska.controller.UserController;
 import org.github.turostaska.domain.NPC;
 import org.springframework.hateoas.EntityModel;
@@ -14,7 +15,7 @@ public class NpcModelAssembler implements RepresentationModelAssembler<NPC, Enti
     @Override
     public EntityModel<NPC> toModel(NPC entity) {
         return EntityModel.of(entity,
-                WebMvcLinkBuilder.linkTo(methodOn(UserController.class).get(entity.getId())).withSelfRel(),
-                linkTo(methodOn(UserController.class).all()).withRel("users"));
+                WebMvcLinkBuilder.linkTo(methodOn(CharacterController.class).getNpcById(entity.getId())).withSelfRel(),
+                linkTo(methodOn(CharacterController.class).allNpcs()).withRel("npcs"));
     }
 }

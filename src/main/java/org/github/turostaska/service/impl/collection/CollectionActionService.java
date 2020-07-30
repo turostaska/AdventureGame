@@ -86,4 +86,34 @@ public class CollectionActionService implements IActionService {
     public void deleteById(Long id) {
         dao.getById(id).ifPresent(dao::delete);
     }
+
+    @Override
+    public List<Action> getAllStatelessActions() {
+        try {
+            throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Optional<Action> getStatelessActionById(Long id) {
+        try {
+            throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<DuelAction> getDuelActionById(Long duel_id) {
+        try {
+            throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+        return Optional.empty();
+    }
 }

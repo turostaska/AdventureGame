@@ -1,5 +1,7 @@
 package org.github.turostaska.service.impl.repository;
 
+import com.sun.istack.NotNull;
+import lombok.NonNull;
 import org.github.turostaska.domain.*;
 import org.github.turostaska.domain.Character;
 import org.github.turostaska.repository.IScheduledTaskRepository;
@@ -64,13 +66,13 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
                 }
             }, timeToFinishWithThisTaskInSecs, TimeUnit.SECONDS);
 
-            Player newPlayer = characterService.addOrUpdate(player);
-            player.setActionQueue(newPlayer.getActionQueue());
+            Player updatedPlayer = characterService.addOrUpdate(player);
+            player.setActionQueue(updatedPlayer.getActionQueue());
         }
     }
 
     @Override
-    public void tryToScheduleDuelActionForPlayer(Player player, DuelAction duelAction, Character opponent) {
+    public void tryToScheduleDuelActionForPlayer(Player player, DuelAction duelAction, @NonNull Character opponent) {
 
         if (player.ableToTakeOnAction(duelAction)) {
             Action action = actionService.addOrUpdate(new DuelAction(duelAction.getTimeToFinishInSeconds(), opponent));
@@ -91,8 +93,8 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
                 }
             }, timeToFinishWithThisTaskInSecs, TimeUnit.SECONDS);
 
-            Player newPlayer = characterService.addOrUpdate(player);
-            player.setActionQueue(newPlayer.getActionQueue());
+            Player updatedPlayer = characterService.addOrUpdate(player);
+            player.setActionQueue(updatedPlayer.getActionQueue());
         }
     }
 

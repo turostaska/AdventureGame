@@ -155,18 +155,12 @@ public class ConfigurationClass {
             Player faci = characterService().getPlayerByName("fáci").get();
             Player rolcsi = characterService().getPlayerByName("rolcsi").get();
 
-//            scheduledTaskService().tryToScheduleActionForPlayer(faci, actions.get(2));
-//            scheduledTaskService().tryToScheduleActionForPlayer(faci, actions.get(5));
-//            scheduledTaskService().tryToScheduleActionForPlayer(faci, actions.get(4));
-//            scheduledTaskService().tryToScheduleDuelActionForPlayer(faci, (DuelAction)actions.get(3), rolcsi);
-//            scheduledTaskService().tryToScheduleDuelActionForPlayer(faci, (DuelAction)actions.get(3), rolcsi);
-//            scheduledTaskService().tryToScheduleDuelActionForPlayer(faci, (DuelAction)actions.get(3), rolcsi);
-//            scheduledTaskService().tryToScheduleDuelActionForPlayer(faci, (DuelAction)actions.get(3), rolcsi);
+            List<NPC> npcs = List.of(
+                    new NPC("józsi", 50, 50, 0, 500)
+            );
+            npcs.forEach(characterService()::addOrUpdate);
 
-            characterService().tryToBuyTool(faci, tool1);
-            characterService().tryToBuyTool(faci, tool1);
-
-            characterService().tryToLearnTechnique(faci, techniques.get(2));
+            characterService().obtainTool(npcs.get(0), tool1);
 
             log.info("Preloading finished.");
         };

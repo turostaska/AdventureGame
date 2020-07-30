@@ -58,4 +58,19 @@ public class RepositoryActionService implements IActionService {
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
+
+    @Override
+    public List<Action> getAllStatelessActions() {
+        return repository.findAllStatelessActions();
+    }
+
+    @Override
+    public Optional<Action> getStatelessActionById(Long id) {
+        return repository.findStatelessActionById(id);
+    }
+
+    @Override
+    public Optional<DuelAction> getDuelActionById(Long duel_id) {
+        return repository.findDuelActionById(duel_id);
+    }
 }

@@ -66,18 +66,6 @@ public class Player extends Character {
         return true;
     }
 
-    protected void obtainTool(Tool tool) {
-        tools.merge(tool, 1, (a, b) -> a + b);
-
-        if (tools.get(tool) <= tool.getMaxQuantity())
-            this.strength += tool.getStrengthIncrease();
-    }
-
-    protected void learnTechnique(Technique technique) {
-        knownTechniques.add(technique);
-        this.strength += technique.getStrengthIncrease();
-    }
-
     public boolean tryToLearnTechnique(Technique technique) {
         if (money < technique.getCostToBuy() || knownTechniques.contains(technique))
             return false;

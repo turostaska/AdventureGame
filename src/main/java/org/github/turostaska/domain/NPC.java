@@ -12,4 +12,8 @@ public class NPC extends Character {
     public void update(ICharacterService service) {
         service.addOrUpdate(this);
     }
+
+    public NPC(String name, int maxHP, int maxMana, int strength, int money) {
+        super(name, maxHP, maxMana, strength, money);
+    }
 }

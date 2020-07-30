@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
@@ -57,6 +58,16 @@ public class ActionController {
     @GetMapping("/duel_actions")
     public List<DuelAction> allDuelActions() {
         return actionService.getAllDuelActions();
+    }
+
+    @GetMapping("/stateless_actions")
+    public List<Action> allStatelessActions() {
+        return actionService.getAllStatelessActions();
+    }
+
+    @GetMapping("/stateless_actions/{id}")
+    public Optional<Action> allStatelessActions(@PathVariable Long id) {
+        return actionService.getStatelessActionById(id);
     }
 
     @PostMapping("/rest_actions")
@@ -126,7 +137,7 @@ public class ActionController {
     }
 
     @PutMapping({"/adventure_actions/{id}", "/rest_actions/{id}", "/mission_actions/{id}"})
-    ResponseEntity<?> replaceRestAction(@RequestBody Action newAction, @PathVariable Long id) {
+    ResponseEntity<?> replaceAction(@RequestBody Action newAction, @PathVariable Long id) {
         if (actionService.getById(id).isEmpty())
             throw new IllegalArgumentException(String.format("Action with id %s does not exist.", id));
 

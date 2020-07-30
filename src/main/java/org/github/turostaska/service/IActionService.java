@@ -57,4 +57,10 @@ public interface IActionService {
     RestAction getFreeRestAction();
 
     void deleteById(Long id);
+
+    List<Action> getAllStatelessActions();
+
+    Optional<Action> getStatelessActionById(Long id);
+
+    Optional<DuelAction> getDuelActionById(Long duel_id);
 }

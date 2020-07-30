@@ -1,5 +1,7 @@
 package org.github.turostaska.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,10 +15,14 @@ import javax.persistence.OneToOne;
 @NoArgsConstructor
 @DiscriminatorValue("DUEL")
 public class DuelAction extends Action {
+
     @OneToOne
     @Getter @Setter
     private Character opponent;
-    @Getter @Setter private Boolean attackerWon;
+
+    @Getter @Setter
+    @JsonIgnore
+    private Boolean attackerWon;
 
     public DuelAction(long timeToFinishInSeconds, Character opponent) {
         super(timeToFinishInSeconds);
