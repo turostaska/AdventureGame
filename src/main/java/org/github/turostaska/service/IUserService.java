@@ -13,7 +13,7 @@ public interface IUserService {
      * Creates a user if a record with the same ID doesn't exist, otherwise it overwrites it with the one given
      * @param user The user to be created or be overwritten with
      */
-    void addOrUpdate(User user);
+    User addOrUpdate(User user);
 
     /**
      * Deletes the user from the data structure if it exists

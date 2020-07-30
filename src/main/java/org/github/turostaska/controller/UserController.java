@@ -12,6 +12,7 @@ import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Collectors;
@@ -27,6 +28,8 @@ public class UserController {
     @Autowired private IUserService userService;
     @Autowired private UserModelAssembler assembler;
 
+    @Autowired private PasswordEncoder passwordEncoder;
+
     @GetMapping("/users")
     public CollectionModel<EntityModel<User>> all() {
         var users = userService.getAll().stream().map(assembler::toModel).collect(Collectors.toList());
@@ -41,17 +44,38 @@ public class UserController {
         return assembler.toModel(user);
     }
 
-    @PostMapping("/users")
+    @PostMapping("/registration")
     ResponseEntity<?> add(@RequestBody User newUser) {
         newUser.setId(null);
-        userService.addOrUpdate(newUser);
-        User user = userService.getByName(newUser.getUserName())
-                .orElseThrow(() -> new IllegalArgumentException("Couldn't add user " + newUser.getUserName() + "."));
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+        User user = userService.addOrUpdate(newUser);
 
         log.info(String.format("Created user with name '%s' and ID %s", user.getUserName(), user.getId()));
 
         EntityModel<User> entityModel = assembler.toModel(user);
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+    }
+
+    @PostMapping("/login")
+    ResponseEntity<?> login(@RequestBody User credentials) {
+        var user = userService.getByName(credentials.getUserName());
+        if (user.isEmpty()) {
+            log.info(String.format("Failed attempt to log in as %s: no such user exists.", credentials.getUserName()));
+            return ResponseEntity.noContent().build();
+        }
+
+        if (passwordEncoder.matches(credentials.getPassword(), user.get().getPassword())) {
+            log.info(String.format("User with name '%s' and ID %s has successfully logged in.", user.get().getUserName(),
+                    user.get().getId()));
+
+            //todo: jogosultságok beállítása?
+
+            EntityModel<User> entityModel = assembler.toModel(user.get());
+            return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+        }
+
+        log.info(String.format("Failed attempt to log in as %s: passwords don't match.", credentials.getUserName()));
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/users/{id}/register")

@@ -17,11 +17,13 @@ public class CollectionUserService implements IUserService {
     }
 
     @Override
-    public void addOrUpdate(User user) {
+    public User addOrUpdate(User user) {
         if (dao.getById(user.getId()).isEmpty())
             dao.create(user);
         else
             dao.update(user);
+
+        return getByName(user.getUserName()).orElseThrow();
     }
 
     @Override

@@ -16,8 +16,8 @@ public class RepositoryUserService implements IUserService {
     public RepositoryUserService() {}
 
     @Override
-    public void addOrUpdate(User user) {
-        repository.save(user);
+    public User addOrUpdate(User user) {
+        return repository.save(user);
     }
 
     @Override

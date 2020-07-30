@@ -14,7 +14,7 @@ import javax.persistence.*;
 public class User {
     @Getter @Setter private String userName;
 
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Getter @Setter
     private String password;
 
