@@ -2,6 +2,7 @@ package org.github.turostaska.service.impl.repository;
 
 import com.sun.istack.NotNull;
 import lombok.NonNull;
+import org.github.turostaska.NotificationSender;
 import org.github.turostaska.domain.*;
 import org.github.turostaska.domain.Character;
 import org.github.turostaska.repository.IScheduledTaskRepository;
@@ -23,7 +24,7 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
     @Autowired private IActionService actionService;
     @Autowired private ICharacterService characterService;
 
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(4);
 
     @Override
     public ScheduledTask addOrUpdate(ScheduledTask scheduledTask) {
@@ -61,6 +62,8 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
             scheduler.schedule( () ->  {
                 Optional<Player> playerAtTrigger = characterService.getPlayerById(player.getId());
                 if (playerAtTrigger.isPresent()) {
+                    ScheduledTask nextTask = playerAtTrigger.get().getNextScheduledTask().orElseThrow();
+
                     playerAtTrigger.get().triggerNextTaskInQueue();
                     characterService.addOrUpdate(playerAtTrigger.get());
                 }
@@ -86,8 +89,11 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
                 Optional<Player> playerAtTrigger = characterService.getPlayerById(player.getId());
                 Optional<Character> opponentAtTrigger = characterService.findById(opponent.getId());
                 if (playerAtTrigger.isPresent() && opponentAtTrigger.isPresent()) {
-                    ((DuelAction)(playerAtTrigger.get().getActionQueue().get(0).getAction())).setOpponent(opponentAtTrigger.get());
+                    ScheduledTask nextTask = playerAtTrigger.get().getNextScheduledTask().orElseThrow();
+
+                    ((DuelAction)(nextTask.getAction())).setOpponent(opponentAtTrigger.get());
                     playerAtTrigger.get().triggerNextTaskInQueue();
+
                     characterService.addOrUpdate(playerAtTrigger.get());
                     opponentAtTrigger.get().update(characterService);
                 }

@@ -93,6 +93,14 @@ public class Player extends Character {
     }
 
     @JsonIgnore
+    public Optional<ScheduledTask> getNextScheduledTask() {
+        if (!actionQueue.isEmpty())
+            return Optional.of(actionQueue.get(0));
+
+        return Optional.empty();
+    }
+
+    @JsonIgnore
     public long getTimeToFinishAllTasksInSeconds() {
         long totalTime = 0;
         for (ScheduledTask a : actionQueue) {

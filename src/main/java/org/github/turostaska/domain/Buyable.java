@@ -5,16 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @NoArgsConstructor
 @Entity
 public abstract class Buyable {
     @Getter @Setter protected String name;
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy= GenerationType.SEQUENCE, generator="IDSEQ")
+    @SequenceGenerator(name="IDSEQ", sequenceName="IDSEQ", allocationSize=1)
     @Getter @Setter
     protected Long id;
 

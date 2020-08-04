@@ -13,10 +13,13 @@ import org.github.turostaska.service.*;
 import org.github.turostaska.service.impl.collection.*;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
+import java.util.Properties;
 
 @Configuration
 public class ConfigurationClass {
@@ -129,46 +132,47 @@ public class ConfigurationClass {
         return args -> {
             log.info("Preloading...");
 
-            List<User> users = List.of(
-                    new User("fáci", "AmyGlassires99", "faci@lmente.hu"),
-                    new User("rolcsi", "DamanciaTV7", "rolcsi@cringemail.hu")
-                );
-            users.forEach(userService::createPlayerForUser);
-
-            UsableTool tool1 = new UsableTool("dobócsillag", 5, 0, 10, 20);
-            NonUsableTool tool2 = new NonUsableTool("kard", 10, 0, 300, 2);
-            UsableTool tool3 = new UsableTool("kötszer idk", 0, 20, 20, 20);
-
-            toolService().addOrUpdate(tool1);
-            toolService().addOrUpdate(tool2);
-            toolService().addOrUpdate(tool3);
-
-            List<Technique> techniques = List.of(
-                    new Technique("tűzgolyó", 100, 0, 2000, 40),
-                    new Technique("nagy tűzgolyó", 200, 0, 500, 90),
-                    new Technique("nagy vízhórukk", 40, 0, 100, 20)
-            );
-            techniques.forEach(techniqueService()::addOrUpdate);
-
-            List<Action> actions = List.of(
-                    new RestAction(8*RestAction.HOURS, 50),
-                    new RestAction(4*RestAction.HOURS, 100),
-                    new MissionAction(15*Action.SECONDS, 1000, 0),
-                    new DuelAction(15*Action.SECONDS, null),
-                    new MissionAction(5*RestAction.SECONDS, 4000, 300),
-                    new MissionAction(4*RestAction.SECONDS, 10000, 700)
-            );
-            actions.forEach(actionService()::addOrUpdate);
-
-            Player faci = characterService().getPlayerByName("fáci").get();
-            Player rolcsi = characterService().getPlayerByName("rolcsi").get();
-
-            List<NPC> npcs = List.of(
-                    new NPC("józsi", 50, 50, 0, 500)
-            );
-            npcs.forEach(characterService()::addOrUpdate);
-
-            characterService().obtainTool(npcs.get(0), tool1);
+//            List<User> users = List.of(
+//                    new User("fáci", "AmyGlassires99", "faci@lmente.hu"),
+//                    new User("rolcsi", "DamanciaTV7", "rolcsi@cringemail.hu")
+//                );
+////            users.forEach(userService::addOrUpdate);
+//            users.forEach(userService::createPlayerForUser);
+//
+//            UsableTool tool1 = new UsableTool("dobócsillag", 5, 0, 10, 20);
+//            NonUsableTool tool2 = new NonUsableTool("kard", 10, 0, 300, 2);
+//            UsableTool tool3 = new UsableTool("kötszer idk", 0, 20, 20, 20);
+//
+//            toolService().addOrUpdate(tool1);
+//            toolService().addOrUpdate(tool2);
+//            toolService().addOrUpdate(tool3);
+//
+//            List<Technique> techniques = List.of(
+//                    new Technique("tűzgolyó", 100, 0, 2000, 40),
+//                    new Technique("nagy tűzgolyó", 200, 0, 500, 90),
+//                    new Technique("nagy vízhórukk", 40, 0, 100, 20)
+//            );
+//            techniques.forEach(techniqueService()::addOrUpdate);
+//
+//            List<Action> actions = List.of(
+//                    new RestAction(8*RestAction.HOURS, 50),
+//                    new RestAction(4*RestAction.HOURS, 100),
+//                    new MissionAction(15*Action.SECONDS, 1000, 0),
+//                    new DuelAction(15*Action.SECONDS, null),
+//                    new MissionAction(5*RestAction.SECONDS, 4000, 300),
+//                    new MissionAction(4*RestAction.SECONDS, 10000, 700)
+//            );
+//            actions.forEach(actionService()::addOrUpdate);
+//
+//            Player faci = characterService().getPlayerByName("fáci").get();
+//            Player rolcsi = characterService().getPlayerByName("rolcsi").get();
+//
+//            List<NPC> npcs = List.of(
+//                    new NPC("józsi", 50, 50, 0, 500)
+//            );
+//            npcs.forEach(characterService()::addOrUpdate);
+//
+//            characterService().obtainTool(npcs.get(0), tool1);
 
             log.info("Preloading finished.");
         };

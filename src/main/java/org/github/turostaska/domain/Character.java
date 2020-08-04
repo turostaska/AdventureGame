@@ -13,12 +13,14 @@ import javax.persistence.*;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Table(name= "CHARPLAYER")
 @Entity
 @NoArgsConstructor
 @JsonPropertyOrder(value = { "id", "inventoryKeys", "inventoryValues" }, alphabetic = true)
 public abstract class Character {
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="IDSEQ")
+    @SequenceGenerator(name="IDSEQ", sequenceName="IDSEQ", allocationSize=1)
     @Getter @Setter
     protected Long id;
 

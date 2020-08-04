@@ -5,10 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
-
+@Table(name = "REGISTEREDUSER")
 @Entity
 @NoArgsConstructor
 public class User {
@@ -20,7 +21,8 @@ public class User {
 
     @Getter @Setter private String email;
 
-    @Id @GeneratedValue
+    @Id  @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="IDSEQ")
+    @SequenceGenerator(name="IDSEQ", sequenceName="IDSEQ", allocationSize=1)
     @Getter @Setter
     private Long id;
 

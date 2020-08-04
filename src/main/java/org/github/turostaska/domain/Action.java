@@ -12,7 +12,8 @@ import javax.persistence.*;
 public abstract class Action {
     @Getter @Setter protected long timeToFinishInSeconds;
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="IDSEQ")
+    @SequenceGenerator(name="IDSEQ", sequenceName="IDSEQ", allocationSize=1)
     @Getter @Setter
     protected Long id;
 

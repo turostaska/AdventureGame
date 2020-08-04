@@ -12,7 +12,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ScheduledTask {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="IDSEQ")
+    @SequenceGenerator(name="IDSEQ", sequenceName="IDSEQ", allocationSize=1)
     @Getter @Setter
     private Long id;
 
