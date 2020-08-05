@@ -273,4 +273,589 @@
     <changeSet author="gyakornok (generated)" id="1596610978853-42">
         <addForeignKeyConstraint baseColumnNames="ADVENTURE_ACTION_ID" baseTableName="ACTION_TECHNIQUE_REWARDS" constraintName="FKRMUF2OV0VK95Q9AARJYKLFSQG" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ACTION" validate="true"/>
     </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-1">
+        <createSequence maxValue="9999999999999999999999999999" sequenceName="HIBERNATE_SEQUENCE" startValue="1"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-2">
+        <createSequence maxValue="9999999999999999999" sequenceName="IDSEQ" startValue="41"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-3">
+        <createTable tableName="ACTION">
+            <column name="TYPE" type="VARCHAR2(31 BYTE)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_7"/>
+            </column>
+            <column name="TIME_TO_FINISH_IN_SECONDS" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DIFFICULTY" type="NUMBER(*, 0)"/>
+            <column name="ATTACKER_WON" type="NUMBER(1, 0)"/>
+            <column name="RANK" type="NUMBER(*, 0)"/>
+            <column name="REWARD" type="NUMBER(*, 0)"/>
+            <column name="COST" type="NUMBER(*, 0)"/>
+            <column name="OPPONENT_ID" type="NUMBER(38, 0)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-4">
+        <createTable tableName="ACTION_TECHNIQUE_REWARDS">
+            <column name="ADVENTURE_ACTION_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TECHNIQUE_REWARDS_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-5">
+        <createTable tableName="ACTION_TOOL_REWARDS">
+            <column name="ADVENTURE_ACTION_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TOOL_REWARDS_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-6">
+        <createTable tableName="BUYABLE">
+            <column name="DTYPE" type="VARCHAR2(31 BYTE)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_3"/>
+            </column>
+            <column name="COST_TO_BUY" type="NUMBER(*, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DAMAGE" type="NUMBER(*, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="HEALING_AMOUNT" type="NUMBER(*, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR2(255 BYTE)"/>
+            <column name="MAX_QUANTITY" type="NUMBER(*, 0)"/>
+            <column name="COST_TO_CAST" type="NUMBER(*, 0)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-7">
+        <createTable tableName="CHARPLAYER">
+            <column name="DTYPE" type="VARCHAR2(31 BYTE)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_35"/>
+            </column>
+            <column name="CURRENTHP" type="NUMBER(*, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CURRENT_MANA" type="NUMBER(*, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MAXHP" type="NUMBER(*, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MAX_MANA" type="NUMBER(*, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MONEY" type="NUMBER(*, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR2(255 BYTE)"/>
+            <column name="STRENGTH" type="NUMBER(*, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USER_ID" type="NUMBER(38, 0)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-8">
+        <createTable tableName="CHARPLAYER_ACTION_QUEUE">
+            <column name="PLAYER_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ACTION_QUEUE_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-9">
+        <createTable tableName="CHARPLAYER_KNOWN_TECHNIQUES">
+            <column name="CHARACTER_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="KNOWN_TECHNIQUES_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-10">
+        <createTable tableName="INVENTORY">
+            <column name="CHARACTER_ID" type="NUMBER(38, 0)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_2"/>
+            </column>
+            <column name="TOOLS" type="NUMBER(*, 0)"/>
+            <column name="TOOLS_KEY" type="NUMBER(38, 0)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_2"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-11">
+        <createTable tableName="REGISTEREDUSER">
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_27"/>
+            </column>
+            <column name="EMAIL" type="VARCHAR2(255 BYTE)"/>
+            <column name="PASSWORD" type="VARCHAR2(255 BYTE)"/>
+            <column name="USER_NAME" type="VARCHAR2(255 BYTE)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-12">
+        <createTable tableName="SCHEDULED_TASK">
+            <column name="DTYPE" type="VARCHAR2(31 BYTE)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_A"/>
+            </column>
+            <column name="ESTIMATED_TIME_OF_FINISHING" type="TIMESTAMP(6)"/>
+            <column name="ACTION_ID" type="NUMBER(38, 0)"/>
+            <column name="PLAYER_ID" type="NUMBER(38, 0)"/>
+            <column name="STATEFUL_ACTION_ID" type="NUMBER(38, 0)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-13">
+        <createIndex indexName="UK_CW5A1XITKY1M2HPKP2C5SVW8T" tableName="CHARPLAYER_ACTION_QUEUE" unique="true">
+            <column name="ACTION_QUEUE_ID"/>
+        </createIndex>
+        <addUniqueConstraint columnNames="ACTION_QUEUE_ID" constraintName="UK_CW5A1XITKY1M2HPKP2C5SVW8T" forIndexName="UK_CW5A1XITKY1M2HPKP2C5SVW8T" tableName="CHARPLAYER_ACTION_QUEUE"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-14">
+        <createIndex indexName="UNIQUE_EMAIL" tableName="REGISTEREDUSER" unique="true">
+            <column name="EMAIL"/>
+        </createIndex>
+        <addUniqueConstraint columnNames="EMAIL" constraintName="UNIQUE_EMAIL" forIndexName="UNIQUE_EMAIL" tableName="REGISTEREDUSER"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-15">
+        <createIndex indexName="UNIQUE_NAME" tableName="REGISTEREDUSER" unique="true">
+            <column name="USER_NAME"/>
+        </createIndex>
+        <addUniqueConstraint columnNames="USER_NAME" constraintName="UNIQUE_NAME" forIndexName="UNIQUE_NAME" tableName="REGISTEREDUSER"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-16">
+        <createIndex indexName="FK28WJ9QXEPG9S2777OS1KRCJK6_I3" tableName="CHARPLAYER">
+            <column name="USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-17">
+        <createIndex indexName="FK46SCWSCCMOVUJ078BE2M365VA_IB" tableName="CHARPLAYER_ACTION_QUEUE">
+            <column name="PLAYER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-18">
+        <createIndex indexName="FK48I6J92SU1GWUCY5DWCGI7STH_I2" tableName="INVENTORY">
+            <column name="CHARACTER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-19">
+        <createIndex indexName="FK5MR5WTDFNKWDEI7KU4I2WBFKR_I8" tableName="ACTION_TECHNIQUE_REWARDS">
+            <column name="TECHNIQUE_REWARDS_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-20">
+        <createIndex indexName="FK8891CTHXODYNLOVFRUMT7KTPH_I5" tableName="ACTION_TOOL_REWARDS">
+            <column name="TOOL_REWARDS_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-21">
+        <createIndex indexName="FK9MAPB6YKQBSUR2IJ92T7V3GM9_IA" tableName="SCHEDULED_TASK">
+            <column name="PLAYER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-22">
+        <createIndex indexName="FKAGQDGBRKBWV013SMEL7OGW3ME_I5" tableName="ACTION_TOOL_REWARDS">
+            <column name="ADVENTURE_ACTION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-23">
+        <createIndex indexName="FKBM7X8G4UDV83YN9PMKPJ3M3ST_IA" tableName="SCHEDULED_TASK">
+            <column name="ACTION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-24">
+        <createIndex indexName="FKBXBWGGEIE64UYV99QFDYCKNAD_IB" tableName="CHARPLAYER_KNOWN_TECHNIQUES">
+            <column name="KNOWN_TECHNIQUES_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-25">
+        <createIndex indexName="FKH4GB4O96A634E0U5NWFO33GJQ_I7" tableName="ACTION">
+            <column name="OPPONENT_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-26">
+        <createIndex indexName="FKIFCUT4WUP8RFOCGRTTX1BM6A4_I2" tableName="INVENTORY">
+            <column name="TOOLS_KEY"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-27">
+        <createIndex indexName="FKNF7GX6QNG2NRXM0BP1IUVGCMW_IA" tableName="SCHEDULED_TASK">
+            <column name="STATEFUL_ACTION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-28">
+        <createIndex indexName="FKNWB7UKTQCPIXYP7J0WURTGUXY_IB" tableName="CHARPLAYER_KNOWN_TECHNIQUES">
+            <column name="CHARACTER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-29">
+        <createIndex indexName="FKRMUF2OV0VK95Q9AARJYKLFSQG_I8" tableName="ACTION_TECHNIQUE_REWARDS">
+            <column name="ADVENTURE_ACTION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-30">
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="CHARPLAYER" constraintName="FK28WJ9QXEPG9S2777OS1KRCJK6" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="REGISTEREDUSER" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-31">
+        <addForeignKeyConstraint baseColumnNames="ACTION_QUEUE_ID" baseTableName="CHARPLAYER_ACTION_QUEUE" constraintName="FK436Y7OOQI6HH9AN7VST0MDQTN" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="SCHEDULED_TASK" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-32">
+        <addForeignKeyConstraint baseColumnNames="PLAYER_ID" baseTableName="CHARPLAYER_ACTION_QUEUE" constraintName="FK46SCWSCCMOVUJ078BE2M365VA" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="CHARPLAYER" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-33">
+        <addForeignKeyConstraint baseColumnNames="CHARACTER_ID" baseTableName="INVENTORY" constraintName="FK48I6J92SU1GWUCY5DWCGI7STH" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="CHARPLAYER" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-34">
+        <addForeignKeyConstraint baseColumnNames="TECHNIQUE_REWARDS_ID" baseTableName="ACTION_TECHNIQUE_REWARDS" constraintName="FK5MR5WTDFNKWDEI7KU4I2WBFKR" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="BUYABLE" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-35">
+        <addForeignKeyConstraint baseColumnNames="TOOL_REWARDS_ID" baseTableName="ACTION_TOOL_REWARDS" constraintName="FK8891CTHXODYNLOVFRUMT7KTPH" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="BUYABLE" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-36">
+        <addForeignKeyConstraint baseColumnNames="PLAYER_ID" baseTableName="SCHEDULED_TASK" constraintName="FK9MAPB6YKQBSUR2IJ92T7V3GM9" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="CHARPLAYER" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-37">
+        <addForeignKeyConstraint baseColumnNames="ADVENTURE_ACTION_ID" baseTableName="ACTION_TOOL_REWARDS" constraintName="FKAGQDGBRKBWV013SMEL7OGW3ME" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ACTION" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-38">
+        <addForeignKeyConstraint baseColumnNames="ACTION_ID" baseTableName="SCHEDULED_TASK" constraintName="FKBM7X8G4UDV83YN9PMKPJ3M3ST" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ACTION" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-39">
+        <addForeignKeyConstraint baseColumnNames="KNOWN_TECHNIQUES_ID" baseTableName="CHARPLAYER_KNOWN_TECHNIQUES" constraintName="FKBXBWGGEIE64UYV99QFDYCKNAD" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="BUYABLE" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-40">
+        <addForeignKeyConstraint baseColumnNames="OPPONENT_ID" baseTableName="ACTION" constraintName="FKH4GB4O96A634E0U5NWFO33GJQ" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="CHARPLAYER" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-41">
+        <addForeignKeyConstraint baseColumnNames="TOOLS_KEY" baseTableName="INVENTORY" constraintName="FKIFCUT4WUP8RFOCGRTTX1BM6A4" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="BUYABLE" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-42">
+        <addForeignKeyConstraint baseColumnNames="STATEFUL_ACTION_ID" baseTableName="SCHEDULED_TASK" constraintName="FKNF7GX6QNG2NRXM0BP1IUVGCMW" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ACTION" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-43">
+        <addForeignKeyConstraint baseColumnNames="CHARACTER_ID" baseTableName="CHARPLAYER_KNOWN_TECHNIQUES" constraintName="FKNWB7UKTQCPIXYP7J0WURTGUXY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="CHARPLAYER" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596613996226-44">
+        <addForeignKeyConstraint baseColumnNames="ADVENTURE_ACTION_ID" baseTableName="ACTION_TECHNIQUE_REWARDS" constraintName="FKRMUF2OV0VK95Q9AARJYKLFSQG" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ACTION" validate="true"/>
+    </changeSet>
+
+<!--  END  -->
+
+    <changeSet author="gyakornok (generated)" id="1596615013080-1">
+        <createSequence maxValue="9999999999999999999999999999" sequenceName="HIBERNATE_SEQUENCE" startValue="1"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-2">
+        <createSequence maxValue="9999999999999999999" sequenceName="IDSEQ" startValue="41"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-3">
+        <createTable tableName="ACTION">
+            <column name="TYPE" type="VARCHAR2(31 BYTE)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_7"/>
+            </column>
+            <column name="TIME_TO_FINISH_IN_SECONDS" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DIFFICULTY" type="NUMBER(*, 0)"/>
+            <column name="ATTACKER_WON" type="NUMBER(1, 0)"/>
+            <column name="RANK" type="NUMBER(*, 0)"/>
+            <column name="REWARD" type="NUMBER(*, 0)"/>
+            <column name="COST" type="NUMBER(*, 0)"/>
+            <column name="OPPONENT_ID" type="NUMBER(38, 0)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-4">
+        <createTable tableName="ACTION_TECHNIQUE_REWARDS">
+            <column name="ADVENTURE_ACTION_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TECHNIQUE_REWARDS_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-5">
+        <createTable tableName="ACTION_TOOL_REWARDS">
+            <column name="ADVENTURE_ACTION_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TOOL_REWARDS_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-6">
+        <createTable tableName="BUYABLE">
+            <column name="DTYPE" type="VARCHAR2(31 BYTE)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_3"/>
+            </column>
+            <column name="COST_TO_BUY" type="NUMBER(*, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DAMAGE" type="NUMBER(*, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="HEALING_AMOUNT" type="NUMBER(*, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR2(255 BYTE)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MAX_QUANTITY" type="NUMBER(*, 0)"/>
+            <column name="COST_TO_CAST" type="NUMBER(*, 0)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-7">
+        <createTable tableName="CHARPLAYER">
+            <column name="DTYPE" type="VARCHAR2(31 BYTE)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_35"/>
+            </column>
+            <column name="CURRENTHP" type="NUMBER(*, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CURRENT_MANA" type="NUMBER(*, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MAXHP" type="NUMBER(*, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MAX_MANA" type="NUMBER(*, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MONEY" type="NUMBER(*, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR2(255 BYTE)"/>
+            <column name="STRENGTH" type="NUMBER(*, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USER_ID" type="NUMBER(38, 0)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-8">
+        <createTable tableName="CHARPLAYER_ACTION_QUEUE">
+            <column name="PLAYER_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ACTION_QUEUE_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-9">
+        <createTable tableName="CHARPLAYER_KNOWN_TECHNIQUES">
+            <column name="CHARACTER_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="KNOWN_TECHNIQUES_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-10">
+        <createTable tableName="INVENTORY">
+            <column name="CHARACTER_ID" type="NUMBER(38, 0)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_2"/>
+            </column>
+            <column name="TOOLS" type="NUMBER(*, 0)"/>
+            <column name="TOOLS_KEY" type="NUMBER(38, 0)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_2"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-11">
+        <createTable tableName="REGISTEREDUSER">
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_27"/>
+            </column>
+            <column name="EMAIL" type="VARCHAR2(255 BYTE)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PASSWORD" type="VARCHAR2(255 BYTE)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="USER_NAME" type="VARCHAR2(255 BYTE)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-12">
+        <createTable tableName="SCHEDULED_TASK">
+            <column name="DTYPE" type="VARCHAR2(31 BYTE)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints primaryKey="true" primaryKeyName="CONSTRAINT_A"/>
+            </column>
+            <column name="ESTIMATED_TIME_OF_FINISHING" type="TIMESTAMP(6)"/>
+            <column name="ACTION_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PLAYER_ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="STATEFUL_ACTION_ID" type="NUMBER(38, 0)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-13">
+        <createIndex indexName="UK_CW5A1XITKY1M2HPKP2C5SVW8T" tableName="CHARPLAYER_ACTION_QUEUE" unique="true">
+            <column name="ACTION_QUEUE_ID"/>
+        </createIndex>
+        <addUniqueConstraint columnNames="ACTION_QUEUE_ID" constraintName="UK_CW5A1XITKY1M2HPKP2C5SVW8T" forIndexName="UK_CW5A1XITKY1M2HPKP2C5SVW8T" tableName="CHARPLAYER_ACTION_QUEUE"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-14">
+        <createIndex indexName="UNIQUE_EMAIL" tableName="REGISTEREDUSER" unique="true">
+            <column name="EMAIL"/>
+        </createIndex>
+        <addUniqueConstraint columnNames="EMAIL" constraintName="UNIQUE_EMAIL" forIndexName="UNIQUE_EMAIL" tableName="REGISTEREDUSER"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-15">
+        <createIndex indexName="UNIQUE_NAME" tableName="REGISTEREDUSER" unique="true">
+            <column name="USER_NAME"/>
+        </createIndex>
+        <addUniqueConstraint columnNames="USER_NAME" constraintName="UNIQUE_NAME" forIndexName="UNIQUE_NAME" tableName="REGISTEREDUSER"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-16">
+        <createIndex indexName="FK28WJ9QXEPG9S2777OS1KRCJK6_I3" tableName="CHARPLAYER">
+            <column name="USER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-17">
+        <createIndex indexName="FK46SCWSCCMOVUJ078BE2M365VA_IB" tableName="CHARPLAYER_ACTION_QUEUE">
+            <column name="PLAYER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-18">
+        <createIndex indexName="FK48I6J92SU1GWUCY5DWCGI7STH_I2" tableName="INVENTORY">
+            <column name="CHARACTER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-19">
+        <createIndex indexName="FK5MR5WTDFNKWDEI7KU4I2WBFKR_I8" tableName="ACTION_TECHNIQUE_REWARDS">
+            <column name="TECHNIQUE_REWARDS_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-20">
+        <createIndex indexName="FK8891CTHXODYNLOVFRUMT7KTPH_I5" tableName="ACTION_TOOL_REWARDS">
+            <column name="TOOL_REWARDS_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-21">
+        <createIndex indexName="FK9MAPB6YKQBSUR2IJ92T7V3GM9_IA" tableName="SCHEDULED_TASK">
+            <column name="PLAYER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-22">
+        <createIndex indexName="FKAGQDGBRKBWV013SMEL7OGW3ME_I5" tableName="ACTION_TOOL_REWARDS">
+            <column name="ADVENTURE_ACTION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-23">
+        <createIndex indexName="FKBM7X8G4UDV83YN9PMKPJ3M3ST_IA" tableName="SCHEDULED_TASK">
+            <column name="ACTION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-24">
+        <createIndex indexName="FKBXBWGGEIE64UYV99QFDYCKNAD_IB" tableName="CHARPLAYER_KNOWN_TECHNIQUES">
+            <column name="KNOWN_TECHNIQUES_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-25">
+        <createIndex indexName="FKH4GB4O96A634E0U5NWFO33GJQ_I7" tableName="ACTION">
+            <column name="OPPONENT_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-26">
+        <createIndex indexName="FKIFCUT4WUP8RFOCGRTTX1BM6A4_I2" tableName="INVENTORY">
+            <column name="TOOLS_KEY"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-27">
+        <createIndex indexName="FKNF7GX6QNG2NRXM0BP1IUVGCMW_IA" tableName="SCHEDULED_TASK">
+            <column name="STATEFUL_ACTION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-28">
+        <createIndex indexName="FKNWB7UKTQCPIXYP7J0WURTGUXY_IB" tableName="CHARPLAYER_KNOWN_TECHNIQUES">
+            <column name="CHARACTER_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-29">
+        <createIndex indexName="FKRMUF2OV0VK95Q9AARJYKLFSQG_I8" tableName="ACTION_TECHNIQUE_REWARDS">
+            <column name="ADVENTURE_ACTION_ID"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-30">
+        <addForeignKeyConstraint baseColumnNames="USER_ID" baseTableName="CHARPLAYER" constraintName="FK28WJ9QXEPG9S2777OS1KRCJK6" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="REGISTEREDUSER" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-31">
+        <addForeignKeyConstraint baseColumnNames="ACTION_QUEUE_ID" baseTableName="CHARPLAYER_ACTION_QUEUE" constraintName="FK436Y7OOQI6HH9AN7VST0MDQTN" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="SCHEDULED_TASK" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-32">
+        <addForeignKeyConstraint baseColumnNames="PLAYER_ID" baseTableName="CHARPLAYER_ACTION_QUEUE" constraintName="FK46SCWSCCMOVUJ078BE2M365VA" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="CHARPLAYER" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-33">
+        <addForeignKeyConstraint baseColumnNames="CHARACTER_ID" baseTableName="INVENTORY" constraintName="FK48I6J92SU1GWUCY5DWCGI7STH" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="CHARPLAYER" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-34">
+        <addForeignKeyConstraint baseColumnNames="TECHNIQUE_REWARDS_ID" baseTableName="ACTION_TECHNIQUE_REWARDS" constraintName="FK5MR5WTDFNKWDEI7KU4I2WBFKR" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="BUYABLE" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-35">
+        <addForeignKeyConstraint baseColumnNames="TOOL_REWARDS_ID" baseTableName="ACTION_TOOL_REWARDS" constraintName="FK8891CTHXODYNLOVFRUMT7KTPH" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="BUYABLE" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-36">
+        <addForeignKeyConstraint baseColumnNames="PLAYER_ID" baseTableName="SCHEDULED_TASK" constraintName="FK9MAPB6YKQBSUR2IJ92T7V3GM9" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="CHARPLAYER" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-37">
+        <addForeignKeyConstraint baseColumnNames="ADVENTURE_ACTION_ID" baseTableName="ACTION_TOOL_REWARDS" constraintName="FKAGQDGBRKBWV013SMEL7OGW3ME" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ACTION" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-38">
+        <addForeignKeyConstraint baseColumnNames="ACTION_ID" baseTableName="SCHEDULED_TASK" constraintName="FKBM7X8G4UDV83YN9PMKPJ3M3ST" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ACTION" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-39">
+        <addForeignKeyConstraint baseColumnNames="KNOWN_TECHNIQUES_ID" baseTableName="CHARPLAYER_KNOWN_TECHNIQUES" constraintName="FKBXBWGGEIE64UYV99QFDYCKNAD" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="BUYABLE" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-40">
+        <addForeignKeyConstraint baseColumnNames="OPPONENT_ID" baseTableName="ACTION" constraintName="FKH4GB4O96A634E0U5NWFO33GJQ" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="CHARPLAYER" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-41">
+        <addForeignKeyConstraint baseColumnNames="TOOLS_KEY" baseTableName="INVENTORY" constraintName="FKIFCUT4WUP8RFOCGRTTX1BM6A4" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="BUYABLE" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-42">
+        <addForeignKeyConstraint baseColumnNames="STATEFUL_ACTION_ID" baseTableName="SCHEDULED_TASK" constraintName="FKNF7GX6QNG2NRXM0BP1IUVGCMW" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ACTION" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-43">
+        <addForeignKeyConstraint baseColumnNames="CHARACTER_ID" baseTableName="CHARPLAYER_KNOWN_TECHNIQUES" constraintName="FKNWB7UKTQCPIXYP7J0WURTGUXY" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="CHARPLAYER" validate="true"/>
+    </changeSet>
+    <changeSet author="gyakornok (generated)" id="1596615013080-44">
+        <addForeignKeyConstraint baseColumnNames="ADVENTURE_ACTION_ID" baseTableName="ACTION_TECHNIQUE_REWARDS" constraintName="FKRMUF2OV0VK95Q9AARJYKLFSQG" deferrable="false" initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID" referencedTableName="ACTION" validate="true"/>
+    </changeSet>
 </databaseChangeLog>
