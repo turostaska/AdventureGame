@@ -11,7 +11,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
 
-
+//TODO: +1, nagyából jól nézki, de esetleg érdemes megnézni a Spring Mail-t.
 public final class NotificationSender {
     private NotificationSender() {
         mailSender = new JavaMailSenderImpl();

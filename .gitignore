@@ -2,3 +2,6 @@
 /out/
 /target/
 *.db
+
+#TODO: látom a h2 db adat fájlok itt felvannak véve ignore-ba, de mégis felkerült a repository-ba.
+#TODO: Az iml fájl-t is célszerű felvenni ignore közé, ez is IDEA specifikus generált fájl, ami user függő tud lenni.

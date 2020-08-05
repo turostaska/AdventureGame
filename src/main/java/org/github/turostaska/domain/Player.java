@@ -44,6 +44,7 @@ public class Player extends Character {
         this.money += sum;
     }
 
+    //TODO: ezek a kezdőértékek lehetnének akár paraméterezhetőek.
     public static final int BASE_HP = 100;
     public static final int BASE_MANA = 100;
     public static final int BASE_MONEY = 500;

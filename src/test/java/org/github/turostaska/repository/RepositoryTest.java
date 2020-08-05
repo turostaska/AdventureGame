@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -23,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @AutoConfigureTestEntityManager
 @Transactional
+//TODO: @DataJpaTest annotációval meg lehet spórolni a rengeteg annotációt, és talán gyorsabb is lesz a teszt indulása, mert nem az egész Spring Context-et
+		// indítája, csak ami szükséges.
 class RepositoryTest {
     @Autowired private TestEntityManager em;
 

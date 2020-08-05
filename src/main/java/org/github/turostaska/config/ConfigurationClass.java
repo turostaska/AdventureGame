@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Properties;
 
 @Configuration
+//TODO: esetleg kicsit kifejezőbb lenne az ApplicationConfiguration, esetleg ApplicationSpringConfiguration.
 public class ConfigurationClass {
     private static final Logger log = LoggerFactory.getLogger(ConfigurationClass.class);
 
@@ -96,7 +97,8 @@ public class ConfigurationClass {
     }
 
     @Bean
-    @Primary
+    @Primary //TODO: jó megoldás ez is, de jelenleg a másik bean-t sose lehet használni, természetesen tudom, hogy nem is akarjuk.
+    //              Ettől függetlenül profile-ok alá fel lehet venni az eltérő konfigurációkat.
     public IScheduledTaskService scheduledTaskService() {
         return new RepositoryScheduledTaskService();
     }

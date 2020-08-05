@@ -87,7 +87,8 @@ public class CharacterController {
     }
 
     @GetMapping("/players/{id}/purchase_non_usable_tool/{tool_id}")
-    public EntityModel<Player> tryToBuyNonUsableTool(@PathVariable Long id, @PathVariable Long tool_id) {
+    public EntityModel<Player> tryToBuyNonUsableTool(@PathVariable Long id, @PathVariable Long tool_id) { //TODO: értem a miértjét, de camelCase legyen a
+        // változó, a Spring át tudja konvertálni alpaból, de ha nem akkor a @PathVariable-nek meglehet adni a tényleges mappinget.
         Player player = characterService.getPlayerById(id).orElseThrow(() -> new IllegalArgumentException("Player does not exist."));
 
         Tool tool = toolService.getNonUsableToolById(tool_id).orElseThrow(() -> new IllegalArgumentException("Tool does not exist."));
