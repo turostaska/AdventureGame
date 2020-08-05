@@ -175,7 +175,7 @@
                     <propertyFile>src/main/resources/liquibase.properties</propertyFile>
                     <changeLogFile>src/main/resources/genChangeLog.xml</changeLogFile>
                     <driver>oracle.jdbc.driver.OracleDriver</driver>
-                    <outputChangeLogFile>src/main/resources/genChangeLog.xml</outputChangeLogFile>
+                    <outputChangeLogFile>src/main/resources/db/changelog/changeLog.xml</outputChangeLogFile>
                 </configuration>
             </plugin>
 

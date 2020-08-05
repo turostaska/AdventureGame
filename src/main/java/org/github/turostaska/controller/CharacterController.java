@@ -112,8 +112,6 @@ public class CharacterController {
         return playerModelAssembler.toModel(player);
     }
 
-    //todo: actionök elvállalása
-
     @GetMapping("/players/{id}/take_action/{action_id}")
     public EntityModel<Player> tryToTakeStatelessAction(@PathVariable Long id, @PathVariable Long action_id) {
         Player player = characterService.getPlayerById(id).orElseThrow(() -> new IllegalArgumentException("Player does not exist."));
