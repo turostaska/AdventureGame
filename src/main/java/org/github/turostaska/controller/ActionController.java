@@ -23,8 +23,11 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+//TODO: +1
 public class ActionController {
+    //TODO: figyelni hogy arra, hogy mi a loggerben megadott class, eltér a ténylegestől!
     private static final Logger log = LoggerFactory.getLogger(ConfigurationClass.class);
+
 
     @Autowired private IActionService actionService;
     @Autowired private RestActionModelAssembler restActionModelAssembler;
@@ -131,14 +134,17 @@ public class ActionController {
     ResponseEntity<?> delete(@PathVariable Long id) {
         actionService.deleteById(id);
 
+        //TODO: alaból string format-al működik a logger, log.info("Action deleted with id {}", id);
         log.info(String.format("Action deleted with id %s", id));
 
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping({"/adventure_actions/{id}", "/rest_actions/{id}", "/mission_actions/{id}"})
+    @PutMapping({"/adventure_actions/{id}", "/rest_actions/{id}", "/mission_actions/{id}"}) //TODO: értem a miértjét, de kicsit furán néz ki, ettől függetlenül
+                                                                                            // lehet jó így is.
     ResponseEntity<?> replaceAction(@RequestBody Action newAction, @PathVariable Long id) {
         if (actionService.getById(id).isEmpty())
+            //TODO: A Hiba kövzetítése a hívó félnek megvan? Lehet a default elegedő, érdemes azért megnézni.
             throw new IllegalArgumentException(String.format("Action with id %s does not exist.", id));
 
         newAction.setId(id);

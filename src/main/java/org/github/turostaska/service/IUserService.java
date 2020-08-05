@@ -64,6 +64,7 @@ public interface IUserService {
      * @param email     The e-mail address given in the login prompt
      * @return A code containing the result of the registration attempt
      */
+    //TODO: Egy baj van ezzel a megoldással, hogy nem kapom meg a regisztrált felhasználót sikeres regisztráció esetén
     RegistrationResult tryToRegister(String name, String password, String email);
 
     List<User> getAll();

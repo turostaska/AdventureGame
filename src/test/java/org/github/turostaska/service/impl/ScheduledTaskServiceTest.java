@@ -54,7 +54,7 @@ class ScheduledTaskServiceTest {
         try {
             TimeUnit.SECONDS.sleep(5);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            e.printStackTrace(); //TODO: teszt esetén a exception-t nyugodtan tovább lehet dobatni, ha nem épül rá semmi.
         }
 
         assertEquals(player.getMoney(), Player.BASE_MONEY + 1000);

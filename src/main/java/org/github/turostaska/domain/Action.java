@@ -26,6 +26,8 @@ public abstract class Action {
         this.timeToFinishInSeconds = timeToFinishInSeconds;
     }
 
+    //TODO: ezek szerintem mind "üzleti logikának" minősülnek. Ezeket a funkciókat, valamilyen service-
+    //      Minden ami több logikát tartalmaz mint settelés esetleg listához hozzáadás kivétel, az már service felelőségi körbe tartozik.
     public boolean playerAbleToTakeOnAction(Player player) {
         return true;
     }
