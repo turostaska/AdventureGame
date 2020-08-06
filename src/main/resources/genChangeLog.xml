@@ -1,5 +1,7 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
-<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-4.0.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
 
     <changeSet author="gyakornok (generated)" id="1596615013080-1">
         <createSequence maxValue="9999999999999999999999999999" sequenceName="HIBERNATE_SEQUENCE" startValue="1"/>
@@ -156,9 +158,7 @@
                 <constraints primaryKey="true" primaryKeyName="CONSTRAINT_A"/>
             </column>
             <column name="ESTIMATED_TIME_OF_FINISHING" type="TIMESTAMP(6)"/>
-            <column name="ACTION_ID" type="NUMBER(38, 0)">
-                <constraints nullable="false"/>
-            </column>
+            <column name="ACTION_ID" type="NUMBER(38, 0)"/>
             <column name="PLAYER_ID" type="NUMBER(38, 0)">
                 <constraints nullable="false"/>
             </column>
