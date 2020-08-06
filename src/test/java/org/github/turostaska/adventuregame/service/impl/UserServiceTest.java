@@ -2,7 +2,6 @@ package org.github.turostaska.adventuregame.service.impl;
 
 import org.github.turostaska.adventuregame.dao.IUserDao;
 import org.github.turostaska.adventuregame.domain.User;
-import org.github.turostaska.adventuregame.service.IUserService;
 import org.github.turostaska.adventuregame.service.impl.collection.CollectionUserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,7 +9,7 @@ import org.mockito.InjectMocks;
 
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -48,23 +47,23 @@ public class UserServiceTest {
 
     @Test
     public void successfulRegistration() {
-        String username = "Laci", password = "Kutya123", email = "asd@fgh.hu";
+        String username = "Laci", password = "KutyaHas452", email = "asd@fgh.hu";
 
-        assertEquals( IUserService.RegistrationResult.SUCCESS, service.tryToRegister(username, password, email) );
+        assertNotEquals( null, service.tryToRegister(username, password, email) );
     }
 
     @Test
     public void registrationFailsDueToInvalidEmail() {
         String username = "Laci", password = "Kutya123", email = "asd@fghhu";
 
-        assertEquals( IUserService.RegistrationResult.INVALID_EMAIL, service.tryToRegister(username, password, email) );
+        assertNull(service.tryToRegister(username, password, email));
     }
 
     @Test
     public void registrationFailsDueToInvalidPassword() {
         String username = "Laci", password = "Kutya\t123", email = "asd@fgh.hu";
 
-        assertEquals( IUserService.RegistrationResult.INVALID_PASSWORD, service.tryToRegister(username, password, email) );
+        assertNull(service.tryToRegister(username, password, email));
     }
 
     @Test
@@ -74,7 +73,7 @@ public class UserServiceTest {
 
         when(daoMock.getByName(username)).thenReturn(Optional.of(user));
 
-        assertEquals( IUserService.RegistrationResult.USERNAME_TAKEN, service.tryToRegister(username, password, email) );
+        assertNull(service.tryToRegister(username, password, email));
     }
 
     @Test
@@ -84,7 +83,7 @@ public class UserServiceTest {
 
         when(daoMock.getByEmail(email)).thenReturn(Optional.of(user));
 
-        assertEquals( IUserService.RegistrationResult.EMAIL_TAKEN, service.tryToRegister(username, password, email) );
+        assertNull(service.tryToRegister(username, password, email));
     }
 
     @Test

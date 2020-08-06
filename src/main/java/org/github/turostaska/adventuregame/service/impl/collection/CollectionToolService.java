@@ -17,19 +17,23 @@ public class CollectionToolService implements IToolService {
     }
 
     @Override
-    public void addOrUpdate(UsableTool tool) {
+    public UsableTool addOrUpdate(UsableTool tool) {
         if (dao.getById(tool.getId()).isEmpty())
             dao.create(tool);
         else
             dao.update(tool);
+
+        return getUsableToolById(tool.getId()).orElseThrow();
     }
 
     @Override
-    public void addOrUpdate(NonUsableTool tool) {
+    public NonUsableTool addOrUpdate(NonUsableTool tool) {
         if (dao.getById(tool.getId()).isEmpty())
             dao.create(tool);
         else
             dao.update(tool);
+
+        return getNonUsableToolById(tool.getId()).orElseThrow();
     }
 
     @Override

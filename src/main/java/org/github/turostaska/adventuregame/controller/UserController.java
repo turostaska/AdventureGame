@@ -11,7 +11,6 @@ import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.stream.Collectors;
@@ -21,13 +20,10 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 public class UserController {
-
     private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @Autowired private IUserService userService;
     @Autowired private UserModelAssembler assembler;
-
-    @Autowired private PasswordEncoder passwordEncoder;
 
     @GetMapping("/users")
     public CollectionModel<EntityModel<User>> all() {
@@ -45,16 +41,13 @@ public class UserController {
 
     @PostMapping("/registration")
     ResponseEntity<?> add(@RequestBody User newUser) {
-        //todo: most vagy itt kéne jelszóerősséget ellenőrizni vagy hagyni a tryToRegister függvényt egy az egyben idk
-        if (userService.getByName(newUser.getUserName()).isPresent() || userService.getByEmail(newUser.getEmail()).isPresent()) {
-            String message = "Registration failed: email address and username should be unique.";
-            log.info(message);
-            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        User user;
+        try {
+            user = userService.tryToRegister(newUser.getUserName(), newUser.getPassword(), newUser.getEmail());
+        } catch (Exception ex) {
+            log.info(ex.getMessage());
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
-        newUser.setId(null);
-        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        User user = userService.addOrUpdate(newUser);
 
         log.info("Created user with name '{}' and ID {}", user.getUserName(), user.getId());
 
@@ -71,15 +64,16 @@ public class UserController {
             return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
         }
 
-        if (passwordEncoder.matches(credentials.getPassword(), user.get().getPassword())) {
-            log.info("User with name '{}' and ID {} has successfully logged in.", user.get().getUserName(),
-                    user.get().getId());
-
-            //todo: jogosultságok beállítása?
-
-            EntityModel<User> entityModel = assembler.toModel(user.get());
-            return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
-        }
+        //todo: ezt a service-ben kéne
+//        if (passwordEncoder.matches(credentials.getPassword(), user.get().getPassword())) {
+//            log.info("User with name '{}' and ID {} has successfully logged in.", user.get().getUserName(),
+//                    user.get().getId());
+//
+//            //todo: jogosultságok beállítása?
+//
+//            EntityModel<User> entityModel = assembler.toModel(user.get());
+//            return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+//        }
 
         String message = String.format("Failed attempt to log in as %s: incorrect password.", credentials.getUserName());
         log.info(message);

@@ -4,7 +4,9 @@ import org.apache.commons.validator.routines.EmailValidator;
 import org.github.turostaska.adventuregame.domain.User;
 import org.github.turostaska.adventuregame.repository.IUserRepository;
 import org.github.turostaska.adventuregame.service.IUserService;
+import org.passay.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,19 @@ public class RepositoryUserService implements IUserService {
     private IUserRepository repository;
 
     public RepositoryUserService() {}
+
+    private static final PasswordValidator passwordValidator = new PasswordValidator(
+            new LengthRule(8, 30),
+            new CharacterRule(EnglishCharacterData.UpperCase, 1),
+            new CharacterRule(EnglishCharacterData.LowerCase, 1),
+            new CharacterRule(EnglishCharacterData.Digit, 1),
+            new IllegalSequenceRule(EnglishSequenceData.Alphabetical, 5, false),
+            new IllegalSequenceRule(EnglishSequenceData.Numerical, 5, false),
+            new IllegalSequenceRule(EnglishSequenceData.USQwerty, 5, false),
+            new WhitespaceRule()
+    );
+
+    @Autowired private PasswordEncoder passwordEncoder;
 
     @Override
     public User addOrUpdate(User user) {
@@ -61,16 +76,19 @@ public class RepositoryUserService implements IUserService {
     }
 
     @Override
-    public Optional<User> tryToRegister(String name, String password, String email) {
-        if (canRegister(name, password, email))
-            return Optional.of(register(name, password, email));
+    public User tryToRegister(String name, String password, String email) throws Exception {
+        if ( !emailIsValid(email) )
+            throw new Exception("Email address is not valid.");
+        if ( !usernameIsValid(name) )
+            throw new Exception("Username is not valid.");
+        if ( emailIsTaken(email) )
+            throw new Exception("Email address is already taken.");
+        if ( usernameIsTaken(name) )
+            throw new Exception("Username is already taken.");
+        if ( !passwordIsValid(password) )
+            throw new Exception("Password is too weak or too short.");
 
-        return Optional.empty();
-    }
-
-    private boolean canRegister(String name, String password, String email) {
-        return emailIsValid(email) && passwordIsValid(password) && usernameIsValid(name) && !emailIsTaken(email) &&
-                !usernameIsTaken(name);
+        return register(name, password, email);
     }
 
     @Override
@@ -85,7 +103,8 @@ public class RepositoryUserService implements IUserService {
     }
 
     private User register(String name, String password, String email) {
-        return repository.save(new User(name, password, email));
+        String passwordHash = passwordEncoder.encode(password);
+        return repository.save(new User(name, passwordHash, email));
     }
 
     private boolean usernameIsTaken(String username) {
@@ -107,17 +126,8 @@ public class RepositoryUserService implements IUserService {
         return username.matches( "^" + letter + noWhiteSpace + length + "$" );
     }
 
-    private static final int MIN_PASSWORD_LENGTH = 8;
-    private static final int MAX_PASSWORD_LENGTH = 32;
-
     private boolean passwordIsValid(String password) {
-        String uppercase = "(?=.*[A-Z])";
-        String lowercase = "(?=.*[a-z])";
-        String numeric   = "(?=.*[0-9])";
-        String noWhiteSpace = "(?=\\S+$)";
-        String length    = ".{" + MIN_PASSWORD_LENGTH + "," + MAX_PASSWORD_LENGTH + "}";
-
-        return password.matches( "^" + uppercase + lowercase + numeric + noWhiteSpace + length + "$" );
+        return passwordValidator.validate(new PasswordData(password)).isValid();
     }
 
     private boolean emailIsValid(String email) {

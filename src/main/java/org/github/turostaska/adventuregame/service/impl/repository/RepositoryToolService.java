@@ -15,13 +15,13 @@ public class RepositoryToolService implements IToolService {
     @Autowired private INonUsableToolRepository nonUsableToolRepository;
 
     @Override
-    public void addOrUpdate(UsableTool tool) {
-        usableToolRepository.save(tool);
+    public UsableTool addOrUpdate(UsableTool tool) {
+        return usableToolRepository.save(tool);
     }
 
     @Override
-    public void addOrUpdate(NonUsableTool tool) {
-        nonUsableToolRepository.save(tool);
+    public NonUsableTool addOrUpdate(NonUsableTool tool) {
+        return nonUsableToolRepository.save(tool);
     }
 
     @Override

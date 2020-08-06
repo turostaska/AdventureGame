@@ -10,14 +10,16 @@ public interface IToolService {
     /**
      * Creates a usable tool if a record with the same ID doesn't exist, otherwise it overwrites it with the one given
      * @param tool The tool to be created or be overwritten with
+     * @return The added or updated tool
      */
-    void addOrUpdate(UsableTool tool);
+    UsableTool addOrUpdate(UsableTool tool);
 
     /**
      * Creates a non-usable tool if a record with the same ID doesn't exist, otherwise it overwrites it with the one given
      * @param tool The tool to be created or be overwritten with
+     * @return The added or updated tool
      */
-    void addOrUpdate(NonUsableTool tool);
+    NonUsableTool addOrUpdate(NonUsableTool tool);
 
     /**
      * Deletes the tool from the data structure if it exists

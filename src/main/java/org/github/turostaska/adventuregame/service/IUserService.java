@@ -50,22 +50,17 @@ public interface IUserService {
      * @param password The password given in the login prompt
      * @return The user if the authentication was successful, an empty object otherwise
      */
-    Optional<User> tryToLogIn(String username, String password);
-
-    /**
-     * Possible outcomes of an attempt to register a new user
-     */
     @Deprecated
-    enum RegistrationResult { SUCCESS, INVALID_EMAIL, INVALID_PASSWORD, INVALID_USERNAME, USERNAME_TAKEN, EMAIL_TAKEN }
+    Optional<User> tryToLogIn(String username, String password);
 
     /**
      * Tries to register a new user
      * @param name      The username given in the login prompt
      * @param password  The password given in the login prompt
      * @param email     The e-mail address given in the login prompt
-     * @return The user if registration was successful, an empty object otherwise
+     * @return The newly registered user
      */
-    Optional<User> tryToRegister(String name, String password, String email);
+    User tryToRegister(String name, String password, String email) throws Exception;
 
     List<User> getAll();
 
