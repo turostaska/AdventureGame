@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 @Entity
 @NoArgsConstructor
@@ -42,5 +43,9 @@ public class ScheduledTask {
 
     public long getTimeOfRunningInSeconds() {
         return getAction().getTimeToFinishInSeconds();
+    }
+
+    public long timeLeftToFinish() {
+        return ChronoUnit.SECONDS.between(LocalDateTime.now(), getEstimatedTimeOfFinishing());
     }
 }

@@ -1,5 +1,6 @@
 package org.github.turostaska.adventuregame.service.impl.collection;
 
+import jdk.jshell.spi.ExecutionControl;
 import org.github.turostaska.adventuregame.dao.IScheduledActionDao;
 import org.github.turostaska.adventuregame.domain.Character;
 import org.github.turostaska.adventuregame.domain.*;
@@ -89,5 +90,23 @@ public class CollectionScheduledTaskService implements IScheduledTaskService {
     @Override
     public void deleteById(Long id) {
         getById(id).ifPresent(this::delete);
+    }
+
+    @Override
+    public void rescheduleUnfinishedTasksUponInitialization() {
+        try {
+            throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteAll() {
+        try {
+            throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
     }
 }

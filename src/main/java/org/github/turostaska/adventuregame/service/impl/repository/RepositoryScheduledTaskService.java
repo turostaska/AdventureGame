@@ -22,7 +22,7 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
     @Autowired private IActionService actionService;
     @Autowired private ICharacterService characterService;
 
-    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(4);
+    private final ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
 
     @Override
     public ScheduledTask addOrUpdate(ScheduledTask scheduledTask) {
@@ -57,19 +57,21 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
 
             player.addToActionQueue(new ScheduledTask( action, player, LocalDateTime.now().plusSeconds(timeToFinishWithThisTaskInSecs)));
 
-            scheduler.schedule( () ->  {
-                Optional<Player> playerAtTrigger = characterService.getPlayerById(player.getId());
-                if (playerAtTrigger.isPresent()) {
-                    ScheduledTask nextTask = playerAtTrigger.get().getNextScheduledTask().orElseThrow();
-
-                    playerAtTrigger.get().triggerNextTaskInQueue();
-                    characterService.addOrUpdate(playerAtTrigger.get());
-                }
-            }, timeToFinishWithThisTaskInSecs, TimeUnit.SECONDS);
+            scheduleAction(player, timeToFinishWithThisTaskInSecs);
 
             Player updatedPlayer = characterService.addOrUpdate(player);
             player.setActionQueue(updatedPlayer.getActionQueue());
         }
+    }
+
+    private void scheduleAction(Player player, long timeToFinishWithThisTaskInSecs) {
+        scheduler.schedule( () ->  {
+            Optional<Player> playerAtTrigger = characterService.getPlayerById(player.getId());
+            if (playerAtTrigger.isPresent()) {
+                playerAtTrigger.get().triggerNextTaskInQueue();
+                characterService.addOrUpdate(playerAtTrigger.get());
+            }
+        }, timeToFinishWithThisTaskInSecs, TimeUnit.SECONDS);
     }
 
     @Override
@@ -83,28 +85,53 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
 
             player.addToActionQueue(new StatefulScheduledTask( (DuelAction) action, player, LocalDateTime.now().plusSeconds(timeToFinishWithThisTaskInSecs)));
 
-            scheduler.schedule( () ->  {
-                Optional<Player> playerAtTrigger = characterService.getPlayerById(player.getId());
-                Optional<Character> opponentAtTrigger = characterService.findById(opponent.getId());
-                if (playerAtTrigger.isPresent() && opponentAtTrigger.isPresent()) {
-                    ScheduledTask nextTask = playerAtTrigger.get().getNextScheduledTask().orElseThrow();
-
-                    ((DuelAction)(nextTask.getAction())).setOpponent(opponentAtTrigger.get());
-                    playerAtTrigger.get().triggerNextTaskInQueue();
-
-                    characterService.addOrUpdate(playerAtTrigger.get());
-                    opponentAtTrigger.get().update(characterService);
-                }
-            }, timeToFinishWithThisTaskInSecs, TimeUnit.SECONDS);
+            scheduleDuelAction(player, opponent, timeToFinishWithThisTaskInSecs);
 
             Player updatedPlayer = characterService.addOrUpdate(player);
             player.setActionQueue(updatedPlayer.getActionQueue());
         }
     }
 
+    private void scheduleDuelAction(Player player, @NonNull Character opponent, long timeToFinishWithThisTaskInSecs) {
+        scheduler.schedule( () ->  {
+            Optional<Player> playerAtTrigger = characterService.getPlayerById(player.getId());
+            Optional<Character> opponentAtTrigger = characterService.findById(opponent.getId());
+            if (playerAtTrigger.isPresent() && opponentAtTrigger.isPresent()) {
+                ScheduledTask nextTask = playerAtTrigger.get().getNextScheduledTask().orElseThrow();
+
+                ((DuelAction)(nextTask.getAction())).setOpponent(opponentAtTrigger.get());
+                playerAtTrigger.get().triggerNextTaskInQueue();
+
+                characterService.addOrUpdate(playerAtTrigger.get());
+                opponentAtTrigger.get().update(characterService);
+            }
+        }, timeToFinishWithThisTaskInSecs, TimeUnit.SECONDS);
+    }
+
     @Override
     public void deleteById(Long id) {
         taskRepository.deleteById(id);
+    }
+
+    @Override
+    public void rescheduleUnfinishedTasksUponInitialization() {
+        //árvák törlése
+        //todo: jó lenne, ha nem is keletkezhetnének árvák, ig a ui-ban kéne ezt megoldani egy cooldownnal
+        deleteAll();
+        for(var task : getAll()) {
+            long timeToFinish = Math.max(1, task.timeLeftToFinish() );
+
+            if (task.getAction() instanceof DuelAction)
+                scheduleDuelAction(task.getPlayer(), ((DuelAction)(task.getAction())).getOpponent(),
+                        task.getPlayer().getTimeToFinishAllTasksInSeconds() + timeToFinish);
+            else
+                scheduleAction(task.getPlayer(), timeToFinish);
+        }
+    }
+
+    @Override
+    public void deleteAll() {
+        taskRepository.deleteAll();
     }
 
 }

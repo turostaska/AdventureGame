@@ -56,4 +56,10 @@ public interface IScheduledTaskService {
 
     void deleteById(Long id);
 
+    /**
+     * Reschedules all the tasks that have been left unfinished when the server shut down.
+     */
+    void rescheduleUnfinishedTasksUponInitialization();
+
+    void deleteAll();
 }
