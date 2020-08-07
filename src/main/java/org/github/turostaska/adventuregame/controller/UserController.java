@@ -57,27 +57,21 @@ public class UserController {
 
     @PostMapping("/login")
     ResponseEntity<?> login(@RequestBody User credentials) {
-        var user = userService.getByName(credentials.getUserName());
-        if (user.isEmpty()) {
-            String message = String.format("Login failed: no user exists with name %s.", credentials.getUserName());
-            log.info(message);
-            return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        User user;
+        try {
+            user = userService.tryToLogIn(credentials.getUserName(), credentials.getPassword());
+        } catch (Exception ex) {
+            log.info(ex.getMessage());
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
-        //todo: ezt a service-ben kéne
-//        if (passwordEncoder.matches(credentials.getPassword(), user.get().getPassword())) {
-//            log.info("User with name '{}' and ID {} has successfully logged in.", user.get().getUserName(),
-//                    user.get().getId());
-//
-//            //todo: jogosultságok beállítása?
-//
-//            EntityModel<User> entityModel = assembler.toModel(user.get());
-//            return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
-//        }
+        log.info("User with name '{}' and ID {} has successfully logged in.", user.getUserName(), user.getId());
 
-        String message = String.format("Failed attempt to log in as %s: incorrect password.", credentials.getUserName());
-        log.info(message);
-        return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
+        //todo: jogosultságok beállítása?
+
+        EntityModel<User> entityModel = assembler.toModel(user);
+        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
+
     }
 
     @GetMapping("/users/{id}/create_player")

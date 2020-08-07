@@ -32,7 +32,11 @@ public class UserServiceTest {
 
         when(daoMock.getByName(username)).thenReturn(Optional.of(user));
 
-        assertEquals( user, service.tryToLogIn(username, password).get() );
+        try {
+            assertNotEquals( null, service.tryToLogIn(username, password) );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -42,7 +46,11 @@ public class UserServiceTest {
 
         when(daoMock.getByName("Laci")).thenReturn(Optional.of(user));
 
-        assertEquals(Optional.empty(), service.tryToLogIn(username, "cica456"));
+        try {
+            assertEquals(null, service.tryToLogIn(username, "cica456"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
@@ -93,7 +101,11 @@ public class UserServiceTest {
 
         when(daoMock.getByName(username)).thenReturn(Optional.empty());
 
-        assertEquals(Optional.empty(), service.tryToLogIn(username, password));
+        try {
+            assertEquals(Optional.empty(), service.tryToLogIn(username, password));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

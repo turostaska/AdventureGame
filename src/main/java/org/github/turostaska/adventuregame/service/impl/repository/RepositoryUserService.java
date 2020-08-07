@@ -61,18 +61,18 @@ public class RepositoryUserService implements IUserService {
     }
 
     @Override
-    public Optional<User> tryToLogIn(String username, String password) {
+    public User tryToLogIn(String username, String password) throws Exception {
         Optional<User> user = getByName(username);
         if (user.isEmpty())
-            return Optional.empty();
-        if (passwordsMatch(user.get(), password))
-            return user;
+            throw new Exception("No user found with the given username.");
+        if (!passwordsMatch(user.get(), password))
+            throw new Exception("Incorrect password.");
 
-        return Optional.empty();
+        return user.get();
     }
 
     private boolean passwordsMatch(User user, String givenPassword) {
-        return user.getPassword().equals(givenPassword);
+        return passwordEncoder.matches(givenPassword, user.getPassword());
     }
 
     @Override

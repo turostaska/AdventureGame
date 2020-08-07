@@ -52,14 +52,13 @@ public class CollectionUserService implements IUserService {
     }
 
     @Override
-    public Optional<User> tryToLogIn(String username, String password) {
-        Optional<User> user = getByName(username);
-        if (user.isEmpty())
-            return Optional.empty();
-        if (passwordsMatch(user.get(), password))
-            return user;
-
-        return Optional.empty();
+    public User tryToLogIn(String username, String password) throws Exception {
+        try {
+            throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     private boolean passwordsMatch(User user, String givenPassword) {

@@ -48,10 +48,9 @@ public interface IUserService {
      * Tries to login with the given username and password
      * @param username The username given in the login prompt
      * @param password The password given in the login prompt
-     * @return The user if the authentication was successful, an empty object otherwise
+     * @return The user if the authentication was successful
      */
-    @Deprecated
-    Optional<User> tryToLogIn(String username, String password);
+    User tryToLogIn(String username, String password) throws Exception;
 
     /**
      * Tries to register a new user
