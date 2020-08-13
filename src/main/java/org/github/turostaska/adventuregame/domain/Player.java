@@ -86,7 +86,7 @@ public class Player extends Character {
     }
 
     public boolean ableToTakeOnAction(Action action) {
-        return actionQueue.size() < MAX_NUMBER_OF_ACTIONS && action.playerAbleToTakeOnAction(this);
+        return action.playerAbleToTakeOnAction(this) && actionQueue.size() < MAX_NUMBER_OF_ACTIONS;
     }
 
     public void addToActionQueue(ScheduledTask scheduledTask) {

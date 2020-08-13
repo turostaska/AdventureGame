@@ -129,6 +129,8 @@ public class ApplicationConfiguration {
             log.info("Rescheduling unfinished tasks...");
             scheduledTaskService().rescheduleUnfinishedTasksUponInitialization();
             log.info("Rescheduling finished.");
+
+            
         };
     }
 

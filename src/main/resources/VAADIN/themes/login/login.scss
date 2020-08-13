@@ -1,0 +1,147 @@
+// If you edit this file you need to compile the theme. See README.md for details.
+
+// Global variable overrides. Must be declared before importing Valo.
+
+// Defines the plaintext font size, weight and family. Font size affects general component sizing.
+$v-font-size: 14px;
+//$v-font-weight: 300;
+//$v-font-family: "Open Sans", sans-serif;
+
+// Defines the border used by all components.
+$v-border: 1px solid (v-shade 0.7);
+$v-border-radius: 25px;
+
+// Affects the color of some component elements, e.g Button, Panel title, etc
+$v-background-color: hsl(210, 0%, 98%);
+// Affects the color of content areas, e.g  Panel and Window content, TextField input etc
+$v-app-background-color: $v-background-color;
+
+// Affects the visual appearance of all components
+$v-gradient: v-linear 8%;
+$v-bevel-depth: 30%;
+$v-shadow-opacity: 5%;
+
+// Defines colors for indicating status (focus, success, failure)
+//$v-focus-color: valo-focus-color(); // Calculates a suitable color automatically
+//$v-friendly-color: #2c9720;
+//$v-error-indicator-color: #ed473b;
+
+// For more information, see: https://vaadin.com/book/-/page/themes.valo.html
+// Example variants can be copy/pasted from https://vaadin.com/docs/v8/framework/articles/ValoExamples.html
+
+
+$background: url("./loginBackground.jpg");
+$button-color: steelblue;
+
+@mixin login {
+  @include valo;
+
+  background-image: $background;
+  background-position: bottom;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: scroll;
+  height: 100vh;
+  width: 100%;
+
+  .v-ui {
+    backdrop-filter: blur(8px);
+  }
+
+  .v-textfield, .login {
+    background: #cccccc!important;
+    color: white!important;
+  }
+
+  $button-color: #5c2c4a;
+
+  .v-button  {
+    display: inline-block;
+    font-weight: 400;
+    color: $button-color;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background: white;
+    border: 1px solid $button-color;
+    line-height: 1.5;
+    transition: color 0.5s ease-in-out,background-color 0.5s ease-in-out,border-color 0.5s ease-in-out,box-shadow 0.5s ease-in-out;
+    text-transform: uppercase;
+    font-size: 14px;
+    width: 100%;
+    &:hover {
+      color: white;
+      background: $button-color;
+    }
+  }
+
+
+  .v-captiontext, .v-caption {
+    max-width: 640px;
+    color: #fff;
+    z-index: 2;
+    text-shadow: 1px 1px 1px rgba(0,0,0,.15);
+
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    text-align: left;
+  }
+
+  .v-label {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 75px;
+    margin-bottom: 50px;
+    text-transform: uppercase!important;
+    text-shadow: 1px 1px 1px rgba(0,0,0,.15);
+    color: #fff;
+    white-space: normal;
+    text-align: center;
+  }
+
+
+  .login .v-panel {
+    width: 50%;
+  }
+
+  .v-widget {
+    vertical-align: middle;
+    text-align: center;
+  }
+
+  .v-panel-content {
+    zoom: 1.5;
+  }
+
+  .ui-layout-root {
+    padding: 0;
+    border-radius: 0!important;
+  }
+
+  .spring-view-display {
+    background-image: $background;
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: scroll;
+    height: 100vh;
+    width: 100%;
+  }
+
+  .v-panel-content-spring-view-display {
+    backdrop-filter: blur(8px);
+  }
+
+  .registration-form-panel {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 20px;
+  }
+
+}
+
+@import "../valo/valo.scss";
