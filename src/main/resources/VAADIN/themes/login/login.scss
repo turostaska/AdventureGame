@@ -33,6 +33,8 @@ $v-shadow-opacity: 5%;
 $background: url("./loginBackground.jpg");
 $button-color: steelblue;
 
+@import "../valo/valo.scss";
+
 @mixin login {
   @include valo;
 
@@ -134,7 +136,8 @@ $button-color: steelblue;
   }
 
   .v-panel-content-spring-view-display {
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(20px);
+    zoom: 1.5;
   }
 
   .registration-form-panel {
@@ -142,6 +145,57 @@ $button-color: steelblue;
     padding: 20px;
   }
 
+  .v-gridlayout-slot {
+    position: initial!important;
+  }
+
+  a:link {
+    color: lightpink;
+    text-decoration: none;
+  }
+
+  a:visited {
+    color: rebeccapurple;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #5c1974;
+    transition: color 0.5s ease-in-out,background-color 0.5s ease-in-out,border-color 0.5s ease-in-out,box-shadow 0.5s ease-in-out;
+    text-decoration: none;
+  }
+
+  a:active {
+    text-decoration: none;
+    color: darkslateblue;
+  }
+
+  .v-grid-row .money {
+    color: goldenrod;
+  }
+
+  .v-grid-row .damage {
+
+  }
+
+  .v-grid-row .negative-damage {
+    color: dimgrey;
+  }
+
+  .v-grid-row .heal {
+    color: limegreen;
+  }
+
+  .v-grid-row .self-harm {
+    color: orangered;
+  }
+
+  //todo ez egy szar
+  .login .v-filterselect {
+    width: initial !important;
+    left: 100px !important;
+  }
+
+
 }
 
-@import "../valo/valo.scss";

@@ -1,10 +1,12 @@
 package org.github.turostaska.adventuregame.frontend.view;
 
 import com.vaadin.navigator.View;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.Panel;
 import lombok.extern.slf4j.Slf4j;
 import org.github.turostaska.adventuregame.frontend.component.RegistrationForm;
@@ -28,6 +30,9 @@ public class RegistrationView extends GridLayout implements View {
         super(1, 2);
     }
 
+    Label loginLabel = new Label("Van profilod? " +
+            "nincs user session de azért <a href='#!" + LoginView.NAME +"'>lépj be</a> lmao", ContentMode.HTML);
+
     private void addRegistrationView() {
         registrationForm.setWidthUndefined();
 
@@ -37,6 +42,9 @@ public class RegistrationView extends GridLayout implements View {
 
         addComponent(registrationFormPanel, 0, 0);
         setComponentAlignment(registrationFormPanel, Alignment.BOTTOM_CENTER);
+
+        addComponent(loginLabel, 0, 1);
+        setComponentAlignment(loginLabel, Alignment.TOP_CENTER);
     }
 
     @PostConstruct
@@ -47,6 +55,7 @@ public class RegistrationView extends GridLayout implements View {
         // ez így geci ronda but so is vaadin
         registrationForm.registerClickListener(userService);
     }
+
 }
 
 

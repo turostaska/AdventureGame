@@ -10,6 +10,7 @@ import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
 import lombok.extern.slf4j.Slf4j;
+import org.github.turostaska.adventuregame.frontend.view.ItemShopView;
 import org.github.turostaska.adventuregame.frontend.view.LoginView;
 import org.github.turostaska.adventuregame.frontend.view.RegistrationView;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Slf4j
 public class MainUI extends UI implements ViewDisplay {
     private Panel springViewDisplay;
+    final CssLayout navigationBar = new CssLayout();
 
     @Autowired Navigator navigator;
 
@@ -34,19 +36,25 @@ public class MainUI extends UI implements ViewDisplay {
 
         getPage().setTitle("nevelj narutót but not in a bad way");
 
-        final CssLayout navigationBar = new CssLayout();
-        navigationBar.addStyleName(ValoTheme.LAYOUT_HORIZONTAL_WRAPPING);
-        navigationBar.addComponent(createNavigationButton("Login",
-                LoginView.NAME));
-        navigationBar.addComponent(createNavigationButton("Register",
-                RegistrationView.NAME));
-        root.addComponent(navigationBar);
+        setUpNavigationBar(root);
 
         springViewDisplay = new Panel();
         springViewDisplay.setStyleName("spring-view-display");
         springViewDisplay.setSizeFull();
         root.addComponent(springViewDisplay);
         root.setExpandRatio(springViewDisplay, 1.0f);
+    }
+
+    private void setUpNavigationBar(HorizontalLayout root) {
+        navigationBar.addStyleName(ValoTheme.LAYOUT_HORIZONTAL_WRAPPING);
+        navigationBar.addComponent(createNavigationButton("Login",
+                LoginView.NAME));
+        navigationBar.addComponent(createNavigationButton("Register",
+                RegistrationView.NAME));
+        navigationBar.addComponent(createNavigationButton("Item Shop",
+                ItemShopView.NAME));
+
+        root.addComponent(navigationBar);
     }
 
     @Override

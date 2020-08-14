@@ -1,8 +1,6 @@
 package org.github.turostaska.adventuregame.frontend.component;
 
-import com.vaadin.ui.Button;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.TextField;
+import com.vaadin.ui.*;
 import lombok.extern.slf4j.Slf4j;
 import org.github.turostaska.adventuregame.domain.User;
 import org.github.turostaska.adventuregame.service.IUserService;
@@ -11,11 +9,12 @@ import org.github.turostaska.adventuregame.service.IUserService;
 public class RegistrationForm extends FormLayout {
     private TextField usernameField = new TextField("username");
     private TextField emailField = new TextField("email address");
-    private TextField passwordField = new TextField("password");
+    private PasswordField passwordField = new PasswordField("password");
 
     private Button registrationButton = new Button("register");
 
     public RegistrationForm() {
+
         addComponents(usernameField,
                 emailField,
                 passwordField,
@@ -27,8 +26,10 @@ public class RegistrationForm extends FormLayout {
             try {
                 User user = userService.tryToRegister(usernameField.getValue(), passwordField.getValue(), emailField.getValue());
                 log.info(user.getUserName() + " has registered a new profile.");
+                Notification.show("Successful registration.", Notification.Type.HUMANIZED_MESSAGE);
             } catch (Exception e) {
                 log.info(e.getMessage());
+                Notification.show(e.getMessage(), Notification.Type.ERROR_MESSAGE);
             }
         }));
     }

@@ -1,6 +1,7 @@
 package org.github.turostaska.adventuregame.service.impl.repository;
 
 import org.github.turostaska.adventuregame.domain.NonUsableTool;
+import org.github.turostaska.adventuregame.domain.Tool;
 import org.github.turostaska.adventuregame.domain.UsableTool;
 import org.github.turostaska.adventuregame.repository.INonUsableToolRepository;
 import org.github.turostaska.adventuregame.repository.IUsableToolRepository;
@@ -9,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class RepositoryToolService implements IToolService {
     @Autowired private IUsableToolRepository usableToolRepository;
@@ -62,6 +65,12 @@ public class RepositoryToolService implements IToolService {
     @Override
     public List<NonUsableTool> getAllNonUsableTools() {
         return nonUsableToolRepository.findAll();
+    }
+
+    @Override
+    public List<Tool> getAllTools() {
+        return Stream.concat(getAllUsableTools().stream(), getAllNonUsableTools().stream())
+                .collect(Collectors.toList());
     }
 
     @Override

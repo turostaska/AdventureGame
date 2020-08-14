@@ -1,6 +1,7 @@
 package org.github.turostaska.adventuregame.frontend.view;
 
 import com.vaadin.navigator.View;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.Alignment;
@@ -16,13 +17,13 @@ import javax.annotation.PostConstruct;
 
 @UIScope
 @SpringView(name = LoginView.NAME)
-//@SpringViewDisplay
 @Slf4j
 public class LoginView extends GridLayout implements View {
     public static final String NAME = "";
 
     private CustomLoginForm customLoginForm = new CustomLoginForm();
-    private Label registrationLabel = new Label("Nincs még profilod? regisztrálj te ostoba proli:^)");
+    private Label registrationLabel = new Label("Nincs profilod? " +
+            "<a href='/#!" + RegistrationView.NAME + "'>Regisztrálj</a> te proli:^)", ContentMode.HTML);
 
     @Autowired
     private IUserService userService;
@@ -46,8 +47,9 @@ public class LoginView extends GridLayout implements View {
         setComponentAlignment(registrationLabel, Alignment.TOP_CENTER);
     }
 
+    Panel loginPanel = new Panel(customLoginForm);
+
     private void addLoginPanel() {
-        Panel loginPanel = new Panel(customLoginForm);
         loginPanel.setWidthUndefined();
 
         addComponent(loginPanel, 0, 0);

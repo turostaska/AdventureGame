@@ -3,6 +3,7 @@ package org.github.turostaska.adventuregame.service.impl.collection;
 import jdk.jshell.spi.ExecutionControl;
 import org.github.turostaska.adventuregame.dao.IToolDao;
 import org.github.turostaska.adventuregame.domain.NonUsableTool;
+import org.github.turostaska.adventuregame.domain.Tool;
 import org.github.turostaska.adventuregame.domain.UsableTool;
 import org.github.turostaska.adventuregame.service.IToolService;
 
@@ -96,6 +97,11 @@ public class CollectionToolService implements IToolService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public List<Tool> getAllTools() {
+        return dao.getAll();
     }
 
     @Override

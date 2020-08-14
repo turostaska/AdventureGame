@@ -1,6 +1,7 @@
 package org.github.turostaska.adventuregame.service;
 
 import org.github.turostaska.adventuregame.domain.NonUsableTool;
+import org.github.turostaska.adventuregame.domain.Tool;
 import org.github.turostaska.adventuregame.domain.UsableTool;
 
 import java.util.List;
@@ -64,6 +65,8 @@ public interface IToolService {
     List<UsableTool> getAllUsableTools();
 
     List<NonUsableTool> getAllNonUsableTools();
+
+    List<Tool> getAllTools();
 
     void deleteUsableToolById(Long id);
 
