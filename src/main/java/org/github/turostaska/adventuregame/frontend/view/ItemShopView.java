@@ -2,15 +2,18 @@ package org.github.turostaska.adventuregame.frontend.view;
 
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.navigator.View;
+import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
-import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Grid;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
+import com.vaadin.ui.renderers.ComponentRenderer;
 import lombok.extern.slf4j.Slf4j;
 import org.github.turostaska.adventuregame.domain.NonUsableTool;
+import org.github.turostaska.adventuregame.domain.Player;
 import org.github.turostaska.adventuregame.domain.Tool;
 import org.github.turostaska.adventuregame.domain.UsableTool;
+import org.github.turostaska.adventuregame.frontend.ui.MainUI;
+import org.github.turostaska.adventuregame.service.ICharacterService;
 import org.github.turostaska.adventuregame.service.IToolService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,6 +28,8 @@ public class ItemShopView extends VerticalLayout implements View {
     private final Grid<Tool> toolGrid = new Grid<>(Tool.class);
 
     @Autowired IToolService toolService;
+    @Autowired ICharacterService characterService;
+    private boolean purchaseColumnIsInit = false;
 
     @PostConstruct
     private void init() {
@@ -61,16 +66,38 @@ public class ItemShopView extends VerticalLayout implements View {
                 .setCaption("Heal")
                 .setStyleGenerator(item -> item.getHealingAmount() >= 0 ? "heal" : "self-harm")
                 .setMinimumWidthFromContent(true);
-
         toolGrid.addColumn(tool -> tool instanceof UsableTool ? "consumable" : "non-consumable")
                 .setCaption("Type");
 
+        addPurchaseColumn();
+
         addComponents(typeComboBox, toolGrid);
 
-        toolGrid.setWidthUndefined();
         toolGrid.setHeightFull();
+        toolGrid.setWidthFull();
 
         setExpandRatio(toolGrid, 0.9f);
+    }
+
+    private void addPurchaseColumn() {
+        if (purchaseColumnIsInit || ((MainUI) (UI.getCurrent())).getLoggedInUser() == null)
+            return;
+
+        toolGrid.addColumn(tool -> addPurchaseButton(tool), new ComponentRenderer())
+                .setCaption("Purchase").setSortable(false)
+                .setMinimumWidthFromContent(true);
+        purchaseColumnIsInit = true;
+    }
+
+    private Button addPurchaseButton(Tool tool) {
+        Player purchaser = ((MainUI) (UI.getCurrent())).getLoggedInUser().getPlayer();
+        Button button = new Button("Purchase", event -> {
+            characterService.tryToBuyTool(purchaser, tool);
+            log.info("Purchase button pressed");
+        });
+        button.addClickListener(event -> button.setEnabled(purchaser.getMoney() >= tool.getCostToBuy()));
+        button.setEnabled(purchaser.getMoney() >= tool.getCostToBuy());
+        return button;
     }
 
     private void applyFilter(ListDataProvider<Tool> provider) {
@@ -81,5 +108,10 @@ public class ItemShopView extends VerticalLayout implements View {
             else
                 provider.addFilter(tool -> tool instanceof NonUsableTool);
         }
+    }
+
+    @Override
+    public void enter(ViewChangeListener.ViewChangeEvent event) {
+        addPurchaseColumn();
     }
 }

@@ -32,7 +32,9 @@ public class RepositoryUserService implements IUserService {
 
     @Override
     public User addOrUpdate(User user) {
-        return repository.save(user);
+        User saved = repository.save(user);
+        user.setPlayer(saved.getPlayer());
+        return saved;
     }
 
     @Override

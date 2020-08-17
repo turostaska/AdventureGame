@@ -67,6 +67,7 @@ public class Player extends Character {
         return true;
     }
 
+    //todo: equals-t felüldefiniálni a buyable-ökben mert ez szar
     public boolean tryToLearnTechnique(Technique technique) {
         if (money < technique.getCostToBuy() || knownTechniques.contains(technique))
             return false;

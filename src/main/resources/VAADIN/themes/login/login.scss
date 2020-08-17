@@ -91,7 +91,6 @@ $button-color: steelblue;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
-    text-align: left;
   }
 
   .v-label {
@@ -190,12 +189,9 @@ $button-color: steelblue;
     color: orangered;
   }
 
-  //todo ez egy szar
-  .login .v-filterselect {
+  .v-filterselect-button:before {
     width: initial !important;
-    left: 100px !important;
   }
-
 
 }
 

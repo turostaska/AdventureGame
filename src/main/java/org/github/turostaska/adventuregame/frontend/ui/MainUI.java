@@ -9,10 +9,14 @@ import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.spring.annotation.SpringViewDisplay;
 import com.vaadin.ui.*;
 import com.vaadin.ui.themes.ValoTheme;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.github.turostaska.adventuregame.domain.User;
+import org.github.turostaska.adventuregame.frontend.component.LoggedInStatusBar;
 import org.github.turostaska.adventuregame.frontend.view.ItemShopView;
 import org.github.turostaska.adventuregame.frontend.view.LoginView;
 import org.github.turostaska.adventuregame.frontend.view.RegistrationView;
+import org.github.turostaska.adventuregame.frontend.view.ScrollShopView;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Theme("login")
@@ -21,9 +25,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Slf4j
 public class MainUI extends UI implements ViewDisplay {
     private Panel springViewDisplay;
-    final CssLayout navigationBar = new CssLayout();
+    final private CssLayout navigationBar = new CssLayout();
+    private LoggedInStatusBar statusBar = new LoggedInStatusBar();
+
+    @Getter
+    private User loggedInUser;
 
     @Autowired Navigator navigator;
+
+    public void setLoggedInUser(User loggedInUser) {
+        this.loggedInUser = loggedInUser;
+        statusBar.invalidate(loggedInUser);
+    }
 
     @Override
     protected void init(VaadinRequest request) {
@@ -42,17 +55,19 @@ public class MainUI extends UI implements ViewDisplay {
         springViewDisplay.setStyleName("spring-view-display");
         springViewDisplay.setSizeFull();
         root.addComponent(springViewDisplay);
-        root.setExpandRatio(springViewDisplay, 1.0f);
+        root.setExpandRatio(springViewDisplay, 0.8f);
+        root.setExpandRatio(navigationBar, 0.2f);
     }
 
     private void setUpNavigationBar(HorizontalLayout root) {
         navigationBar.addStyleName(ValoTheme.LAYOUT_HORIZONTAL_WRAPPING);
-        navigationBar.addComponent(createNavigationButton("Login",
-                LoginView.NAME));
-        navigationBar.addComponent(createNavigationButton("Register",
-                RegistrationView.NAME));
-        navigationBar.addComponent(createNavigationButton("Item Shop",
-                ItemShopView.NAME));
+
+        navigationBar.addComponents(statusBar);
+
+        navigationBar.addComponent(createNavigationButton("Login", LoginView.NAME));
+        navigationBar.addComponent(createNavigationButton("Register", RegistrationView.NAME));
+        navigationBar.addComponent(createNavigationButton("Item Shop", ItemShopView.NAME));
+        navigationBar.addComponent(createNavigationButton("Scroll Shop", ScrollShopView.NAME));
 
         root.addComponent(navigationBar);
     }
@@ -65,8 +80,6 @@ public class MainUI extends UI implements ViewDisplay {
     private Button createNavigationButton(String caption, final String viewName) {
         Button button = new Button(caption);
         button.addStyleName(ValoTheme.BUTTON_SMALL);
-        // If you didn't choose Java 8 when creating the project, convert this
-        // to an anonymous listener class
         button.addClickListener(event -> getUI().getNavigator().navigateTo(viewName));
         button.setHeight("60px");
         return button;

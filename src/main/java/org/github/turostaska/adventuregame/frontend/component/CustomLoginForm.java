@@ -1,12 +1,11 @@
 package org.github.turostaska.adventuregame.frontend.component;
 
 import com.vaadin.navigator.View;
-import com.vaadin.ui.LoginForm;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.PasswordField;
-import com.vaadin.ui.TextField;
+import com.vaadin.ui.*;
 import lombok.extern.slf4j.Slf4j;
 import org.github.turostaska.adventuregame.domain.User;
+import org.github.turostaska.adventuregame.frontend.ui.MainUI;
+import org.github.turostaska.adventuregame.frontend.view.CharacterSheetView;
 import org.github.turostaska.adventuregame.service.IUserService;
 
 @Slf4j
@@ -18,6 +17,11 @@ public class CustomLoginForm extends LoginForm implements View {
                         event.getLoginParameter("password"));
                 log.info(user.getUserName() + " has signed in.");
                 //todo: actual signing in
+                userService.createPlayerForUser(user);
+
+                ((MainUI)(UI.getCurrent())).setLoggedInUser(user);
+
+                getUI().getNavigator().navigateTo(CharacterSheetView.NAME + "/" + user.getPlayer().getId());
             } catch (Exception e) {
                 log.info(e.getMessage());
                 Notification.show(e.getMessage(), Notification.Type.ERROR_MESSAGE);
