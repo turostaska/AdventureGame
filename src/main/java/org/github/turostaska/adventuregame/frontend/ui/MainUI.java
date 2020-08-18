@@ -1,6 +1,5 @@
 package org.github.turostaska.adventuregame.frontend.ui;
 
-import com.vaadin.annotations.Push;
 import com.vaadin.annotations.Theme;
 import com.vaadin.navigator.Navigator;
 import com.vaadin.navigator.View;
@@ -20,7 +19,6 @@ import org.github.turostaska.adventuregame.frontend.view.RegistrationView;
 import org.github.turostaska.adventuregame.frontend.view.ScrollShopView;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@Push
 @Theme("login")
 @SpringUI
 @SpringViewDisplay

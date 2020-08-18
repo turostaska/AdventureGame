@@ -35,7 +35,6 @@ public class ItemShopView extends VerticalLayout implements View {
         setSizeFull();
 
         setUpToolGrid();
-
     }
 
     ComboBox<String> typeComboBox = new ComboBox<>("Filter by type:");
@@ -94,7 +93,8 @@ public class ItemShopView extends VerticalLayout implements View {
         Long playerId = ((MainUI) (UI.getCurrent())).getLoggedInUser().getPlayer().getId();
         Player purchaser = characterService.getPlayerById(playerId).orElseThrow();
         Button button = new Button("Purchase", event -> {
-            characterService.tryToBuyTool(purchaser, tool);
+            Player buyer = characterService.getPlayerById(playerId).orElseThrow();
+            characterService.tryToBuyTool(buyer, tool);
             log.info("Purchase button pressed");
         });
         button.addClickListener(event -> invalidateButtons());
@@ -106,10 +106,7 @@ public class ItemShopView extends VerticalLayout implements View {
     private void invalidateButtons() {
         Long playerId = ((MainUI) (UI.getCurrent())).getLoggedInUser().getPlayer().getId();
         Player purchaser = characterService.getPlayerById(playerId).orElseThrow();
-        getUI().access(() -> {
-            toolButtonMap.forEach((tool, button) -> button.setEnabled(purchaser.getMoney() >= tool.getCostToBuy()));
-            getUI().push();
-        });
+        toolButtonMap.forEach((tool, button) -> button.setEnabled(purchaser.getMoney() >= tool.getCostToBuy()));
     }
 
     private void applyFilter(ListDataProvider<Tool> provider) {
