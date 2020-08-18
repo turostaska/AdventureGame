@@ -4,10 +4,12 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
 import com.vaadin.spring.annotation.UIScope;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.TextField;
+import com.vaadin.ui.TabSheet;
 import lombok.extern.slf4j.Slf4j;
 import org.github.turostaska.adventuregame.domain.Character;
+import org.github.turostaska.adventuregame.frontend.component.GeneralCharacterSheetLayout;
+import org.github.turostaska.adventuregame.frontend.component.TechniqueGridSheet;
+import org.github.turostaska.adventuregame.frontend.component.ToolGridSheet;
 import org.github.turostaska.adventuregame.service.ICharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,12 +18,13 @@ import javax.annotation.PostConstruct;
 @UIScope
 @SpringView(name = CharacterSheetView.NAME)
 @Slf4j
-public class CharacterSheetView extends FormLayout implements View {
+public class CharacterSheetView extends TabSheet implements View {
     public static final String NAME = "character_sheet";
     private Character activeCharacter;
 
-    private TextField nameField = new TextField("Name");
-    private TextField moneyField = new TextField("Money");
+    private final GeneralCharacterSheetLayout generalLayout = new GeneralCharacterSheetLayout();
+    private final TechniqueGridSheet techniqueGrid = new TechniqueGridSheet();
+    private final ToolGridSheet toolGrid = new ToolGridSheet();
 
     @Autowired ICharacterService characterService;
     //todo: eszközök meg technikák kiíratása valahogy idk
@@ -39,20 +42,17 @@ public class CharacterSheetView extends FormLayout implements View {
 
     @PostConstruct
     private void init() {
-        addComponentsToForm();
+        addTab(generalLayout, "General");
+        addTab(techniqueGrid, "Techniques");
+        addTab(toolGrid, "Tools");
+
     }
 
-    private void addComponentsToForm() {
-        nameField.setEnabled(false);
-        moneyField.setEnabled(false);
-
-        addComponents(nameField, moneyField);
-    }
 
     private void invalidate() {
-        nameField.setPlaceholder(activeCharacter.getName());
-        moneyField.setPlaceholder(activeCharacter.getMoney() + " ryo");
-
+        generalLayout.invalidate(activeCharacter);
+        techniqueGrid.invalidate(activeCharacter);
+        toolGrid.invalidate(activeCharacter);
     }
 
 }

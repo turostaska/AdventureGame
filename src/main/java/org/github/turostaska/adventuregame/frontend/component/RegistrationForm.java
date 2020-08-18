@@ -19,6 +19,8 @@ public class RegistrationForm extends FormLayout {
                 emailField,
                 passwordField,
                 registrationButton);
+
+        new MenuBar();
     }
 
     public void registerClickListener(IUserService userService) {

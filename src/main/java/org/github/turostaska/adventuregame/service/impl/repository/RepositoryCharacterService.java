@@ -53,8 +53,10 @@ public class RepositoryCharacterService implements ICharacterService {
 
     @Override
     public void tryToLearnTechnique(Player player, Technique technique) {
-        if (player.tryToLearnTechnique(technique))
-            addOrUpdate(player);
+        if (player.tryToLearnTechnique(technique)) {
+            Player updated = addOrUpdate(player);
+            player.setTools(updated.getTools());
+        }
     }
 
     @Override

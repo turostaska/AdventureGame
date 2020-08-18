@@ -8,16 +8,15 @@ import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
 import com.vaadin.ui.renderers.ComponentRenderer;
 import lombok.extern.slf4j.Slf4j;
-import org.github.turostaska.adventuregame.domain.NonUsableTool;
-import org.github.turostaska.adventuregame.domain.Player;
-import org.github.turostaska.adventuregame.domain.Tool;
-import org.github.turostaska.adventuregame.domain.UsableTool;
+import org.github.turostaska.adventuregame.domain.*;
 import org.github.turostaska.adventuregame.frontend.ui.MainUI;
 import org.github.turostaska.adventuregame.service.ICharacterService;
 import org.github.turostaska.adventuregame.service.IToolService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.util.HashMap;
+import java.util.Map;
 
 @UIScope
 @SpringView(name = ItemShopView.NAME)
@@ -89,15 +88,28 @@ public class ItemShopView extends VerticalLayout implements View {
         purchaseColumnIsInit = true;
     }
 
+    private final Map<Tool, Button> toolButtonMap = new HashMap<>();
+
     private Button addPurchaseButton(Tool tool) {
-        Player purchaser = ((MainUI) (UI.getCurrent())).getLoggedInUser().getPlayer();
+        Long playerId = ((MainUI) (UI.getCurrent())).getLoggedInUser().getPlayer().getId();
+        Player purchaser = characterService.getPlayerById(playerId).orElseThrow();
         Button button = new Button("Purchase", event -> {
             characterService.tryToBuyTool(purchaser, tool);
             log.info("Purchase button pressed");
         });
-        button.addClickListener(event -> button.setEnabled(purchaser.getMoney() >= tool.getCostToBuy()));
+        button.addClickListener(event -> invalidateButtons());
         button.setEnabled(purchaser.getMoney() >= tool.getCostToBuy());
+        toolButtonMap.put(tool, button);
         return button;
+    }
+
+    private void invalidateButtons() {
+        Long playerId = ((MainUI) (UI.getCurrent())).getLoggedInUser().getPlayer().getId();
+        Player purchaser = characterService.getPlayerById(playerId).orElseThrow();
+        getUI().access(() -> {
+            toolButtonMap.forEach((tool, button) -> button.setEnabled(purchaser.getMoney() >= tool.getCostToBuy()));
+            getUI().push();
+        });
     }
 
     private void applyFilter(ListDataProvider<Tool> provider) {
@@ -113,5 +125,10 @@ public class ItemShopView extends VerticalLayout implements View {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         addPurchaseColumn();
+
+        User user = ((MainUI) (UI.getCurrent())).getLoggedInUser();
+        if (user != null && purchaseColumnIsInit) {
+            invalidateButtons();
+        }
     }
 }

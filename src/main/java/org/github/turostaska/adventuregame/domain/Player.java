@@ -58,6 +58,7 @@ public class Player extends Character {
         return this.id.equals(player.id);
     }
 
+    @Deprecated
     public boolean tryToBuyTool(Tool tool) {
         if (money < tool.getCostToBuy())
             return false;
