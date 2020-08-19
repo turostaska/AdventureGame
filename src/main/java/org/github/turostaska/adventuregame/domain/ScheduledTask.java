@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
+import java.util.Objects;
 
 @Entity
 @NoArgsConstructor
@@ -47,5 +48,18 @@ public class ScheduledTask {
 
     public long timeLeftToFinish() {
         return ChronoUnit.SECONDS.between(LocalDateTime.now(), getEstimatedTimeOfFinishing());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ScheduledTask that = (ScheduledTask) o;
+        return id.equals(that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

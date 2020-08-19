@@ -81,7 +81,7 @@ public class ItemShopView extends VerticalLayout implements View {
         if (purchaseColumnIsInit || ((MainUI) (UI.getCurrent())).getLoggedInUser() == null)
             return;
 
-        toolGrid.addColumn(tool -> addPurchaseButton(tool), new ComponentRenderer())
+        toolGrid.addColumn(this::addPurchaseButton, new ComponentRenderer())
                 .setCaption("Purchase").setSortable(false)
                 .setMinimumWidthFromContent(true);
         purchaseColumnIsInit = true;

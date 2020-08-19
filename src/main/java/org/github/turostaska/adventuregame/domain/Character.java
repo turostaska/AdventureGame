@@ -80,30 +80,17 @@ public abstract class Character {
     }
 
     public void useUpUsableTool(UsableTool tool) {
-        for(var key : tools.keySet())
-            if (key.equals(tool)) {
-                tools.merge(key, 1, (a, b) -> a - b);
-                if (tools.get(key) == 0)
-                    tools.remove(key);
-                break;
-            }
+        tools.merge(tool, 1, (a, b) -> a - b);
 
         this.strength -= tool.getStrengthIncrease();
+
+        if (tools.get(tool) == 0)
+            tools.remove(tool);
     }
 
     public void addMoney(int sum) {}
 
     public void obtainTool(Tool tool) {
-        for(var key : tools.keySet()) {
-            if (key.equals(tool)) {
-                tools.merge(key, 1, (a, b) -> a + b);
-
-                if (tools.get(key) <= tool.getMaxQuantity())
-                    this.strength += tool.getStrengthIncrease();
-
-                return;
-            }
-        }
         tools.merge(tool, 1, (a, b) -> a + b);
 
         if (tools.get(tool) <= tool.getMaxQuantity())

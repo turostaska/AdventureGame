@@ -7,7 +7,9 @@ import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.TabSheet;
 import lombok.extern.slf4j.Slf4j;
 import org.github.turostaska.adventuregame.domain.Character;
+import org.github.turostaska.adventuregame.domain.Player;
 import org.github.turostaska.adventuregame.frontend.component.GeneralCharacterSheetLayout;
+import org.github.turostaska.adventuregame.frontend.component.TaskGridSheet;
 import org.github.turostaska.adventuregame.frontend.component.TechniqueGridSheet;
 import org.github.turostaska.adventuregame.frontend.component.ToolGridSheet;
 import org.github.turostaska.adventuregame.service.ICharacterService;
@@ -25,8 +27,11 @@ public class CharacterSheetView extends TabSheet implements View {
     private final GeneralCharacterSheetLayout generalLayout = new GeneralCharacterSheetLayout();
     private final TechniqueGridSheet techniqueGrid = new TechniqueGridSheet();
     private final ToolGridSheet toolGrid = new ToolGridSheet();
+    private TaskGridSheet taskSheet;
 
     @Autowired ICharacterService characterService;
+    private boolean taskSheetIsInit = false;
+
     //todo: eszközök meg technikák kiíratása valahogy idk
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
@@ -37,6 +42,12 @@ public class CharacterSheetView extends TabSheet implements View {
         }
 
         activeCharacter = characterService.findById(passedId).get();
+        if (activeCharacter instanceof Player && !taskSheetIsInit) {
+            taskSheet = new TaskGridSheet();
+            addTab(taskSheet, "Active tasks");
+            taskSheetIsInit = true;
+        }
+
         invalidate();
     }
 
@@ -53,6 +64,8 @@ public class CharacterSheetView extends TabSheet implements View {
         generalLayout.invalidate(activeCharacter);
         techniqueGrid.invalidate(activeCharacter);
         toolGrid.invalidate(activeCharacter);
+        if (activeCharacter instanceof Player)
+            taskSheet.invalidate((Player)activeCharacter);
     }
 
 }

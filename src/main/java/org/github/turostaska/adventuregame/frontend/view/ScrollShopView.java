@@ -8,13 +8,16 @@ import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
 import com.vaadin.ui.renderers.ComponentRenderer;
 import lombok.extern.slf4j.Slf4j;
-import org.github.turostaska.adventuregame.domain.*;
+import org.github.turostaska.adventuregame.domain.Player;
+import org.github.turostaska.adventuregame.domain.Technique;
 import org.github.turostaska.adventuregame.frontend.ui.MainUI;
 import org.github.turostaska.adventuregame.service.ICharacterService;
 import org.github.turostaska.adventuregame.service.ITechniqueService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PostConstruct;
+import java.util.HashMap;
+import java.util.Map;
 
 @UIScope
 @SpringView(name = ScrollShopView.NAME)
@@ -78,27 +81,44 @@ public class ScrollShopView extends VerticalLayout implements View {
         if (purchaseColumnIsInit || ((MainUI) (UI.getCurrent())).getLoggedInUser() == null)
             return;
 
-        techniqueGrid.addColumn(technique -> addPurchaseButton(technique),
-                new ComponentRenderer()).setCaption("Purchase").setSortable(false)
+        techniqueGrid.addColumn(this::addPurchaseButton, new ComponentRenderer())
+                .setCaption("Purchase").setSortable(false)
                 .setMinimumWidthFromContent(true);
         purchaseColumnIsInit = true;
     }
 
+    private final Map<Technique, Button> techniqueButtonMap = new HashMap<>();
+
     private Button addPurchaseButton(Technique technique) {
-        Player purchaser = ((MainUI) (UI.getCurrent())).getLoggedInUser().getPlayer();
+        Long playerId = ((MainUI) (UI.getCurrent())).getLoggedInUser().getPlayer().getId();
+        Player purchaser = characterService.getPlayerById(playerId).orElseThrow();
         Button button = new Button("Purchase", event -> {
-            characterService.tryToLearnTechnique(purchaser, technique);
+            Player buyer = characterService.getPlayerById(playerId).orElseThrow();
+            characterService.tryToLearnTechnique(buyer, technique);
             log.info("Purchase button pressed");
         });
-        button.addClickListener(event ->
-                button.setEnabled(purchaser.getMoney() >= technique.getCostToBuy() && !purchaser.getKnownTechniques().contains(technique)));
+        button.addClickListener(event -> invalidateButtons());
         button.setEnabled(purchaser.getMoney() >= technique.getCostToBuy() && !purchaser.getKnownTechniques().contains(technique));
+        techniqueButtonMap.put(technique, button);
         return button;
     }
 
+    private void invalidateButtons() {
+        Long playerId = ((MainUI) (UI.getCurrent())).getLoggedInUser().getPlayer().getId();
+        Player purchaser = characterService.getPlayerById(playerId).orElseThrow();
+        techniqueButtonMap.forEach((technique, button)
+                -> button.setEnabled(purchaser.getMoney() >= technique.getCostToBuy()
+                && !purchaser.getKnownTechniques().contains(technique)));
+    }
+
     private void applyFilter(ListDataProvider<Technique> provider) {
-        Player player = ((MainUI) (UI.getCurrent())).getLoggedInUser() == null ?
-                null : ((MainUI) (UI.getCurrent())).getLoggedInUser().getPlayer();
+        Player player;
+        if (((MainUI) (UI.getCurrent())).getLoggedInUser() == null)
+            player = null;
+        else {
+            Long id = ((MainUI) (UI.getCurrent())).getLoggedInUser().getPlayer().getId();
+            player = characterService.getPlayerById(id).orElseThrow();
+        }
         provider.clearFilters();
         if (knownComboBox.getValue() != null && player != null) {
             if (knownComboBox.getValue().equals("Unknown")) {

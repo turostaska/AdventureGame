@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.github.turostaska.adventuregame.service.ICharacterService;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class Player extends Character {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
-    @Getter @Setter
+    @Getter
     private List<ScheduledTask> actionQueue = new ArrayList<>();
 
     @OneToOne
@@ -37,6 +38,11 @@ public class Player extends Character {
         this.money = BASE_MONEY;
         this.actionQueue = new ArrayList<>();
         this.user = user;
+    }
+
+    @Transactional
+    public void setActionQueue(List<ScheduledTask> actionQueue) {
+        this.actionQueue = actionQueue;
     }
 
     @Override
@@ -58,7 +64,6 @@ public class Player extends Character {
         return this.id.equals(player.id);
     }
 
-    @Deprecated
     public boolean tryToBuyTool(Tool tool) {
         if (money < tool.getCostToBuy())
             return false;

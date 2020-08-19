@@ -25,4 +25,5 @@ public class UsableTool extends Tool {
         UsableTool tool = (UsableTool) obj;
         return id.equals(tool.getId());
     }
+
 }

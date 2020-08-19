@@ -15,10 +15,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.util.List;
 
 @Configuration
+@EnableTransactionManagement
 public class ApplicationConfiguration {
     private static final Logger log = LoggerFactory.getLogger(ApplicationConfiguration.class);
 
