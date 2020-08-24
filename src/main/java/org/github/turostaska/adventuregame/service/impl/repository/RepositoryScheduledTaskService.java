@@ -115,8 +115,7 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
 
     @Override
     public void rescheduleUnfinishedTasksUponInitialization() {
-        //árvák törlése
-        //todo: jó lenne, ha nem is keletkezhetnének árvák, ig a ui-ban kéne ezt megoldani egy cooldownnal
+        //esetleges árvák törlése
         deleteAll();
         for(var task : getAll()) {
             long timeToFinish = Math.max(1, task.timeLeftToFinish() );

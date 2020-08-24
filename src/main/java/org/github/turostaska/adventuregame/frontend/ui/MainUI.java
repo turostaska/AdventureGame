@@ -13,10 +13,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.github.turostaska.adventuregame.domain.User;
 import org.github.turostaska.adventuregame.frontend.component.LoggedInStatusBar;
-import org.github.turostaska.adventuregame.frontend.view.ItemShopView;
-import org.github.turostaska.adventuregame.frontend.view.LoginView;
-import org.github.turostaska.adventuregame.frontend.view.RegistrationView;
-import org.github.turostaska.adventuregame.frontend.view.ScrollShopView;
+import org.github.turostaska.adventuregame.frontend.view.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Theme("login")
@@ -68,6 +65,7 @@ public class MainUI extends UI implements ViewDisplay {
         navigationBar.addComponent(createNavigationButton("Register", RegistrationView.NAME));
         navigationBar.addComponent(createNavigationButton("Item Shop", ItemShopView.NAME));
         navigationBar.addComponent(createNavigationButton("Scroll Shop", ScrollShopView.NAME));
+        navigationBar.addComponent(createNavigationButton("Missions", MissionActionView.NAME));
 
         root.addComponent(navigationBar);
     }

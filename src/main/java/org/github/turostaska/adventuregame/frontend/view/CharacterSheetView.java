@@ -32,7 +32,6 @@ public class CharacterSheetView extends TabSheet implements View {
     @Autowired ICharacterService characterService;
     private boolean taskSheetIsInit = false;
 
-    //todo: eszközök meg technikák kiíratása valahogy idk
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         Long passedId = Long.parseLong(event.getParameters());
@@ -58,7 +57,6 @@ public class CharacterSheetView extends TabSheet implements View {
         addTab(toolGrid, "Tools");
 
     }
-
 
     private void invalidate() {
         generalLayout.invalidate(activeCharacter);

@@ -16,7 +16,7 @@ public class CustomLoginForm extends LoginForm implements View {
                 User user = userService.tryToLogIn(event.getLoginParameter("username"),
                         event.getLoginParameter("password"));
                 log.info(user.getUserName() + " has signed in.");
-                //todo: actual signing in
+
                 userService.createPlayerForUser(user);
 
                 ((MainUI)(UI.getCurrent())).setLoggedInUser(user);
