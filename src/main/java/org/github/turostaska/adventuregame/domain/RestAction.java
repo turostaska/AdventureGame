@@ -30,6 +30,11 @@ public class RestAction extends Action {
     }
 
     @Override
+    public String description() {
+        return "Rest";
+    }
+
+    @Override
     public boolean playerAbleToTakeOnAction(Player player) {
         if (player.getMoney() >= cost) {
             player.addMoney(-cost);

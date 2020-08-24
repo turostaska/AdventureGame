@@ -35,4 +35,6 @@ public abstract class Action {
     public abstract void takeEffect(Player player);
 
     public abstract boolean carryOutAndGetIfSuccessful(Player who);
+
+    public abstract String description();
 }

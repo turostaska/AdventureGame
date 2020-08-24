@@ -35,6 +35,12 @@ $button-color: steelblue;
 
 @import "../valo/valo.scss";
 
+$chill: linear-gradient(135deg, #09e485 0%,#0291e3 100%);
+$warm: linear-gradient(135deg, #F2CD48 0%,#FD803F 100%);
+$hot: linear-gradient(135deg, #F9445A 0%,#FD803F 100%);
+$cold: linear-gradient(135deg, #8019C6 0%,#2F93CC 100%);
+
+
 @mixin login {
   @include valo;
 
@@ -191,6 +197,33 @@ $button-color: steelblue;
 
   .v-filterselect-button:before {
     width: initial !important;
+  }
+
+  .v-progressbar-wrapper {
+    height: 32px;
+    width: 160px;
+  }
+
+  .v-caption-healthfield {
+    display: none;
+  }
+
+  .v-progressbar-healthbar {
+    .v-progressbar-wrapper {
+      .v-progressbar-indicator{
+        @include linear-gradient(135deg, #F9445A 0%,#FD803F 100%);
+        border: black;
+      }
+    }
+  }
+
+  .v-progressbar-manabar {
+    .v-progressbar-wrapper {
+      .v-progressbar-indicator{
+        @include linear-gradient(135deg, #09e485 0%,#0291e3 100%);
+        border: black;
+      }
+    }
   }
 
 }

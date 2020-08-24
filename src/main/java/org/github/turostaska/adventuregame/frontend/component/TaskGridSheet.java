@@ -7,11 +7,11 @@ import org.github.turostaska.adventuregame.domain.ScheduledTask;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.List;
 
 public class TaskGridSheet extends Grid<ScheduledTask> {
 
-    AtomicInteger i = new AtomicInteger(1);
+    private List<ScheduledTask> tasks;
 
     public TaskGridSheet() {
 
@@ -19,24 +19,24 @@ public class TaskGridSheet extends Grid<ScheduledTask> {
 
         removeAllColumns();
 
-        addColumn(task -> i.getAndIncrement())
+        addColumn(task -> tasks.indexOf(task) + 1)
                 .setCaption("Nr.").setEditable(false)
                 .setMinimumWidthFromContent(true);
         addColumn(this::getDescription)
                 .setCaption("Description")
-                .setMinimumWidthFromContent(true);
+                .setMinimumWidthFromContent(true).setSortable(false);
         addColumn(task -> task.getEstimatedTimeOfFinishing()
                     .format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)))
                 .setCaption("Estimated time of finishing")
-                .setMinimumWidthFromContent(true);
+                .setMinimumWidthFromContent(true).setSortable(false);
     }
 
     private String getDescription(ScheduledTask task) {
-        return task.getAction().toString();
+        return task.getAction().description();
     }
 
     public void invalidate(Player player) {
-        i.set(1);
+        tasks = player.getActionQueue();
         setDataProvider(new ListDataProvider<>(player.getActionQueue()));
     }
 }

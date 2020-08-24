@@ -51,4 +51,9 @@ public class DuelAction extends Action {
 
         return true;
     }
+
+    @Override
+    public String description() {
+        return "Duel against " + opponent.getName();
+    }
 }

@@ -47,5 +47,10 @@ public class AdventureAction extends Action {
         return who.getStrength() >= diceRoll;
     }
 
+    @Override
+    public String description() {
+        return "Adventure";
+    }
+
 
 }

@@ -61,4 +61,9 @@ public class MissionAction extends Action {
 
         return who.getStrength() >= diceRoll;
     }
+
+    @Override
+    public String description() {
+        return rank.name() + " level mission";
+    }
 }
