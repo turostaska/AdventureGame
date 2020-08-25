@@ -139,4 +139,6 @@ public interface ICharacterService {
     void deletePlayerById(Long id);
 
     Optional<Character> findById(Long id);
+
+    List<Character> getAll();
 }

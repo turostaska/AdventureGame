@@ -66,6 +66,9 @@ public class MainUI extends UI implements ViewDisplay {
         navigationBar.addComponent(createNavigationButton("Item Shop", ItemShopView.NAME));
         navigationBar.addComponent(createNavigationButton("Scroll Shop", ScrollShopView.NAME));
         navigationBar.addComponent(createNavigationButton("Missions", MissionActionView.NAME));
+        navigationBar.addComponent(createNavigationButton("Rest", RestActionView.NAME));
+        navigationBar.addComponent(createNavigationButton("Adventures", AdventureActionView.NAME));
+        navigationBar.addComponent(createNavigationButton("Character list", CharacterGridView.NAME));
 
         root.addComponent(navigationBar);
     }

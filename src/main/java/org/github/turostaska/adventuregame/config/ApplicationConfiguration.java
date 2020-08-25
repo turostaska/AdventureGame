@@ -126,6 +126,11 @@ public class ApplicationConfiguration {
         return args -> {
             log.info("Preloading...");
             //preloadInitialDataForTesting();
+//            AdventureAction action = new AdventureAction(10,
+//                    List.of(techniqueService().getById(48L).orElseThrow(), techniqueService().getById(49L).orElseThrow()),
+//                    List.of(toolService().getNonUsableToolById(46L).orElseThrow()), 0);
+//            actionService().addOrUpdate(action);
+
             log.info("Preloading finished.");
 
             log.info("Rescheduling unfinished tasks...");

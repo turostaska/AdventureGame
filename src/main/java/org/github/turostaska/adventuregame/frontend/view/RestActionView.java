@@ -12,8 +12,8 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.renderers.ComponentRenderer;
 import lombok.extern.slf4j.Slf4j;
 import org.github.turostaska.adventuregame.Util;
-import org.github.turostaska.adventuregame.domain.MissionAction;
 import org.github.turostaska.adventuregame.domain.Player;
+import org.github.turostaska.adventuregame.domain.RestAction;
 import org.github.turostaska.adventuregame.frontend.ui.MainUI;
 import org.github.turostaska.adventuregame.service.IActionService;
 import org.github.turostaska.adventuregame.service.ICharacterService;
@@ -25,45 +25,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 @UIScope
-@SpringView(name = MissionActionView.NAME)
+@SpringView(name = RestActionView.NAME)
 @Slf4j
-public class MissionActionView extends VerticalLayout implements View {
-    public static final String NAME = "mission_view";
+public class RestActionView extends VerticalLayout implements View {
+    public static final String NAME = "rest_view";
 
-    private final Grid<MissionAction> missionGrid = new Grid<>();
+    private final Grid<RestAction> restGrid = new Grid<>();
     private boolean takeActionColumnIsInit = false;
+
+    @Autowired IActionService actionService;
+    @Autowired ICharacterService characterService;
+    @Autowired IScheduledTaskService taskService;
 
     @PostConstruct
     public void init() {
         setSizeFull();
 
-        ListDataProvider<MissionAction> provider = new ListDataProvider<>(actionService.getAllMissionActions());
-        missionGrid.setDataProvider(provider);
+        ListDataProvider<RestAction> provider = new ListDataProvider<>(actionService.getAllRestActions());
+        restGrid.setDataProvider(provider);
 
-        missionGrid.removeAllColumns();
+        restGrid.removeAllColumns();
 
-        missionGrid.addColumn(MissionAction::getRank)
-                .setCaption("Rank")
+        restGrid.addColumn(action -> action.getCost() + " ryo")
+                .setCaption("Cost")
                 .setMinimumWidthFromContent(true);
-        missionGrid.addColumn(action -> action.getReward() + " ryo")
-                .setCaption("Reward")
-                .setMinimumWidthFromContent(true);
-        missionGrid.addColumn(action -> Util.formatTime(action.getTimeToFinishInSeconds()))
+        restGrid.addColumn(action -> Util.formatTime(action.getTimeToFinishInSeconds()))
                 .setCaption("Duration")
                 .setSortProperty("timeToFinishInSeconds")
                 .setMinimumWidthFromContent(true);
 
-        addComponent(missionGrid);
+        addComponent(restGrid);
 
-        missionGrid.setWidthFull();
-        missionGrid.setHeightFull();
+        restGrid.setWidthFull();
+        restGrid.setHeightFull();
 
-        setExpandRatio(missionGrid, 1f);
+        setExpandRatio(restGrid, 1f);
     }
-
-    @Autowired IActionService actionService;
-    @Autowired ICharacterService characterService;
-    @Autowired IScheduledTaskService taskService;
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
@@ -74,7 +71,7 @@ public class MissionActionView extends VerticalLayout implements View {
         if (takeActionColumnIsInit || ((MainUI) (UI.getCurrent())).getLoggedInUser() == null)
             return;
 
-        missionGrid.addColumn(this::addTakeActionButton, new ComponentRenderer())
+        restGrid.addColumn(this::addTakeActionButton, new ComponentRenderer())
                 .setCaption("Start").setSortable(false)
                 .setMinimumWidthFromContent(true);
         takeActionColumnIsInit = true;
@@ -83,7 +80,7 @@ public class MissionActionView extends VerticalLayout implements View {
     private final List<Button> actionButtonList = new ArrayList<>();
 
 
-    private Button addTakeActionButton(MissionAction action) {
+    private Button addTakeActionButton(RestAction action) {
         Long playerId = ((MainUI) (UI.getCurrent())).getLoggedInUser().getPlayer().getId();
         Player player = characterService.getPlayerById(playerId).orElseThrow();
         Button button = new Button("Start", event -> {

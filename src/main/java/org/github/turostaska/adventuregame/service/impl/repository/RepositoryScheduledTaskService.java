@@ -76,6 +76,8 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
 
     @Override
     public void tryToScheduleDuelActionForPlayer(Player player, DuelAction duelAction, @NonNull Character opponent) {
+        if (player.equals(opponent))
+            return;
 
         if (player.ableToTakeOnAction(duelAction)) {
             Action action = actionService.addOrUpdate(new DuelAction(duelAction.getTimeToFinishInSeconds(), opponent));

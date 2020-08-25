@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.github.turostaska.adventuregame.Util;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -16,10 +18,12 @@ import java.util.List;
 public class AdventureAction extends Action {
     @Getter @Setter private int difficulty;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany
     @Getter @Setter
     private List<Technique> techniqueRewards;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany
     @Getter @Setter
     private List<Tool> toolRewards;

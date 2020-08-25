@@ -12,7 +12,7 @@ import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.renderers.ComponentRenderer;
 import lombok.extern.slf4j.Slf4j;
 import org.github.turostaska.adventuregame.Util;
-import org.github.turostaska.adventuregame.domain.MissionAction;
+import org.github.turostaska.adventuregame.domain.AdventureAction;
 import org.github.turostaska.adventuregame.domain.Player;
 import org.github.turostaska.adventuregame.frontend.ui.MainUI;
 import org.github.turostaska.adventuregame.service.IActionService;
@@ -25,45 +25,54 @@ import java.util.ArrayList;
 import java.util.List;
 
 @UIScope
-@SpringView(name = MissionActionView.NAME)
+@SpringView(name = AdventureActionView.NAME)
 @Slf4j
-public class MissionActionView extends VerticalLayout implements View {
-    public static final String NAME = "mission_view";
+public class AdventureActionView extends VerticalLayout implements View {
+    public static final String NAME = "adventure_view";
 
-    private final Grid<MissionAction> missionGrid = new Grid<>();
+    private final Grid<AdventureAction> adventureGrid = new Grid<>();
     private boolean takeActionColumnIsInit = false;
+
+    @Autowired IActionService actionService;
+    @Autowired ICharacterService characterService;
+    @Autowired IScheduledTaskService taskService;
 
     @PostConstruct
     public void init() {
         setSizeFull();
 
-        ListDataProvider<MissionAction> provider = new ListDataProvider<>(actionService.getAllMissionActions());
-        missionGrid.setDataProvider(provider);
+        ListDataProvider<AdventureAction> provider = new ListDataProvider<>(actionService.getAllAdventureActions());
+        adventureGrid.setDataProvider(provider);
 
-        missionGrid.removeAllColumns();
+        adventureGrid.removeAllColumns();
 
-        missionGrid.addColumn(MissionAction::getRank)
+        adventureGrid.addColumn(action -> Util.getRankFromDifficulty(action.getDifficulty()))
                 .setCaption("Rank")
                 .setMinimumWidthFromContent(true);
-        missionGrid.addColumn(action -> action.getReward() + " ryo")
-                .setCaption("Reward")
-                .setMinimumWidthFromContent(true);
-        missionGrid.addColumn(action -> Util.formatTime(action.getTimeToFinishInSeconds()))
+        adventureGrid.addColumn(action -> Util.formatTime(action.getTimeToFinishInSeconds()))
                 .setCaption("Duration")
                 .setSortProperty("timeToFinishInSeconds")
                 .setMinimumWidthFromContent(true);
+        adventureGrid.addColumn(this::stringOfRewards)
+                .setCaption("Rewards")
+                .setMinimumWidthFromContent(true);
 
-        addComponent(missionGrid);
+        addComponent(adventureGrid);
 
-        missionGrid.setWidthFull();
-        missionGrid.setHeightFull();
+        adventureGrid.setWidthFull();
+        adventureGrid.setHeightFull();
 
-        setExpandRatio(missionGrid, 1f);
+        setExpandRatio(adventureGrid, 1f);
     }
 
-    @Autowired IActionService actionService;
-    @Autowired ICharacterService characterService;
-    @Autowired IScheduledTaskService taskService;
+    private String stringOfRewards(AdventureAction action) {
+        String str = "";
+        for (var technique : action.getTechniqueRewards())
+            str = str.concat(technique.getName() + ", ");
+        for (var tool : action.getToolRewards())
+            str = str.concat(tool.getName() + ", ");
+        return str.substring(0, str.length() - 2);
+    }
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
@@ -74,7 +83,7 @@ public class MissionActionView extends VerticalLayout implements View {
         if (takeActionColumnIsInit || ((MainUI) (UI.getCurrent())).getLoggedInUser() == null)
             return;
 
-        missionGrid.addColumn(this::addTakeActionButton, new ComponentRenderer())
+        adventureGrid.addColumn(this::addTakeActionButton, new ComponentRenderer())
                 .setCaption("Start").setSortable(false)
                 .setMinimumWidthFromContent(true);
         takeActionColumnIsInit = true;
@@ -83,7 +92,7 @@ public class MissionActionView extends VerticalLayout implements View {
     private final List<Button> actionButtonList = new ArrayList<>();
 
 
-    private Button addTakeActionButton(MissionAction action) {
+    private Button addTakeActionButton(AdventureAction action) {
         Long playerId = ((MainUI) (UI.getCurrent())).getLoggedInUser().getPlayer().getId();
         Player player = characterService.getPlayerById(playerId).orElseThrow();
         Button button = new Button("Start", event -> {
