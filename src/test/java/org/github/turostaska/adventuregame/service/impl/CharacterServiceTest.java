@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-//TODO: a Mockito használatban itt érzek némi bizonytalanságot, nézd át szerintem a használatát mégegyszer, vagy ha kérdés van, akkor beszéljük át.
 public class CharacterServiceTest {
     private Player player;
     private Player opponent;

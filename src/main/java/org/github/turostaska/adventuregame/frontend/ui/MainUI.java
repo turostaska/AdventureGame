@@ -23,7 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class MainUI extends UI implements ViewDisplay {
     private Panel springViewDisplay;
     final private CssLayout navigationBar = new CssLayout();
-    private LoggedInStatusBar statusBar = new LoggedInStatusBar();
+    private final LoggedInStatusBar statusBar = new LoggedInStatusBar();
 
     @Getter
     private User loggedInUser;
@@ -33,6 +33,16 @@ public class MainUI extends UI implements ViewDisplay {
     public void setLoggedInUser(User loggedInUser) {
         this.loggedInUser = loggedInUser;
         statusBar.invalidate(loggedInUser);
+
+        if (loggedInUser != null) {
+            loginButton.setVisible(false);
+            registerButton.setVisible(false);
+            logoutButton.setVisible(true);
+        } else {
+            loginButton.setVisible(true);
+            registerButton.setVisible(true);
+            logoutButton.setVisible(false);
+        }
     }
 
     @Override
@@ -46,7 +56,7 @@ public class MainUI extends UI implements ViewDisplay {
 
         getPage().setTitle("nevelj narutót but not in a bad way");
 
-        setUpNavigationBar(root);
+        initNavigationBar(root);
 
         springViewDisplay = new Panel();
         springViewDisplay.setStyleName("spring-view-display");
@@ -56,19 +66,31 @@ public class MainUI extends UI implements ViewDisplay {
         root.setExpandRatio(navigationBar, 0.2f);
     }
 
-    private void setUpNavigationBar(HorizontalLayout root) {
+    private Button loginButton;
+    private Button registerButton;
+    private Button logoutButton;
+
+    private void initNavigationBar(HorizontalLayout root) {
+        loginButton = createNavigationButton("Login", LoginView.NAME);
+        registerButton = createNavigationButton("Register", RegistrationView.NAME);
+        logoutButton = createNavigationButton("Logout", LoginView.NAME);
+        logoutButton.setVisible(false);
+
+        logoutButton.addClickListener(event -> setLoggedInUser(null));
+
         navigationBar.addStyleName(ValoTheme.LAYOUT_HORIZONTAL_WRAPPING);
 
         navigationBar.addComponents(statusBar);
 
-        navigationBar.addComponent(createNavigationButton("Login", LoginView.NAME));
-        navigationBar.addComponent(createNavigationButton("Register", RegistrationView.NAME));
+        navigationBar.addComponent(loginButton);
+        navigationBar.addComponent(registerButton);
         navigationBar.addComponent(createNavigationButton("Item Shop", ItemShopView.NAME));
         navigationBar.addComponent(createNavigationButton("Scroll Shop", ScrollShopView.NAME));
         navigationBar.addComponent(createNavigationButton("Missions", MissionActionView.NAME));
         navigationBar.addComponent(createNavigationButton("Rest", RestActionView.NAME));
         navigationBar.addComponent(createNavigationButton("Adventures", AdventureActionView.NAME));
         navigationBar.addComponent(createNavigationButton("Character list", CharacterGridView.NAME));
+        navigationBar.addComponent(logoutButton);
 
         root.addComponent(navigationBar);
     }

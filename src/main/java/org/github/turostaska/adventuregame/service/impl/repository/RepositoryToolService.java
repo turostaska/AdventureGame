@@ -82,4 +82,10 @@ public class RepositoryToolService implements IToolService {
     public void deleteNonUsableToolById(Long id) {
         nonUsableToolRepository.deleteById(id);
     }
+
+    @Override
+    public boolean isEmpty() {
+        //szerintem ez ki van optimalizálva a db-ben
+        return usableToolRepository.count() == 0 && nonUsableToolRepository.count() == 0;
+    }
 }

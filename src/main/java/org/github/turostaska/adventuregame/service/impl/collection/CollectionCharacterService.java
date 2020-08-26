@@ -199,6 +199,16 @@ public class CollectionCharacterService implements ICharacterService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public boolean npcsArePresent() {
+        try {
+            throw new ExecutionControl.NotImplementedException("implementálja akinek két anyja van");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     private void kill(Player who) {
         takeDamage(who, who.getMaxHP());
     }

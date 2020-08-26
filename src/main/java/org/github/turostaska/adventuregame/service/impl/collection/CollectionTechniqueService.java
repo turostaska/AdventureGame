@@ -1,5 +1,6 @@
 package org.github.turostaska.adventuregame.service.impl.collection;
 
+import jdk.jshell.spi.ExecutionControl;
 import org.github.turostaska.adventuregame.dao.ITechniqueDao;
 import org.github.turostaska.adventuregame.domain.Technique;
 import org.github.turostaska.adventuregame.service.ITechniqueService;
@@ -47,5 +48,15 @@ public class CollectionTechniqueService implements ITechniqueService {
     @Override
     public void deleteById(Long id) {
         dao.getById(id).ifPresent(dao::delete);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        try {
+            throw new ExecutionControl.NotImplementedException("implementálja akinek két anyja van");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

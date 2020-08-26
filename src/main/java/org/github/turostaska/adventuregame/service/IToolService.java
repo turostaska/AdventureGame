@@ -72,4 +72,5 @@ public interface IToolService {
 
     void deleteNonUsableToolById(Long id);
 
+    boolean isEmpty();
 }

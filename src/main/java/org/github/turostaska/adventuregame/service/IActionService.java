@@ -63,4 +63,6 @@ public interface IActionService {
     Optional<Action> getStatelessActionById(Long id);
 
     Optional<DuelAction> getDuelActionById(Long duelId);
+
+    boolean isEmpty();
 }

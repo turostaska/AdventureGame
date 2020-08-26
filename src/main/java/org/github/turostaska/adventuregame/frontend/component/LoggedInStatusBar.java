@@ -32,8 +32,12 @@ public class LoggedInStatusBar extends HorizontalLayout {
     }
 
     public void invalidate(User newUser) {
-        loggedInPanel.setCaption("What's cooking " + newUser.getUserName() + " :^)<br>" +
-                "Logged in since " + LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
+        if (newUser != null) {
+            loggedInPanel.setCaption("What's cooking " + newUser.getUserName() + " :^)<br>" +
+                    "Logged in since " + LocalDateTime.now().format(DateTimeFormatter.ofLocalizedDateTime(FormatStyle.SHORT)));
+        } else {
+            loggedInPanel.setCaption("No user logged in");
+        }
         setClickListenerForPicture(newUser);
     }
 

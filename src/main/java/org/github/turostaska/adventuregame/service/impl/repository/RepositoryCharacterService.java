@@ -170,4 +170,9 @@ public class RepositoryCharacterService implements ICharacterService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public boolean npcsArePresent() {
+        return npcRepository.count() != 0;
+    }
+
 }

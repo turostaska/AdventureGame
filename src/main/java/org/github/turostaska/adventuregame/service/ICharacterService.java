@@ -141,4 +141,6 @@ public interface ICharacterService {
     Optional<Character> findById(Long id);
 
     List<Character> getAll();
+
+    boolean npcsArePresent();
 }
