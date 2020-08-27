@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class RepositoryCharacterService implements ICharacterService {
 
@@ -41,7 +43,8 @@ public class RepositoryCharacterService implements ICharacterService {
     @Override
     public void tryToBuyTool(Player player, Tool item) {
         if (player.tryToBuyTool(item)) {
-            addOrUpdate(player);
+            Player updated = addOrUpdate(player);
+            player.setTools(updated.getTools());
         }
     }
 
@@ -53,8 +56,10 @@ public class RepositoryCharacterService implements ICharacterService {
 
     @Override
     public void tryToLearnTechnique(Player player, Technique technique) {
-        if (player.tryToLearnTechnique(technique))
-            addOrUpdate(player);
+        if (player.tryToLearnTechnique(technique)) {
+            Player updated = addOrUpdate(player);
+            player.setTools(updated.getTools());
+        }
     }
 
     @Override
@@ -157,6 +162,17 @@ public class RepositoryCharacterService implements ICharacterService {
         if (getNPCById(id).isPresent())
             return Optional.of(getNPCById(id).get());
         return Optional.empty();
+    }
+
+    @Override
+    public List<Character> getAll() {
+        return Stream.concat(getAllPlayers().stream(), getAllNPCs().stream())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean npcsArePresent() {
+        return npcRepository.count() != 0;
     }
 
 }

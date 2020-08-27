@@ -11,12 +11,14 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 public class User {
+    @Column(unique = true)
     @Getter @Setter private String userName;
 
     //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Getter @Setter
     private String password;
 
+    @Column(unique = true)
     @Getter @Setter private String email;
 
     @Id  @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="IDSEQ")

@@ -33,4 +33,13 @@ public abstract class Buyable {
         return costToBuy / 100;
     }
 
+    @Override
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        final long temp1 = this.damage;
+        result = (result*PRIME) + (this.name == null ? 43 : this.name.hashCode());
+        result = (result*PRIME) + (int)(temp1 ^ (temp1 >>> 32));
+        return result;
+    }
 }

@@ -116,4 +116,14 @@ public class CollectionActionService implements IActionService {
         }
         return Optional.empty();
     }
+
+    @Override
+    public boolean isEmpty() {
+        try {
+            throw new ExecutionControl.NotImplementedException("implementálja akinek két anyja van");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

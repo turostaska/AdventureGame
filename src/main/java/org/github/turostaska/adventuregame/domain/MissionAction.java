@@ -23,17 +23,7 @@ public class MissionAction extends Action {
     }
 
     private static Rank getRankFromDifficulty(int difficulty) {
-        if (difficulty < Rank.D.getBaseDifficulty())
-            return Rank.E;
-        if (difficulty < Rank.C.getBaseDifficulty())
-            return Rank.D;
-        if (difficulty < Rank.B.getBaseDifficulty())
-            return Rank.C;
-        if (difficulty < Rank.A.getBaseDifficulty())
-            return Rank.B;
-        if (difficulty < Rank.S.getBaseDifficulty())
-            return Rank.A;
-        return Rank.S;
+        return Util.getRankFromDifficulty(difficulty);
     }
 
     public enum Rank {
@@ -60,5 +50,10 @@ public class MissionAction extends Action {
         int diceRoll = Util.getRandomInteger(difficulty / 2, difficulty);
 
         return who.getStrength() >= diceRoll;
+    }
+
+    @Override
+    public String description() {
+        return rank.name() + " level mission";
     }
 }

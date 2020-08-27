@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.github.turostaska.adventuregame.service.ICharacterService;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class Player extends Character {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JsonManagedReference
-    @Getter @Setter
+    @Getter
     private List<ScheduledTask> actionQueue = new ArrayList<>();
 
     @OneToOne
@@ -39,12 +40,16 @@ public class Player extends Character {
         this.user = user;
     }
 
+    @Transactional
+    public void setActionQueue(List<ScheduledTask> actionQueue) {
+        this.actionQueue = actionQueue;
+    }
+
     @Override
     public void addMoney(int sum) {
         this.money += sum;
     }
 
-    //TO DO: ezek a kezdőértékek lehetnének akár paraméterezhetőek.
     public static final int BASE_HP = 100;
     public static final int BASE_MANA = 100;
     public static final int BASE_MONEY = 500;
@@ -86,7 +91,7 @@ public class Player extends Character {
     }
 
     public boolean ableToTakeOnAction(Action action) {
-        return actionQueue.size() < MAX_NUMBER_OF_ACTIONS && action.playerAbleToTakeOnAction(this);
+        return action.playerAbleToTakeOnAction(this) && actionQueue.size() < MAX_NUMBER_OF_ACTIONS;
     }
 
     public void addToActionQueue(ScheduledTask scheduledTask) {

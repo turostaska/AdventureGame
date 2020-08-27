@@ -39,4 +39,6 @@ public interface ITechniqueService {
     List<Technique> getAll();
 
     void deleteById(Long id);
+
+    boolean isEmpty();
 }

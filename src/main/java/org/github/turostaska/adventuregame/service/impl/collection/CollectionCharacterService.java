@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CollectionCharacterService implements ICharacterService {
 
@@ -189,6 +191,22 @@ public class CollectionCharacterService implements ICharacterService {
         if (getNPCById(id).isPresent())
             return Optional.of(getNPCById(id).get());
         return Optional.empty();
+    }
+
+    @Override
+    public List<Character> getAll() {
+        return Stream.concat(getAllPlayers().stream(), getAllNPCs().stream())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean npcsArePresent() {
+        try {
+            throw new ExecutionControl.NotImplementedException("implementálja akinek két anyja van");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     private void kill(Player who) {

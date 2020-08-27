@@ -16,4 +16,14 @@ public class UsableTool extends Tool {
         usedBy.useUpUsableTool(this);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+        if (obj == null || obj.getClass() != this.getClass())
+            return false;
+        UsableTool tool = (UsableTool) obj;
+        return id.equals(tool.getId());
+    }
+
 }

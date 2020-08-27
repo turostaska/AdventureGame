@@ -67,8 +67,6 @@ public class UserController {
 
         log.info("User with name '{}' and ID {} has successfully logged in.", user.getUserName(), user.getId());
 
-        //todo: jogosultságok beállítása?
-
         EntityModel<User> entityModel = assembler.toModel(user);
         return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
 

@@ -17,7 +17,6 @@ public class StatefulScheduledTask extends ScheduledTask {
     @Getter @Setter
     @JsonIgnore
     private Action statefulAction;
-    //todo: StatefulAction class?
 
     @Override
     public Action getAction() {

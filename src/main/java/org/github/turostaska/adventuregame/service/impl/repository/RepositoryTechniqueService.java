@@ -40,4 +40,9 @@ public class RepositoryTechniqueService implements ITechniqueService {
     public void deleteById(Long id) {
         techniqueRepository.deleteById(id);
     }
+
+    @Override
+    public boolean isEmpty() {
+        return techniqueRepository.count() == 0;
+    }
 }

@@ -26,8 +26,6 @@ public abstract class Action {
         this.timeToFinishInSeconds = timeToFinishInSeconds;
     }
 
-    //TO DO: ezek szerintem mind "üzleti logikának" minősülnek. Ezeket a funkciókat, valamilyen service-
-    //      Minden ami több logikát tartalmaz mint settelés esetleg listához hozzáadás kivétel, az már service felelőségi körbe tartozik.
     public boolean playerAbleToTakeOnAction(Player player) {
         return true;
     }
@@ -35,4 +33,6 @@ public abstract class Action {
     public abstract void takeEffect(Player player);
 
     public abstract boolean carryOutAndGetIfSuccessful(Player who);
+
+    public abstract String description();
 }

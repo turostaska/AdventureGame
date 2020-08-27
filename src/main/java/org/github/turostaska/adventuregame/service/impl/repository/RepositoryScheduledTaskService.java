@@ -76,6 +76,8 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
 
     @Override
     public void tryToScheduleDuelActionForPlayer(Player player, DuelAction duelAction, @NonNull Character opponent) {
+        if (player.equals(opponent))
+            return;
 
         if (player.ableToTakeOnAction(duelAction)) {
             Action action = actionService.addOrUpdate(new DuelAction(duelAction.getTimeToFinishInSeconds(), opponent));
@@ -115,15 +117,14 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
 
     @Override
     public void rescheduleUnfinishedTasksUponInitialization() {
-        //árvák törlése
-        //todo: jó lenne, ha nem is keletkezhetnének árvák, ig a ui-ban kéne ezt megoldani egy cooldownnal
+        //esetleges árvák törlése
         deleteAll();
         for(var task : getAll()) {
             long timeToFinish = Math.max(1, task.timeLeftToFinish() );
 
             if (task.getAction() instanceof DuelAction)
                 scheduleDuelAction(task.getPlayer(), ((DuelAction)(task.getAction())).getOpponent(),
-                        task.getPlayer().getTimeToFinishAllTasksInSeconds() + timeToFinish);
+                        timeToFinish);
             else
                 scheduleAction(task.getPlayer(), timeToFinish);
         }

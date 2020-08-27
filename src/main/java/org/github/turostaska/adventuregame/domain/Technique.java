@@ -16,4 +16,14 @@ public class Technique extends Buyable {
         this.costToCast = costToCast;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this)
+            return true;
+        if (obj == null || obj.getClass() != this.getClass())
+            return false;
+        Technique tool = (Technique) obj;
+        return id.equals(tool.getId());
+    }
+
 }

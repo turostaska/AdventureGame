@@ -49,7 +49,6 @@ public class RepositoryActionService implements IActionService {
 
     @Override
     public RestAction getFreeRestAction() {
-        //todo: erre szerintem nem lesz külön szükség
         Stream<RestAction> restsStream = getAllRestActions().stream();
         return restsStream.filter( a -> a.getCost() == 0 ).findFirst().orElseThrow();
     }
@@ -72,5 +71,10 @@ public class RepositoryActionService implements IActionService {
     @Override
     public Optional<DuelAction> getDuelActionById(Long duelId) {
         return repository.findDuelActionById(duelId);
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return repository.count() == 0;
     }
 }
