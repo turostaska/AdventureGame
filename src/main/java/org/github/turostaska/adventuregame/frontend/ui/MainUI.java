@@ -74,7 +74,6 @@ public class MainUI extends UI implements ViewDisplay {
         loginButton = createNavigationButton("Login", LoginView.NAME);
         registerButton = createNavigationButton("Register", RegistrationView.NAME);
         logoutButton = createNavigationButton("Logout", LoginView.NAME);
-        logoutButton.setVisible(false);
 
         logoutButton.addClickListener(event -> setLoggedInUser(null));
 
@@ -91,6 +90,8 @@ public class MainUI extends UI implements ViewDisplay {
         navigationBar.addComponent(createNavigationButton("Adventures", AdventureActionView.NAME));
         navigationBar.addComponent(createNavigationButton("Character list", CharacterGridView.NAME));
         navigationBar.addComponent(logoutButton);
+
+        setLoggedInUser(null);
 
         root.addComponent(navigationBar);
     }

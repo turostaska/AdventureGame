@@ -4,7 +4,6 @@ import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.spring.annotation.UIScope;
 import com.vaadin.ui.*;
 import com.vaadin.ui.renderers.ComponentRenderer;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +18,7 @@ import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
-@UIScope
+//@UIScope
 @SpringView(name = ScrollShopView.NAME)
 @Slf4j
 public class ScrollShopView extends VerticalLayout implements View {

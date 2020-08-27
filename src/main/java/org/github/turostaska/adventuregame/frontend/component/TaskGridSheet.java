@@ -2,6 +2,7 @@ package org.github.turostaska.adventuregame.frontend.component;
 
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.ui.Grid;
+import org.github.turostaska.adventuregame.domain.Character;
 import org.github.turostaska.adventuregame.domain.Player;
 import org.github.turostaska.adventuregame.domain.ScheduledTask;
 
@@ -14,9 +15,6 @@ public class TaskGridSheet extends Grid<ScheduledTask> {
     private List<ScheduledTask> tasks;
 
     public TaskGridSheet() {
-
-        var provider = getDataProvider();
-
         removeAllColumns();
 
         addColumn(task -> tasks.indexOf(task) + 1)
@@ -35,8 +33,14 @@ public class TaskGridSheet extends Grid<ScheduledTask> {
         return task.getAction().description();
     }
 
-    public void invalidate(Player player) {
-        tasks = player.getActionQueue();
-        setDataProvider(new ListDataProvider<>(player.getActionQueue()));
+    public void invalidate(Character character) {
+        if (character instanceof Player) {
+            Player player = ((Player) character);
+            tasks = player.getActionQueue();
+            setDataProvider(new ListDataProvider<>(player.getActionQueue()));
+        } else {
+            tasks = List.of();
+            setDataProvider(new ListDataProvider<>(List.of()));
+        }
     }
 }

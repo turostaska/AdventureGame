@@ -30,7 +30,6 @@ public class DuelAction extends Action {
 
     @Override
     public void takeEffect(Player player) {
-        //todo: szofisztikáltabb nyeremény?
         Character winner, loser;
         if (attackerWon) {
             winner = player; loser = opponent;
@@ -38,8 +37,10 @@ public class DuelAction extends Action {
         else {
             winner = opponent; loser = player;
         }
-        winner.addMoney(loser.getMoney() / 2);
-        loser.addMoney( -( loser.getMoney() / 2 ) );
+        float ratio = Util.clamp((((float)loser.getStrength() + 1.0f)/ (winner.getStrength() + 1.0f)) - 0.5f, 0.1f, 1.0f);
+        int reward = (int)(loser.getMoney() * ratio) / 100 * 100;
+        winner.addMoney(reward);
+        loser.addMoney(-reward);
     }
 
     @Override

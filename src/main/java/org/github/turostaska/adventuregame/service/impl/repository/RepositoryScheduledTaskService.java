@@ -124,7 +124,7 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
 
             if (task.getAction() instanceof DuelAction)
                 scheduleDuelAction(task.getPlayer(), ((DuelAction)(task.getAction())).getOpponent(),
-                        task.getPlayer().getTimeToFinishAllTasksInSeconds() + timeToFinish);
+                        timeToFinish);
             else
                 scheduleAction(task.getPlayer(), timeToFinish);
         }

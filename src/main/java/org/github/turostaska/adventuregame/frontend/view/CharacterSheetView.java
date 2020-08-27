@@ -62,8 +62,7 @@ public class CharacterSheetView extends TabSheet implements View {
         generalLayout.invalidate(activeCharacter);
         techniqueGrid.invalidate(activeCharacter);
         toolGrid.invalidate(activeCharacter);
-        if (activeCharacter instanceof Player)
-            taskSheet.invalidate((Player)activeCharacter);
+        taskSheet.invalidate(activeCharacter);
     }
 
 }
