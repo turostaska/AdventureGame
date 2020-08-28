@@ -42,4 +42,6 @@ public abstract class Buyable {
         result = (result*PRIME) + (int)(temp1 ^ (temp1 >>> 32));
         return result;
     }
+
+    public abstract void useInDuel(Character by, Character against);
 }

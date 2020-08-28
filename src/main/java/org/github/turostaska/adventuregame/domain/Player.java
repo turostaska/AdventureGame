@@ -122,9 +122,4 @@ public class Player extends Character {
         return Optional.empty();
     }
 
-    public void triggerNextTaskInQueue() {
-        if (!actionQueue.isEmpty())
-            actionQueue.get(0).trigger();
-
-    }
 }

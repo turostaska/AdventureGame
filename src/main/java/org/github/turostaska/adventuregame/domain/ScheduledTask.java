@@ -35,13 +35,6 @@ public class ScheduledTask {
         this.estimatedTimeOfFinishing = estimatedTimeOfFinishing;
     }
 
-    public void trigger() {
-        if (getAction().carryOutAndGetIfSuccessful(player))
-            getAction().takeEffect(player);
-
-        player.popScheduledActionFromQueue();
-    }
-
     public long getTimeOfRunningInSeconds() {
         return getAction().getTimeToFinishInSeconds();
     }

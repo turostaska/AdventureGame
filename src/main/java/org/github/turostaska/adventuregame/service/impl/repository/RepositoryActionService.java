@@ -3,6 +3,7 @@ package org.github.turostaska.adventuregame.service.impl.repository;
 import org.github.turostaska.adventuregame.domain.*;
 import org.github.turostaska.adventuregame.repository.IActionRepository;
 import org.github.turostaska.adventuregame.service.IActionService;
+import org.github.turostaska.adventuregame.service.ICharacterService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -76,5 +77,12 @@ public class RepositoryActionService implements IActionService {
     @Override
     public boolean isEmpty() {
         return repository.count() == 0;
+    }
+
+    @Autowired private ICharacterService characterService;
+
+    @Override
+    public boolean carryOutAndGetIfSuccessful(Action action, Player player) {
+        return action.carryOutAndGetIfSuccessful(player, characterService);
     }
 }

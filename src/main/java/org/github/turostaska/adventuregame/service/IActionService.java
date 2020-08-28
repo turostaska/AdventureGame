@@ -65,4 +65,6 @@ public interface IActionService {
     Optional<DuelAction> getDuelActionById(Long duelId);
 
     boolean isEmpty();
+
+    boolean carryOutAndGetIfSuccessful(Action action, Player player);
 }

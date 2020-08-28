@@ -62,4 +62,6 @@ public interface IScheduledTaskService {
     void rescheduleUnfinishedTasksUponInitialization();
 
     void deleteAll();
+
+    void trigger(ScheduledTask task);
 }

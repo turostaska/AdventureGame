@@ -18,8 +18,8 @@ import java.util.concurrent.TimeUnit;
 public class CollectionScheduledTaskService implements IScheduledTaskService {
     private IScheduledActionDao dao;
 
-    @Autowired
-    private ICharacterService characterService;
+    @Autowired private ICharacterService characterService;
+    @Autowired private IScheduledTaskService taskService;
 
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -73,7 +73,7 @@ public class CollectionScheduledTaskService implements IScheduledTaskService {
             player.addToActionQueue(scheduledTask);
 
             scheduler.schedule( () ->  {
-                    scheduledTask.trigger();
+                    taskService.trigger(scheduledTask);
                     characterService.addOrUpdate(player);
                 }, timeToFinishWithThisTaskInSecs, TimeUnit.SECONDS);
             addOrUpdate(scheduledTask);
@@ -105,6 +105,15 @@ public class CollectionScheduledTaskService implements IScheduledTaskService {
     public void deleteAll() {
         try {
             throw new ExecutionControl.NotImplementedException("lusta voltam");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void trigger(ScheduledTask task) {
+        try {
+            throw new ExecutionControl.NotImplementedException("lmao jó vicc");
         } catch (ExecutionControl.NotImplementedException e) {
             e.printStackTrace();
         }

@@ -1,11 +1,13 @@
 package org.github.turostaska.adventuregame.service.impl.repository;
 
+import jdk.jshell.spi.ExecutionControl;
 import org.github.turostaska.adventuregame.domain.Character;
 import org.github.turostaska.adventuregame.domain.*;
 import org.github.turostaska.adventuregame.repository.INPCRepository;
 import org.github.turostaska.adventuregame.repository.IPlayerRepository;
 import org.github.turostaska.adventuregame.service.IActionService;
 import org.github.turostaska.adventuregame.service.ICharacterService;
+import org.github.turostaska.adventuregame.service.IScheduledTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -19,6 +21,7 @@ public class RepositoryCharacterService implements ICharacterService {
     @Autowired private INPCRepository npcRepository;
 
     @Autowired private IActionService actionService;
+    @Autowired private IScheduledTaskService taskService;
 
     @Override
     public Player addOrUpdate(Player player) {
@@ -90,29 +93,20 @@ public class RepositoryCharacterService implements ICharacterService {
 
     @Override
     public void useInDuel(Tool tool, Character usedBy, Character usedAgainst) {
-        if (!usedBy.possessesTool(tool))
-            return;
-
-        usedBy.heal(tool.getHealingAmount());
-        usedAgainst.takeDamage(tool.getDamage());
-
-        tool.useUp(usedBy);
-
-        usedBy.update(this);
-        usedAgainst.update(this);
+        try {
+            throw new ExecutionControl.NotImplementedException("implementálja akinek két anyja van");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void useInDuel(Technique technique, Character usedBy, Character usedAgainst) {
-        if (usedBy.getCurrentMana() < technique.getCostToCast() || !usedBy.knowsTechnique(technique))
-            return;
-
-        usedBy.heal(technique.getHealingAmount());
-        usedAgainst.takeDamage(technique.getDamage());
-        usedBy.loseMana(technique.getCostToCast());
-
-        usedBy.update(this);
-        usedAgainst.update(this);
+        try {
+            throw new ExecutionControl.NotImplementedException("implementálja akinek két anyja van");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -132,7 +126,7 @@ public class RepositoryCharacterService implements ICharacterService {
 
     private void forceToHaveARest(Player who) {
         who.clearActionQueue();
-        who.ableToTakeOnAction(actionService.getFreeRestAction());
+        taskService.tryToScheduleActionForPlayer(who, actionService.getFreeRestAction());
     }
 
     @Override
@@ -173,6 +167,22 @@ public class RepositoryCharacterService implements ICharacterService {
     @Override
     public boolean npcsArePresent() {
         return npcRepository.count() != 0;
+    }
+
+    @Override
+    public void triggerNextTaskInQueue(Player player) {
+        if (!player.getActionQueue().isEmpty()) {
+            taskService.trigger(player.getActionQueue().get(0));
+            addOrUpdate(player);
+        }
+    }
+
+    @Override
+    public void kill(Character character) {
+        if (character instanceof Player) {
+            Player player = ((Player) character);
+            takeDamage(player, player.getMaxHP());
+        }
     }
 
 }

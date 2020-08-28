@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.github.turostaska.adventuregame.Util;
+import org.github.turostaska.adventuregame.service.ICharacterService;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -45,7 +46,7 @@ public class AdventureAction extends Action {
     }
 
     @Override
-    public boolean carryOutAndGetIfSuccessful(Player who) {
+    public boolean carryOutAndGetIfSuccessful(Player who, ICharacterService characterService) {
         int diceRoll = Util.getRandomInteger((int)(difficulty * 0.75), difficulty);
 
         return who.getStrength() >= diceRoll;

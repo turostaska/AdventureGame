@@ -143,4 +143,8 @@ public interface ICharacterService {
     List<Character> getAll();
 
     boolean npcsArePresent();
+
+    void triggerNextTaskInQueue(Player player);
+
+    void kill(Character character);
 }

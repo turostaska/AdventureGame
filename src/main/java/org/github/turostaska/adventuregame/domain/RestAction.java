@@ -3,6 +3,7 @@ package org.github.turostaska.adventuregame.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.github.turostaska.adventuregame.service.ICharacterService;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -25,7 +26,7 @@ public class RestAction extends Action {
     }
 
     @Override
-    public boolean carryOutAndGetIfSuccessful(Player who) {
+    public boolean carryOutAndGetIfSuccessful(Player who, ICharacterService characterService) {
         return true;
     }
 

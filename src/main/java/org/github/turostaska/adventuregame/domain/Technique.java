@@ -26,4 +26,13 @@ public class Technique extends Buyable {
         return id.equals(tool.getId());
     }
 
+    @Override
+    public void useInDuel(Character by, Character against) {
+        if (by.getCurrentMana() < getCostToCast() || !by.knowsTechnique(this))
+            return;
+
+        by.heal(getHealingAmount());
+        against.takeDamage(getDamage());
+        by.loseMana(getCostToCast());
+    }
 }

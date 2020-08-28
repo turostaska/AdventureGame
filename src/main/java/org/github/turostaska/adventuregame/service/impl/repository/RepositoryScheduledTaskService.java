@@ -67,10 +67,7 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
     private void scheduleAction(Player player, long timeToFinishWithThisTaskInSecs) {
         scheduler.schedule( () ->  {
             Optional<Player> playerAtTrigger = characterService.getPlayerById(player.getId());
-            if (playerAtTrigger.isPresent()) {
-                playerAtTrigger.get().triggerNextTaskInQueue();
-                characterService.addOrUpdate(playerAtTrigger.get());
-            }
+            playerAtTrigger.ifPresent(value -> characterService.triggerNextTaskInQueue(value));
         }, timeToFinishWithThisTaskInSecs, TimeUnit.SECONDS);
     }
 
@@ -102,10 +99,13 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
                 ScheduledTask nextTask = playerAtTrigger.get().getNextScheduledTask().orElseThrow();
 
                 ((DuelAction)(nextTask.getAction())).setOpponent(opponentAtTrigger.get());
-                playerAtTrigger.get().triggerNextTaskInQueue();
 
-                characterService.addOrUpdate(playerAtTrigger.get());
+                characterService.triggerNextTaskInQueue(playerAtTrigger.get());
+
                 opponentAtTrigger.get().update(characterService);
+            } else if (playerAtTrigger.isPresent() && opponentAtTrigger.isEmpty()) {
+                playerAtTrigger.get().popScheduledActionFromQueue();
+                characterService.addOrUpdate(playerAtTrigger.get());
             }
         }, timeToFinishWithThisTaskInSecs, TimeUnit.SECONDS);
     }
@@ -133,6 +133,14 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
     @Override
     public void deleteAll() {
         taskRepository.deleteAll();
+    }
+
+    @Override
+    public void trigger(ScheduledTask task) {
+        if (task.getAction().carryOutAndGetIfSuccessful(task.getPlayer(), characterService))
+            task.getAction().takeEffect(task.getPlayer());
+
+        task.getPlayer().popScheduledActionFromQueue();
     }
 
 }

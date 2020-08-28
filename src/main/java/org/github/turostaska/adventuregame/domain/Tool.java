@@ -25,4 +25,15 @@ public abstract class Tool extends Buyable {
     }
 
     public abstract void useUp(Character usedBy);
+
+    @Override
+    public void useInDuel(Character by, Character against) {
+        if (!by.possessesTool(this))
+            return;
+
+        by.heal(getHealingAmount());
+        against.takeDamage(getDamage());
+
+        useUp(by);
+    }
 }

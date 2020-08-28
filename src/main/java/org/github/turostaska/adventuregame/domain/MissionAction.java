@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.github.turostaska.adventuregame.Util;
+import org.github.turostaska.adventuregame.service.ICharacterService;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -46,7 +47,7 @@ public class MissionAction extends Action {
     }
 
     @Override
-    public boolean carryOutAndGetIfSuccessful(Player who) {
+    public boolean carryOutAndGetIfSuccessful(Player who, ICharacterService characterService) {
         int diceRoll = Util.getRandomInteger(difficulty / 2, difficulty);
 
         return who.getStrength() >= diceRoll;

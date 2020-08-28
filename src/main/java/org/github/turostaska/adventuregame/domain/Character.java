@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.github.turostaska.adventuregame.Util;
 import org.github.turostaska.adventuregame.service.ICharacterService;
 import org.hibernate.annotations.Fetch;
@@ -19,6 +20,7 @@ import java.util.Map;
 
 @Table(name= "CHARPLAYER")
 @Entity
+@Slf4j
 @NoArgsConstructor
 @JsonPropertyOrder(value = { "id", "inventoryKeys", "inventoryValues" }, alphabetic = true)
 public abstract class Character {
@@ -122,4 +124,66 @@ public abstract class Character {
     public ArrayList<Integer> getInventoryValues() {
         return new ArrayList<>(tools.values());
     }
+
+    public void takeTurnInDuel(Character opponent) {
+        Buyable toUse = highestDamageBuyable();
+        if (toUse == null) {
+            opponent.takeDamage(2);
+            return;
+        }
+
+        if (opponent.getCurrentHP() > toUse.getDamage() && getCurrentHP() <= 25) {
+            toUse = highestHealBuyable();
+        }
+        toUse.useInDuel(this, opponent);
+
+        log.info("{} inflicted {} damage on {} with {}", getName(),
+                toUse.getDamage(), opponent.getName(),
+                toUse.getName());
+    }
+
+    private Buyable highestHealBuyable() {
+        Buyable best = null;
+
+        for (var technique: knownTechniques) {
+            if (technique.getCostToCast() <= getCurrentMana()) {
+                if (best == null)
+                    best = technique;
+                else if (technique.getHealingAmount() > best.getHealingAmount())
+                    best = technique;
+            }
+        }
+
+        for (var tool: tools.keySet()) {
+            if (best == null)
+                best = tool;
+            else if (tool.getHealingAmount() > best.getHealingAmount())
+                best = tool;
+        }
+
+        return best;
+    }
+
+    private Buyable highestDamageBuyable() {
+        Buyable best = null;
+
+        for (var technique: knownTechniques) {
+            if (technique.getCostToCast() <= getCurrentMana()) {
+                if (best == null)
+                    best = technique;
+                else if (technique.getDamage() > best.getDamage())
+                    best = technique;
+            }
+        }
+
+        for (var tool: tools.keySet()) {
+            if (best == null)
+                best = tool;
+            else if (tool.getDamage() > best.getDamage())
+                best = tool;
+        }
+
+        return best;
+    }
+
 }

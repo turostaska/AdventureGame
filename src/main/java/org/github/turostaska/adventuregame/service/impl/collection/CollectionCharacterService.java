@@ -209,6 +209,23 @@ public class CollectionCharacterService implements ICharacterService {
         return false;
     }
 
+    @Override
+    public void triggerNextTaskInQueue(Player player) {
+        try {
+            throw new ExecutionControl.NotImplementedException("implementálja akinek két anyja van");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void kill(Character character) {
+        if (character instanceof Player) {
+            Player player = ((Player) character);
+            takeDamage(player, player.getMaxHP());
+        }
+    }
+
     private void kill(Player who) {
         takeDamage(who, who.getMaxHP());
     }

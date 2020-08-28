@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.github.turostaska.adventuregame.Util;
+import org.github.turostaska.adventuregame.service.ICharacterService;
 
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
@@ -43,12 +44,28 @@ public class DuelAction extends Action {
         loser.addMoney(-reward);
     }
 
-    @Override
-    public boolean carryOutAndGetIfSuccessful(Player who) {
-        //todo: szofisztikáltabb harcrendszer? legalább sebzés kéne bele tbh
-        int diceRoll = Util.getRandomInteger(0, who.getStrength() + opponent.getStrength() + 1);
+    private static final int MAX_NUM_OF_TURNS = 5;
 
-        attackerWon = diceRoll <= who.getStrength();
+    @Override
+    public boolean carryOutAndGetIfSuccessful(Player who, ICharacterService characterService) {
+        for (int i = 0; i < MAX_NUM_OF_TURNS; ++i) {
+            who.takeTurnInDuel(opponent);
+            if (!opponent.isAlive()) {
+                attackerWon = true;
+                characterService.kill(opponent);
+                break;
+            }
+
+            opponent.takeTurnInDuel(who);
+            if (!who.isAlive()) {
+                attackerWon = false;
+                characterService.kill(who);
+                break;
+            }
+        }
+
+        if (attackerWon == null)
+            attackerWon = who.getCurrentHP() > opponent.getCurrentHP();
 
         return true;
     }

@@ -3,6 +3,7 @@ package org.github.turostaska.adventuregame.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.github.turostaska.adventuregame.service.ICharacterService;
 
 import javax.persistence.*;
 
@@ -32,7 +33,7 @@ public abstract class Action {
 
     public abstract void takeEffect(Player player);
 
-    public abstract boolean carryOutAndGetIfSuccessful(Player who);
+    public abstract boolean carryOutAndGetIfSuccessful(Player who, ICharacterService characterService);
 
     public abstract String description();
 }

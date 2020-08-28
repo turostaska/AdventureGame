@@ -126,4 +126,14 @@ public class CollectionActionService implements IActionService {
         }
         return false;
     }
+
+    @Override
+    public boolean carryOutAndGetIfSuccessful(Action action, Player player) {
+        try {
+            throw new ExecutionControl.NotImplementedException("implementálja akinek két anyja van");
+        } catch (ExecutionControl.NotImplementedException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
