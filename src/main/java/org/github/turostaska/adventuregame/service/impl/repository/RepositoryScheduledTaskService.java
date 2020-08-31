@@ -1,6 +1,7 @@
 package org.github.turostaska.adventuregame.service.impl.repository;
 
 import lombok.NonNull;
+import org.github.turostaska.adventuregame.NotificationSender;
 import org.github.turostaska.adventuregame.domain.Character;
 import org.github.turostaska.adventuregame.domain.*;
 import org.github.turostaska.adventuregame.repository.IScheduledTaskRepository;
@@ -67,6 +68,9 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
 
     private void scheduleAction(Player player, long timeToFinishWithThisTaskInSecs) {
         scheduler.schedule( () ->  {
+            NotificationSender.getInstance().sendActionFinishedNotification(player.getUser(),
+                    player.getActionQueue().get(0).getAction());
+
             Optional<Player> playerAtTrigger = characterService.getPlayerById(player.getId());
             playerAtTrigger.ifPresent(value -> characterService.triggerNextTaskInQueue(value));
         }, timeToFinishWithThisTaskInSecs, TimeUnit.SECONDS);
@@ -100,6 +104,9 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
                 ScheduledTask nextTask = playerAtTrigger.get().getNextScheduledTask().orElseThrow();
 
                 ((DuelAction)(nextTask.getAction())).setOpponent(opponentAtTrigger.get());
+
+                NotificationSender.getInstance().sendActionFinishedNotification(player.getUser(),
+                        player.getActionQueue().get(0).getAction());
 
                 characterService.triggerNextTaskInQueue(playerAtTrigger.get());
 

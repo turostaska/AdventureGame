@@ -9,7 +9,6 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 
 import java.util.Properties;
 
-//TO DO: +1, nagyából jól nézki, de esetleg érdemes megnézni a Spring Mail-t.
 public final class NotificationSender {
     private NotificationSender() {
         mailSender = new JavaMailSenderImpl();
@@ -19,11 +18,8 @@ public final class NotificationSender {
         mailSender.setPassword("6ff37b1c63f493");
 
         Properties props = mailSender.getJavaMailProperties();
-//        props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-//        props.put("mail.smtp.host", "127.0.0.1");
-//        props.put("mail.smtp.port", "25");
         props.put("mail.debug", "true");
     }
 
@@ -45,7 +41,7 @@ public final class NotificationSender {
         message.setTo(receiver.getEmail());
         message.setSubject("Action finished");
         message.setText(String.format("You have finished the following task: %s\nVisit the site for more information!",
-                executedAction.toString()));
+                executedAction.description()));
         mailSender.send(message);
     }
 }
