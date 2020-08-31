@@ -13,15 +13,17 @@ import java.util.Properties;
 public final class NotificationSender {
     private NotificationSender() {
         mailSender = new JavaMailSenderImpl();
-        mailSender.setHost("mail.smtp.host");
-        mailSender.setPort(25);
+        mailSender.setHost("smtp.mailtrap.io");
+        mailSender.setPort(2525);
+        mailSender.setUsername("c83a48391a9a93");
+        mailSender.setPassword("6ff37b1c63f493");
 
         Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", "smtp");
-        props.put("mail.smtp.auth", "false");
-        props.put("mail.smtp.starttls.enable", "false");
-        props.put("mail.smtp.host", "127.0.0.1");
-        props.put("mail.smtp.port", "25");
+//        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+//        props.put("mail.smtp.host", "127.0.0.1");
+//        props.put("mail.smtp.port", "25");
         props.put("mail.debug", "true");
     }
 

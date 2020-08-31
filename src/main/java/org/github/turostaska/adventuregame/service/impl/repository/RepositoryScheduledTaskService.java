@@ -8,6 +8,7 @@ import org.github.turostaska.adventuregame.service.IActionService;
 import org.github.turostaska.adventuregame.service.ICharacterService;
 import org.github.turostaska.adventuregame.service.IScheduledTaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -49,7 +50,7 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
         return taskRepository.findByPlayer(player);
     }
 
-    @Override
+    @Override @Transactional
     public void tryToScheduleActionForPlayer(Player player, Action action) {
         if (player.ableToTakeOnAction(action)) {
             long timeToFinishWithOtherActionsInSecs = player.getTimeToFinishAllTasksInSeconds();
@@ -71,7 +72,7 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
         }, timeToFinishWithThisTaskInSecs, TimeUnit.SECONDS);
     }
 
-    @Override
+    @Override @Transactional
     public void tryToScheduleDuelActionForPlayer(Player player, DuelAction duelAction, @NonNull Character opponent) {
         if (player.equals(opponent))
             return;
