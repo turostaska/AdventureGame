@@ -52,7 +52,7 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
     }
 
     @Override @Transactional
-    public void tryToScheduleActionForPlayer(Player player, Action action) {
+    public Optional<Player> tryToScheduleActionForPlayer(Player player, Action action) {
         if (player.ableToTakeOnAction(action)) {
             long timeToFinishWithOtherActionsInSecs = player.getTimeToFinishAllTasksInSeconds();
             long timeToFinishWithThisTaskInSecs = timeToFinishWithOtherActionsInSecs + action.getTimeToFinishInSeconds();
@@ -63,13 +63,18 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
 
             Player updatedPlayer = characterService.addOrUpdate(player);
             player.setActionQueue(updatedPlayer.getActionQueue());
+
+            return Optional.of(updatedPlayer);
         }
+
+        return Optional.empty();
     }
 
     private void scheduleAction(Player player, long timeToFinishWithThisTaskInSecs) {
         scheduler.schedule( () ->  {
+            Action action = player.getActionQueue().get(0).getAction();
             NotificationSender.getInstance().sendActionFinishedNotification(player.getUser(),
-                    player.getActionQueue().get(0).getAction());
+                    action);
 
             Optional<Player> playerAtTrigger = characterService.getPlayerById(player.getId());
             playerAtTrigger.ifPresent(value -> characterService.triggerNextTaskInQueue(value));
@@ -77,9 +82,9 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
     }
 
     @Override @Transactional
-    public void tryToScheduleDuelActionForPlayer(Player player, DuelAction duelAction, @NonNull Character opponent) {
+    public Optional<Player> tryToScheduleDuelActionForPlayer(Player player, DuelAction duelAction, @NonNull Character opponent) {
         if (player.equals(opponent))
-            return;
+            return Optional.empty();
 
         if (player.ableToTakeOnAction(duelAction)) {
             Action action = actionService.addOrUpdate(new DuelAction(duelAction.getTimeToFinishInSeconds(), opponent));
@@ -93,7 +98,10 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
 
             Player updatedPlayer = characterService.addOrUpdate(player);
             player.setActionQueue(updatedPlayer.getActionQueue());
+
+            return Optional.of(updatedPlayer);
         }
+        return Optional.empty();
     }
 
     private void scheduleDuelAction(Player player, @NonNull Character opponent, long timeToFinishWithThisTaskInSecs) {
@@ -105,8 +113,9 @@ public class RepositoryScheduledTaskService implements IScheduledTaskService {
 
                 ((DuelAction)(nextTask.getAction())).setOpponent(opponentAtTrigger.get());
 
+                Action action = player.getActionQueue().get(0).getAction();
                 NotificationSender.getInstance().sendActionFinishedNotification(player.getUser(),
-                        player.getActionQueue().get(0).getAction());
+                        action);
 
                 characterService.triggerNextTaskInQueue(playerAtTrigger.get());
 

@@ -67,6 +67,8 @@ public class DuelAction extends Action {
         if (attackerWon == null)
             attackerWon = who.getCurrentHP() > opponent.getCurrentHP();
 
+        opponent.afterDuel();
+
         return true;
     }
 

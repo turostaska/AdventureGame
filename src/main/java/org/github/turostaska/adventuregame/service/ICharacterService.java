@@ -41,8 +41,9 @@ public interface ICharacterService {
      * Makes the player buy the desired tool if he is able to afford it
      * @param player The player that should buy the item
      * @param tool   The tool to be bought
+     * @return The player if the purchase was successful, empty object otherwise
      */
-    void tryToBuyTool(Player player, Tool tool);
+    Optional<Player> tryToBuyTool(Player player, Tool tool);
 
     void obtainTool(NPC npc, Tool tool);
 
@@ -50,8 +51,9 @@ public interface ICharacterService {
      * Makes the player learn the technique if he is able to afford it
      * @param player      The player that should learn the technique
      * @param technique   The tool to be learnt
+     * @return The player if the purchase was successful, empty object otherwise
      */
-    void tryToLearnTechnique(Player player, Technique technique);
+    Optional<Player> tryToLearnTechnique(Player player, Technique technique);
 
     void learnTechnique(NPC npc, Technique technique);
 

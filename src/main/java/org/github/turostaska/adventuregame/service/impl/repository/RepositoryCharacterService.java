@@ -44,11 +44,13 @@ public class RepositoryCharacterService implements ICharacterService {
     }
 
     @Override
-    public void tryToBuyTool(Player player, Tool item) {
+    public Optional<Player> tryToBuyTool(Player player, Tool item) {
         if (player.tryToBuyTool(item)) {
             Player updated = addOrUpdate(player);
             player.setTools(updated.getTools());
+            return Optional.of(updated);
         }
+        return Optional.empty();
     }
 
     @Override
@@ -58,11 +60,14 @@ public class RepositoryCharacterService implements ICharacterService {
     }
 
     @Override
-    public void tryToLearnTechnique(Player player, Technique technique) {
+    public Optional<Player> tryToLearnTechnique(Player player, Technique technique) {
         if (player.tryToLearnTechnique(technique)) {
             Player updated = addOrUpdate(player);
             player.setTools(updated.getTools());
+            return Optional.of(updated);
         }
+
+        return Optional.empty();
     }
 
     @Override

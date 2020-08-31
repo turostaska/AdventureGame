@@ -4,10 +4,7 @@ import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.spring.annotation.SpringView;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Grid;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import com.vaadin.ui.renderers.ComponentRenderer;
 import lombok.extern.slf4j.Slf4j;
 import org.github.turostaska.adventuregame.Util;
@@ -22,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @SpringView(name = MissionActionView.NAME)
 @Slf4j
@@ -86,7 +84,11 @@ public class MissionActionView extends VerticalLayout implements View {
         Player player = characterService.getPlayerById(playerId).orElseThrow();
         Button button = new Button("Start", event -> {
             Player playerAtPress = characterService.getPlayerById(playerId).orElseThrow();
-            taskService.tryToScheduleActionForPlayer(playerAtPress, action);
+            Optional<Player> result = taskService.tryToScheduleActionForPlayer(playerAtPress, action);
+            if (result.isPresent())
+                Notification.show("Action scheduled successfully.", Notification.Type.HUMANIZED_MESSAGE);
+            else
+                Notification.show("Scheduling failed.", Notification.Type.ERROR_MESSAGE);
         });
         button.addClickListener(event -> invalidateButtons());
         button.setEnabled(player.getActionQueue().size() < Player.MAX_NUMBER_OF_ACTIONS);

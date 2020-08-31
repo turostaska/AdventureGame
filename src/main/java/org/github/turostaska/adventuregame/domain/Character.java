@@ -186,4 +186,5 @@ public abstract class Character {
         return best;
     }
 
+    public abstract void afterDuel();
 }

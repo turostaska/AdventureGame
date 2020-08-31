@@ -128,4 +128,6 @@ public class Player extends Character {
         return Optional.empty();
     }
 
+    @Override
+    public void afterDuel() {}
 }

@@ -93,8 +93,11 @@ public class ScrollShopView extends VerticalLayout implements View {
         Player purchaser = characterService.getPlayerById(playerId).orElseThrow();
         Button button = new Button("Purchase", event -> {
             Player buyer = characterService.getPlayerById(playerId).orElseThrow();
-            characterService.tryToLearnTechnique(buyer, technique);
-            log.info("Purchase button pressed");
+            var result = characterService.tryToLearnTechnique(buyer, technique);
+            if (result.isPresent())
+                Notification.show("Purchase successful.", Notification.Type.HUMANIZED_MESSAGE);
+            else
+                Notification.show("Purchase unsuccessful.", Notification.Type.ERROR_MESSAGE);
         });
         button.addClickListener(event -> invalidateButtons());
         button.setEnabled(purchaser.getMoney() >= technique.getCostToBuy() && !purchaser.getKnownTechniques().contains(technique));

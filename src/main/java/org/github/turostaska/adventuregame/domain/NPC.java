@@ -13,6 +13,12 @@ public class NPC extends Character {
         service.addOrUpdate(this);
     }
 
+    @Override
+    public void afterDuel() {
+        this.currentHP = this.maxHP;
+        this.currentMana = this.maxMana;
+    }
+
     public NPC(String name, int maxHP, int maxMana, int strength, int money) {
         super(name, maxHP, maxMana, strength, money);
     }

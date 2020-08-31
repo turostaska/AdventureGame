@@ -59,7 +59,7 @@ public class CollectionScheduledTaskService implements IScheduledTaskService {
     }
 
     @Override
-    public void tryToScheduleActionForPlayer(Player player, Action action) {
+    public Optional<Player> tryToScheduleActionForPlayer(Player player, Action action) {
         if (player.ableToTakeOnAction(action)) {
             long timeToFinishWithOtherActionsInSecs = player.getTimeToFinishAllTasksInSeconds();
             long timeToFinishWithThisTaskInSecs =
@@ -77,14 +77,15 @@ public class CollectionScheduledTaskService implements IScheduledTaskService {
                     characterService.addOrUpdate(player);
                 }, timeToFinishWithThisTaskInSecs, TimeUnit.SECONDS);
             addOrUpdate(scheduledTask);
+            return Optional.ofNullable(characterService.addOrUpdate(player));
         }
+        return Optional.empty();
     }
 
     @Override
-    public void tryToScheduleDuelActionForPlayer(Player player, DuelAction action, Character opponent) {
-        DuelAction duelAction = new DuelAction(action.getTimeToFinishInSeconds(),
-                action.getOpponent());
-        tryToScheduleActionForPlayer(player, (Action)duelAction);
+    public Optional<Player> tryToScheduleDuelActionForPlayer(Player player, DuelAction action, Character opponent) {
+        DuelAction duelAction = new DuelAction(action.getTimeToFinishInSeconds(), action.getOpponent());
+        return tryToScheduleActionForPlayer(player, (Action)duelAction);
     }
 
     @Override

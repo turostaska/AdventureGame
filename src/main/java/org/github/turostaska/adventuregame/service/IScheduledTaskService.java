@@ -43,16 +43,18 @@ public interface IScheduledTaskService {
      * Schedules the specified action for the player if he is eligible to do the task.
      * @param player The player that wants to schedule an action
      * @param action The action to be scheduled
+     * @return The player if the scheduling was successful, an empty object otherwise
      */
-    void tryToScheduleActionForPlayer(Player player, Action action);
+    Optional<Player> tryToScheduleActionForPlayer(Player player, Action action);
 
     /**
      * Schedules the specified duel action for the player if he is eligible to do the task.
      * @param player The player that wants to schedule an action
      * @param action The duel action to be scheduled
      * @param opponent The character being challenged
+     * @return The player if the scheduling was successful, an empty object otherwise
      */
-    void tryToScheduleDuelActionForPlayer(Player player, DuelAction action, Character opponent);
+    Optional<Player> tryToScheduleDuelActionForPlayer(Player player, DuelAction action, Character opponent);
 
     void deleteById(Long id);
 

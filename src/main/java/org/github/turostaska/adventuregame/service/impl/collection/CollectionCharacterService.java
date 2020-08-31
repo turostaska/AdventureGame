@@ -55,9 +55,11 @@ public class CollectionCharacterService implements ICharacterService {
     }
 
     @Override
-    public void tryToBuyTool(Player player, Tool item) {
+    public Optional<Player> tryToBuyTool(Player player, Tool item) {
         if (player.tryToBuyTool(item))
-            addOrUpdate(player);
+            return Optional.of(addOrUpdate(player));
+
+        return Optional.empty();
     }
 
     @Override
@@ -70,9 +72,11 @@ public class CollectionCharacterService implements ICharacterService {
     }
 
     @Override
-    public void tryToLearnTechnique(Player player, Technique technique) {
+    public Optional<Player> tryToLearnTechnique(Player player, Technique technique) {
         if (player.tryToLearnTechnique(technique))
-            addOrUpdate(player);
+            return Optional.of(addOrUpdate(player));
+
+        return Optional.empty();
     }
 
     @Override

@@ -61,6 +61,8 @@ $cold: linear-gradient(135deg, #8019C6 0%,#2F93CC 100%);
     color: white!important;
   }
 
+
+
   $button-color: #5c2c4a;
 
   .v-button  {
@@ -224,6 +226,10 @@ $cold: linear-gradient(135deg, #8019C6 0%,#2F93CC 100%);
         border: black;
       }
     }
+  }
+
+  .login, .v-button.v-disabled {
+    opacity: 0.2 !important;
   }
 
 }

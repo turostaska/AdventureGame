@@ -92,8 +92,11 @@ public class ItemShopView extends VerticalLayout implements View {
         Player purchaser = characterService.getPlayerById(playerId).orElseThrow();
         Button button = new Button("Purchase", event -> {
             Player buyer = characterService.getPlayerById(playerId).orElseThrow();
-            characterService.tryToBuyTool(buyer, tool);
-            log.info("Purchase button pressed");
+            var result = characterService.tryToBuyTool(buyer, tool);
+            if (result.isPresent())
+                Notification.show("Purchase successful.", Notification.Type.HUMANIZED_MESSAGE);
+            else
+                Notification.show("Purchase unsuccessful.", Notification.Type.ERROR_MESSAGE);
         });
         button.addClickListener(event -> invalidateButtons());
         button.setEnabled(purchaser.getMoney() >= tool.getCostToBuy());
