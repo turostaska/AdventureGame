@@ -84,7 +84,8 @@ public abstract class Character {
     public void useUpUsableTool(UsableTool tool) {
         tools.merge(tool, 1, (a, b) -> a - b);
 
-        this.strength -= tool.getStrengthIncrease();
+        if (tools.get(tool) < tool.getMaxQuantity())
+            this.strength -= tool.getStrengthIncrease();
 
         if (tools.get(tool) == 0)
             tools.remove(tool);

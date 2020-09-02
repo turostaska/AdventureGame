@@ -21,7 +21,7 @@ import javax.annotation.PostConstruct;
 public class RegistrationView extends GridLayout implements View {
     public static final String NAME = "registration";
 
-    private RegistrationForm registrationForm = new RegistrationForm();
+    private final RegistrationForm registrationForm = new RegistrationForm();
 
     @Autowired
     private IUserService userService;
@@ -31,7 +31,7 @@ public class RegistrationView extends GridLayout implements View {
     }
 
     Label loginLabel = new Label("Van profilod? " +
-            "nincs user session de azért <a href='#!" + LoginView.NAME +"'>lépj be</a> lmao", ContentMode.HTML);
+            "vesd bele magad az <a href='#!" + LoginView.NAME +"'>önfeledt mókába</a> :^)", ContentMode.HTML);
 
     private void addRegistrationView() {
         registrationForm.setWidthUndefined();

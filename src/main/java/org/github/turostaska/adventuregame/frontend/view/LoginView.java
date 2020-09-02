@@ -21,9 +21,9 @@ import javax.annotation.PostConstruct;
 public class LoginView extends GridLayout implements View {
     public static final String NAME = "";
 
-    private CustomLoginForm customLoginForm = new CustomLoginForm();
-    private Label registrationLabel = new Label("Nincs profilod? " +
-            "<a href='/#!" + RegistrationView.NAME + "'>Regisztrálj</a> te proli:^)", ContentMode.HTML);
+    private final CustomLoginForm customLoginForm = new CustomLoginForm();
+    private final Label registrationLabel = new Label("Nincs profilod? " +
+            "<a href='/#!" + RegistrationView.NAME + "'>Mit csinálsz az életeddel?</a>", ContentMode.HTML);
 
     @Autowired
     private IUserService userService;

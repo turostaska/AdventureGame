@@ -23,7 +23,7 @@ public final class NotificationSender {
     }
 
     private static NotificationSender instance;
-    private JavaMailSenderImpl mailSender;
+    private final JavaMailSenderImpl mailSender;
 
     public static NotificationSender getInstance() {
         if (instance == null)
@@ -38,9 +38,10 @@ public final class NotificationSender {
         var message = new SimpleMailMessage();
         message.setFrom("adventure_game@cringo.mail");
         message.setTo(receiver.getEmail());
-        message.setSubject("Action finished");
+        message.setSubject(String.format("%s finished", executedAction.description()));
         message.setText(String.format("You have finished the following task: %s\nVisit the site for more information!",
                 executedAction.description()));
+        log.info("Mail sent to {}", receiver.getUserName());
         mailSender.send(message);
     }
 }

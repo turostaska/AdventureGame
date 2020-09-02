@@ -18,7 +18,6 @@ import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
 
-//@UIScope
 @SpringView(name = ScrollShopView.NAME)
 @Slf4j
 public class ScrollShopView extends VerticalLayout implements View {

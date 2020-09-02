@@ -1,5 +1,6 @@
 package org.github.turostaska.adventuregame.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ public class User {
     @Column(unique = true)
     @Getter @Setter private String userName;
 
-    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonIgnore
     @Getter @Setter
     private String password;
 
