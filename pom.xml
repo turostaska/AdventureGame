@@ -16,7 +16,7 @@
     <version>0.1-SNAPSHOT</version>
 
     <properties>
-        <vaadin.version>8.11.1</vaadin.version>
+        <vaadin.version>8.14.1</vaadin.version>
     </properties>
 
 
